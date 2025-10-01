@@ -1,16 +1,314 @@
 ---
+// Configuration: Set to true to use modern design, false for classic
+const USE_MODERN_DESIGN = true;
 
+// Hero variant selection: 'classic', 'modern', 'minimal', or 'masonry'
+const HERO_VARIANT = 'masonry'; // Change this to test different hero variants
+
+// Import layouts
+import MainLayout from '../layouts/MainLayout.astro';
+import ModernLayout from '../layouts/ModernLayout.astro';
+
+// Import hero sections
+import Hero from '../sections/Hero.astro';
+import HeroModern from '../sections/HeroModern.astro';
+import HeroMinimal from '../sections/HeroMinimal.astro';
+import HeroMasonry from '../sections/HeroMasonry.astro';
+
+// Import other sections
+import Services from '../sections/Services.astro';
+import Portfolio from '../sections/Portfolio.astro';
+import Contact from '../sections/Contact.astro';
+
+// Choose layout based on configuration
+const Layout = USE_MODERN_DESIGN ? ModernLayout : MainLayout;
+
+// Choose hero section based on variant
+let HeroSection;
+switch (HERO_VARIANT) {
+  case 'modern':
+    HeroSection = HeroModern;
+    break;
+  case 'minimal':
+    HeroSection = HeroMinimal;
+    break;
+  case 'masonry':
+    HeroSection = HeroMasonry;
+    break;
+  case 'classic':
+  default:
+    HeroSection = Hero;
+    break;
+}
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout>
+  <HeroSection />
+
+  <!-- About Section -->
+  <section class="about section" id="about">
+    <div class="about__container">
+      <div class="about__content">
+        <div class="about__text">
+          <h2 class="about__title">A Foundation of Excellence</h2>
+          <p class="about__subtitle">
+            Building Tomorrow's Legacy Today
+          </p>
+          <p class="about__description">
+            As a proud subsidiary of Reap Capital, Reap Construction brings together decades of experience,
+            innovative building techniques, and an unwavering commitment to quality. We don't just construct
+            buildings—we create lasting partnerships and deliver spaces that inspire.
+          </p>
+          <div class="about__values">
+            <div class="about__value">
+              <h3>Integrity</h3>
+              <p>Honest communication and transparent processes in every project</p>
+            </div>
+            <div class="about__value">
+              <h3>Quality</h3>
+              <p>Superior craftsmanship that stands the test of time</p>
+            </div>
+            <div class="about__value">
+              <h3>Partnership</h3>
+              <p>Collaborative relationships that extend beyond project completion</p>
+            </div>
+          </div>
+        </div>
+        <div class="about__image">
+          <img src="/assets/projects/warren/1746792005699.jpg" alt="Reap Construction team at work" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Services />
+  <Portfolio />
+
+  <!-- Process Section -->
+  <section class="process section" id="process">
+    <div class="process__container">
+      <h2 class="process__title">The Blueprint for Success</h2>
+      <p class="process__subtitle">
+        Our proven process ensures every project is delivered on time, on budget, and beyond expectations
+      </p>
+
+      <div class="process__steps">
+        <div class="process__step">
+          <div class="process__step-number">01</div>
+          <h3 class="process__step-title">Consultation & Vision</h3>
+          <p class="process__step-description">
+            We begin by understanding your unique needs, goals, and vision for the project
+          </p>
+        </div>
+        <div class="process__step">
+          <div class="process__step-number">02</div>
+          <h3 class="process__step-title">Design & Planning</h3>
+          <p class="process__step-description">
+            Our team develops comprehensive plans that balance aesthetics, functionality, and budget
+          </p>
+        </div>
+        <div class="process__step">
+          <div class="process__step-number">03</div>
+          <h3 class="process__step-title">Execution & Craftsmanship</h3>
+          <p class="process__step-description">
+            With precision and attention to detail, we bring your vision to life
+          </p>
+        </div>
+        <div class="process__step">
+          <div class="process__step-number">04</div>
+          <h3 class="process__step-title">Delivery & Beyond</h3>
+          <p class="process__step-description">
+            We ensure smooth project handoff and remain your partner for future needs
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Contact />
+</Layout>
+
+<style lang="scss">
+  @import '../styles/variables';
+  @import '../styles/mixins';
+
+  // About Section
+  .about {
+    padding-top: $spacing-3xl; // Clean spacing after hero
+
+    @include media-lg {
+      padding-top: $spacing-4xl;
+    }
+
+    &__container {
+      @include container;
+    }
+
+    &__content {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: $spacing-3xl;
+      align-items: center;
+
+      @include media-lg {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    &__title {
+      @include heading-style;
+      font-size: $font-size-h2;
+      margin-bottom: $spacing-md;
+    }
+
+    &__subtitle {
+      font-size: 1.25rem;
+      color: $color-prestige-gold;
+      margin-bottom: $spacing-xl;
+    }
+
+    &__description {
+      font-size: 1.125rem;
+      line-height: $line-height-relaxed;
+      color: $color-text;
+      margin-bottom: $spacing-2xl;
+    }
+
+    &__values {
+      display: grid;
+      gap: $spacing-xl;
+    }
+
+    &__value {
+      h3 {
+        font-size: 1.125rem;
+        color: $color-heritage-green;
+        margin-bottom: $spacing-sm;
+      }
+
+      p {
+        font-size: 0.9375rem;
+        color: $color-text-light;
+      }
+    }
+
+    &__image {
+      position: relative;
+      border-radius: $border-radius-lg;
+      overflow: hidden;
+      box-shadow: $shadow-xl;
+
+      img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        width: 100px;
+        height: 100px;
+        background-color: $color-prestige-gold;
+        opacity: 0.2;
+        border-radius: $border-radius-full;
+      }
+    }
+  }
+
+  // Process Section
+  .process {
+    background-color: $color-canvas;
+
+    &__container {
+      @include container;
+    }
+
+    &__title {
+      @include heading-style;
+      font-size: $font-size-h2;
+      text-align: center;
+      margin-bottom: $spacing-lg;
+    }
+
+    &__subtitle {
+      font-size: 1.125rem;
+      color: $color-text-light;
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto $spacing-4xl;
+    }
+
+    &__steps {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: $spacing-xl;
+
+      @include media-md {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @include media-lg {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      position: relative;
+
+      @include media-lg {
+        &::before {
+          content: '';
+          position: absolute;
+          top: 40px;
+          left: 10%;
+          right: 10%;
+          height: 2px;
+          background: linear-gradient(
+            90deg,
+            $color-prestige-gold 0%,
+            $color-prestige-gold 25%,
+            rgba($color-prestige-gold, 0.3) 25%,
+            rgba($color-prestige-gold, 0.3) 50%,
+            rgba($color-prestige-gold, 0.3) 75%,
+            rgba($color-prestige-gold, 0.3) 100%
+          );
+          z-index: 0;
+        }
+      }
+    }
+
+    &__step {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+
+      &-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 80px;
+        height: 80px;
+        background-color: $color-white;
+        color: $color-prestige-gold;
+        font-size: 1.5rem;
+        font-weight: $font-weight-bold;
+        border-radius: $border-radius-full;
+        box-shadow: $shadow-md;
+        margin-bottom: $spacing-lg;
+      }
+
+      &-title {
+        font-size: 1.125rem;
+        color: $color-heritage-green;
+        margin-bottom: $spacing-md;
+      }
+
+      &-description {
+        font-size: 0.9375rem;
+        color: $color-text-light;
+        line-height: $line-height-relaxed;
+      }
+    }
+  }
+</style>

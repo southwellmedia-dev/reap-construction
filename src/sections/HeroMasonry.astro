@@ -1,0 +1,440 @@
+---
+import Button from '../components/Button.astro';
+import MasonryCarousel from '../components/MasonryCarousel.tsx';
+---
+
+<section class="hero-masonry" id="hero">
+  <!-- Background decoration -->
+  <div class="hero-masonry__bg-decoration">
+    <div class="hero-masonry__mesh"></div>
+  </div>
+
+  <!-- Main content grid -->
+  <div class="hero-masonry__grid">
+    <!-- Content side -->
+    <div class="hero-masonry__content-wrapper">
+      <div class="hero-masonry__content">
+        <a href="/" class="hero-masonry__logo" id="hero-logo">
+          <img
+            src="/assets/branding/reap-logomark.svg"
+            alt="Reap Construction"
+            class="hero-masonry__logo-img"
+          />
+        </a>
+
+        <h1 class="hero-masonry__title">
+          Turning challenges into
+          <span class="hero-masonry__title-accent">opportunities.</span>
+        </h1>
+
+        <p class="hero-masonry__description">
+          Premier commercial and residential construction services
+          for the discerning client. A subsidiary of Reap Capital.
+        </p>
+
+        <div class="hero-masonry__actions">
+          <Button href="#portfolio" variant="primary" size="large" icon>
+            View Our Work
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </Button>
+          <Button href="#contact" variant="outline" size="large">
+            Start Your Project
+          </Button>
+        </div>
+
+        <!-- Trust indicators -->
+        <div class="hero-masonry__trust">
+          <div class="hero-masonry__trust-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 11l3 3L22 4"></path>
+              <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
+            </svg>
+            <span>Licensed & Insured</span>
+          </div>
+          <div class="hero-masonry__trust-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+            </svg>
+            <span>Award Winning</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Masonry carousel side -->
+    <div class="hero-masonry__carousel-wrapper">
+      <div class="hero-masonry__carousel-container">
+        <MasonryCarousel client:load />
+      </div>
+
+      <!-- Decorative gradient overlay -->
+      <div class="hero-masonry__gradient-overlay"></div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="hero-masonry__scroll">
+    <span>Scroll to explore</span>
+    <div class="hero-masonry__scroll-line"></div>
+  </div>
+</section>
+
+<style lang="scss">
+  @import '../styles/variables';
+  @import '../styles/mixins';
+
+  .hero-masonry {
+    position: relative;
+    height: 100vh;
+    min-height: 600px;
+    overflow: hidden;
+    background-color: $color-canvas;
+    margin-top: 0; // Transparent header overlays hero
+
+    // Background decoration
+    &__bg-decoration {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      background-color: $color-canvas;
+    }
+
+    &__mesh {
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(
+        circle at 30% 50%,
+        rgba($color-prestige-gold, 0.02) 0%,
+        transparent 50%
+      );
+    }
+
+    // Main grid layout
+    &__grid {
+      @include container; // Use the standard container
+      position: relative;
+      height: 100%;
+      display: grid;
+      grid-template-columns: 1fr;
+      z-index: 1;
+
+      @include media-lg {
+        grid-template-columns: minmax(550px, 1fr) 1fr;
+      }
+
+      @include media-xl {
+        grid-template-columns: minmax(600px, 1fr) 1.2fr;
+      }
+
+      @include media-2xl {
+        grid-template-columns: minmax(700px, 1fr) 1.4fr;
+      }
+    }
+
+    // Content side
+    &__content-wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: calc(80px + #{$spacing-xl}) 0 $spacing-xl 0; // Add header height to top padding
+
+      @include media-md {
+        padding: calc(80px + #{$spacing-2xl}) 0 $spacing-2xl 0;
+      }
+
+      @include media-lg {
+        padding-top: calc(80px + #{$spacing-3xl});
+        padding-bottom: $spacing-3xl;
+        padding-right: $spacing-2xl;
+      }
+    }
+
+    &__content {
+      position: relative;
+      z-index: 10;
+      animation: slideInLeft 1s ease-out;
+      max-width: 700px;
+      width: 100%;
+    }
+
+    &__logo {
+      display: inline-block;
+      margin-bottom: 2rem;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      &-img {
+        height: 160px;
+        width: auto;
+      }
+    }
+
+    &__title {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-family: $font-display;
+      font-weight: $font-weight-semibold;
+      line-height: 1.1;
+      color: $color-heritage-green;
+      margin-bottom: $spacing-md;
+
+      &-accent {
+        color: $color-prestige-gold;
+        display: inline-block;
+        position: relative;
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: -5px;
+          left: 0;
+          width: 100%;
+          height: 2px;
+          background: linear-gradient(90deg, $color-prestige-gold 0%, rgba($color-prestige-gold, 0.3) 100%);
+          animation: expandWidth 1s ease-out 0.5s both;
+        }
+      }
+    }
+
+    &__subtitle {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-family: $font-display;
+      font-weight: $font-weight-light;
+      line-height: 1.2;
+      color: $color-text;
+      margin-bottom: $spacing-xl;
+
+      &-accent {
+        font-weight: $font-weight-semibold;
+        color: $color-heritage-green;
+      }
+    }
+
+    &__description {
+      font-size: 1.125rem;
+      line-height: $line-height-relaxed;
+      color: $color-text-light;
+      margin-bottom: $spacing-2xl;
+    }
+
+    &__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: $spacing-lg;
+      margin-bottom: $spacing-2xl;
+
+      @include media-md {
+        flex-wrap: nowrap;
+      }
+    }
+
+    &__trust {
+      display: flex;
+      gap: $spacing-xl;
+      padding-top: $spacing-xl;
+      border-top: 1px solid rgba($color-heritage-green, 0.1);
+
+      &-item {
+        display: flex;
+        align-items: center;
+        gap: $spacing-sm;
+        font-size: 0.875rem;
+        color: $color-text-light;
+
+        svg {
+          width: 20px;
+          height: 20px;
+          stroke: $color-prestige-gold;
+        }
+      }
+    }
+
+    // Carousel side
+    &__carousel-wrapper {
+      position: relative;
+      display: none;
+      height: 100%;
+
+      @include media-lg {
+        display: flex;
+        align-items: flex-start; // Start from top
+        justify-content: flex-end;
+        padding-top: 100px; // Much less padding from top
+        padding-right: 0; // Let carousel go to edge for fade effect
+      }
+    }
+
+    &__carousel-container {
+      position: relative;
+      height: 80vh;
+      width: 100%;
+      animation: fadeIn 1s ease-out 0.5s both;
+    }
+
+    &__gradient-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 80vh;
+      z-index: 10;
+      pointer-events: none;
+
+      // Subtle edge fades for smooth blending
+      background: linear-gradient(
+        to right,
+        rgba($color-canvas, 0.5) 0%,
+        transparent 5%,
+        transparent 95%,
+        rgba($color-canvas, 0.5) 100%
+      );
+    }
+
+    // Scroll indicator
+    &__scroll {
+      position: absolute;
+      bottom: $spacing-2xl;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      color: $color-text-light;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      z-index: 2;
+      opacity: 0;
+      animation: fadeInUp 1s ease-out 1s both;
+
+      @include media-lg {
+        left: auto;
+        right: auto;
+        transform: translateX(-50%);
+      }
+
+      @include media-xl {
+        left: calc(50% - 400px); // Align with container edge
+        transform: none;
+      }
+
+      &-line {
+        width: 30px;
+        height: 1px;
+        background: $color-text-light;
+        position: relative;
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 10px;
+          height: 1px;
+          background: $color-heritage-green;
+          animation: scrollLine 2s ease-in-out infinite;
+        }
+      }
+    }
+  }
+
+  // Animations
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes expandWidth {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+
+  @keyframes scrollLine {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(20px);
+    }
+  }
+
+  // Mobile optimizations
+  @media (max-width: 1023px) {
+    .hero-masonry {
+      &__grid {
+        padding: 0 $spacing-xl; // Ensure container padding on mobile
+      }
+
+      &__content-wrapper {
+        align-items: center;
+        text-align: center;
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      &__content {
+        max-width: 500px;
+        margin: 0 auto;
+      }
+
+      &__logo {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      &__trust {
+        justify-content: center;
+      }
+
+      &__actions {
+        justify-content: center;
+      }
+
+      &__scroll {
+        display: none; // Hide on mobile for cleaner look
+      }
+    }
+  }
+</style>

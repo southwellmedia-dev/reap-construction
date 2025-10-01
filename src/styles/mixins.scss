@@ -1,0 +1,229 @@
+// =============================================================================
+// Responsive Breakpoint Mixins
+// =============================================================================
+
+@mixin media-sm {
+  @media (min-width: $breakpoint-sm) {
+    @content;
+  }
+}
+
+@mixin media-md {
+  @media (min-width: $breakpoint-md) {
+    @content;
+  }
+}
+
+@mixin media-lg {
+  @media (min-width: $breakpoint-lg) {
+    @content;
+  }
+}
+
+@mixin media-xl {
+  @media (min-width: $breakpoint-xl) {
+    @content;
+  }
+}
+
+@mixin media-2xl {
+  @media (min-width: $breakpoint-2xl) {
+    @content;
+  }
+}
+
+// =============================================================================
+// Layout Mixins
+// =============================================================================
+
+@mixin container {
+  width: 100%;
+  max-width: $container-max-width;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $section-padding-x;
+  padding-right: $section-padding-x;
+}
+
+@mixin content-container {
+  width: 100%;
+  max-width: $content-max-width;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@mixin section-spacing {
+  padding-top: $section-padding-y;
+  padding-bottom: $section-padding-y;
+}
+
+// =============================================================================
+// Typography Mixins
+// =============================================================================
+
+@mixin heading-style {
+  font-family: $font-display;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+  color: $color-primary;
+}
+
+@mixin body-text {
+  font-family: $font-primary;
+  font-size: $font-size-body;
+  line-height: $line-height-normal;
+  color: $color-text;
+}
+
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin text-clamp($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// =============================================================================
+// Visual Effects
+// =============================================================================
+
+@mixin overlay($opacity: 0.5) {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba($color-black, $opacity);
+    pointer-events: none;
+  }
+}
+
+@mixin glass-effect {
+  background: rgba($color-white, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba($color-white, 0.2);
+}
+
+@mixin gradient-text {
+  background: linear-gradient(135deg, $color-prestige-gold, darken($color-prestige-gold, 15%));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// =============================================================================
+// Interactive States
+// =============================================================================
+
+@mixin hover-lift {
+  transition: transform $transition-base, box-shadow $transition-base;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-lg;
+  }
+}
+
+@mixin focus-ring {
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($color-prestige-gold, 0.5);
+  }
+}
+
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-md $spacing-xl;
+  font-family: $font-primary;
+  font-weight: $font-weight-semibold;
+  text-decoration: none;
+  border: none;
+  border-radius: $border-radius-sm;
+  cursor: pointer;
+  transition: all $transition-base;
+
+  @include focus-ring;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// =============================================================================
+// Grid System
+// =============================================================================
+
+@mixin grid($columns: 12, $gap: $spacing-lg) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: $gap;
+}
+
+@mixin grid-responsive($mobile: 1, $tablet: 2, $desktop: 3) {
+  display: grid;
+  grid-template-columns: repeat($mobile, 1fr);
+  gap: $spacing-lg;
+
+  @include media-md {
+    grid-template-columns: repeat($tablet, 1fr);
+  }
+
+  @include media-lg {
+    grid-template-columns: repeat($desktop, 1fr);
+  }
+}
+
+// =============================================================================
+// Utility Mixins
+// =============================================================================
+
+@mixin clearfix {
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+@mixin aspect-ratio($width, $height) {
+  position: relative;
+
+  &::before {
+    content: '';
+    display: block;
+    padding-top: percentage(calc($height / $width));
+  }
+
+  > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}

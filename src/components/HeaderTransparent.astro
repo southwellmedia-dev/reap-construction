@@ -1,0 +1,366 @@
+---
+import Button from './Button.astro';
+
+const navItems = [
+  { label: 'Services', href: '#services' },
+  { label: 'Our Work', href: '#portfolio' },
+  { label: 'About', href: '#about' },
+  { label: 'Process', href: '#process' },
+];
+---
+
+<header class="header-transparent" id="header-transparent">
+  <div class="header-transparent__container">
+    <!-- Logo with text for scroll animation (initially hidden) -->
+    <a href="/" class="header-transparent__logo" id="header-logo">
+      <img
+        src="/assets/branding/reap-logomark.svg"
+        alt="Reap Construction"
+        class="header-transparent__logo-img"
+      />
+      <div class="header-transparent__logo-divider"></div>
+      <span class="header-transparent__logo-text">REAP CONSTRUCTION</span>
+    </a>
+
+    <div class="header-transparent__actions">
+      <a href="#contact" class="header-transparent__contact-link">
+        Contact
+      </a>
+
+      <button
+        class="header-transparent__mobile-toggle"
+        aria-label="Toggle navigation menu"
+        aria-expanded="false"
+      >
+        <span class="header-transparent__mobile-toggle-bar"></span>
+        <span class="header-transparent__mobile-toggle-bar"></span>
+        <span class="header-transparent__mobile-toggle-bar"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="header-transparent__mobile-menu">
+    <nav class="header-transparent__mobile-nav">
+      <ul class="header-transparent__mobile-nav-list">
+        {navItems.map((item) => (
+          <li class="header-transparent__mobile-nav-item">
+            <a href={item.href} class="header-transparent__mobile-nav-link">
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <div class="header-transparent__mobile-cta">
+        <Button href="#contact" variant="primary" size="large" block>
+          Get Quote
+        </Button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<style lang="scss">
+  @import '../styles/variables';
+  @import '../styles/mixins';
+
+  .header-transparent {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding-bottom: 40px; // Extended gradient area
+    background: transparent;
+    backdrop-filter: blur(0);
+    z-index: $z-sticky;
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: transform 0.4s ease, opacity 0.4s ease, background 0.3s ease;
+
+    &__container {
+      @include container;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+      transition: all $transition-base;
+    }
+
+    &__logo {
+      display: flex;
+      align-items: center;
+      gap: $spacing-lg;
+      text-decoration: none;
+      transition: opacity $transition-base, transform $transition-base;
+      opacity: 0;
+      transform: scale(0.8);
+
+      &.visible {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      &:hover {
+        transform: scale(1.02);
+      }
+
+      &-img {
+        height: 40px;
+        width: auto;
+        transition: filter $transition-base;
+
+        @include media-md {
+          height: 44px;
+        }
+      }
+
+      &-divider {
+        display: none;
+        width: 1px;
+        height: 40px;
+        background-color: rgba($color-heritage-green, 0.2);
+
+        @include media-md {
+          display: block;
+          height: 44px;
+        }
+      }
+
+      &-text {
+        display: none;
+        font-family: $font-display;
+        font-size: 1rem;
+        font-weight: $font-weight-semibold;
+        color: $color-heritage-green;
+        letter-spacing: 0.05em;
+        white-space: nowrap;
+
+        @include media-md {
+          display: block;
+          font-size: 1.125rem;
+        }
+      }
+    }
+
+    &__actions {
+      display: flex;
+      align-items: center;
+      gap: $spacing-lg;
+      margin-left: auto;
+    }
+
+    &__contact-link {
+      color: $color-heritage-green;
+      font-weight: $font-weight-medium;
+      text-decoration: none;
+      padding: $spacing-sm $spacing-xl;
+      border: 2px solid $color-heritage-green;
+      border-radius: $border-radius-sm;
+      transition: all $transition-fast;
+      white-space: nowrap;
+
+      @include media-md {
+        padding: $spacing-sm $spacing-2xl;
+      }
+
+      &:hover {
+        background-color: $color-heritage-green;
+        color: $color-white;
+      }
+    }
+
+    &__mobile-toggle {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+
+      &-bar {
+        width: 24px;
+        height: 2px;
+        background-color: $color-heritage-green;
+        transition: all $transition-fast;
+      }
+
+      &[aria-expanded="true"] {
+        .header-transparent__mobile-toggle-bar {
+          &:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+          }
+
+          &:nth-child(2) {
+            opacity: 0;
+          }
+
+          &:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+          }
+        }
+      }
+    }
+
+    // Mobile menu
+    &__mobile-menu {
+      position: fixed;
+      top: 80px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: $color-white;
+      transform: translateX(-100%);
+      transition: transform $transition-base;
+      padding: $spacing-2xl;
+      z-index: $z-modal-backdrop;
+
+      &--open {
+        transform: translateX(0);
+      }
+    }
+
+    &__mobile-nav {
+      &-list {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 $spacing-2xl 0;
+      }
+
+      &-item {
+        margin-bottom: $spacing-lg;
+      }
+
+      &-link {
+        display: block;
+        font-size: 1.5rem;
+        color: $color-heritage-green;
+        text-decoration: none;
+        padding: $spacing-sm 0;
+        transition: color $transition-fast;
+
+        &:hover {
+          color: $color-prestige-gold;
+        }
+      }
+    }
+
+    &__mobile-cta {
+      margin-top: $spacing-2xl;
+    }
+
+    // Visible state (when scrolled)
+    &--visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    // Scrolled state
+    &--scrolled {
+      padding-bottom: 0; // Remove extended gradient when scrolled
+      background: rgba($color-white, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+
+      .header-transparent__container {
+        height: 70px;
+      }
+
+      .header-transparent__logo-img {
+        height: 38px;
+
+        @include media-md {
+          height: 42px;
+        }
+      }
+    }
+
+    // Dark variant (when over light background)
+    &--dark {
+      .header-transparent__nav-link,
+      .header-transparent__mobile-toggle-bar {
+        color: $color-white;
+        background-color: $color-white;
+      }
+
+      .header-transparent__logo-img {
+        filter: brightness(0) invert(1);
+      }
+    }
+  }
+</style>
+
+<script>
+  // Smooth scrolling for navigation links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      if (targetId && targetId !== '#') {
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          const headerOffset = 80;
+          const elementPosition = targetElement.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+
+          // Close mobile menu if open
+          const mobileMenu = document.querySelector('.header-transparent__mobile-menu');
+          const mobileToggle = document.querySelector('.header-transparent__mobile-toggle');
+          if (mobileMenu?.classList.contains('header-transparent__mobile-menu--open')) {
+            mobileMenu.classList.remove('header-transparent__mobile-menu--open');
+            mobileToggle?.setAttribute('aria-expanded', 'false');
+          }
+        }
+      }
+    });
+  });
+
+  // Header scroll behavior with logo animation
+  let lastScroll = 0;
+  const header = document.getElementById('header-transparent');
+  const headerLogo = document.getElementById('header-logo');
+  const heroLogo = document.getElementById('hero-logo');
+
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.pageYOffset;
+
+    // Show header and logo when scrolled down
+    if (currentScroll > 150) {
+      header?.classList.add('header-transparent--visible');
+      header?.classList.add('header-transparent--scrolled');
+      headerLogo?.classList.add('visible');
+      if (heroLogo) {
+        heroLogo.style.opacity = '0';
+      }
+    } else {
+      header?.classList.remove('header-transparent--visible');
+      header?.classList.remove('header-transparent--scrolled');
+      headerLogo?.classList.remove('visible');
+      if (heroLogo) {
+        heroLogo.style.opacity = '1';
+      }
+    }
+
+    lastScroll = currentScroll;
+  });
+
+  // Mobile menu toggle
+  const mobileToggle = document.querySelector('.header-transparent__mobile-toggle');
+  const mobileMenu = document.querySelector('.header-transparent__mobile-menu');
+
+  mobileToggle?.addEventListener('click', () => {
+    const isExpanded = mobileToggle.getAttribute('aria-expanded') === 'true';
+    mobileToggle.setAttribute('aria-expanded', !isExpanded ? 'true' : 'false');
+    mobileMenu?.classList.toggle('header-transparent__mobile-menu--open');
+    document.body.style.overflow = !isExpanded ? 'hidden' : '';
+  });
+</script>
