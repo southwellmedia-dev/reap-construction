@@ -1,0 +1,556 @@
+---
+import Button from '../components/Button.astro';
+
+const contactInfo = {
+  phone: '(555) 123-4567',
+  email: 'info@reapconstruction.com',
+  address: '123 Construction Way, Building City, BC 12345',
+  hours: 'Mon-Fri: 8AM-6PM, Sat: 9AM-2PM'
+};
+
+const currentYear = new Date().getFullYear();
+
+const quickLinks = [
+  { label: 'Home', href: '#hero' },
+  { label: 'Services', href: '#services' },
+  { label: 'Portfolio', href: '#portfolio' },
+  { label: 'About', href: '#about' },
+];
+
+const resources = [
+  { label: 'Case Studies', href: '#portfolio' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'FAQs', href: '/faq' },
+  { label: 'Careers', href: '/careers' },
+];
+---
+
+<section class="contact section" id="contact">
+  <div class="contact__container">
+    <!-- Header -->
+    <div class="contact__header">
+      <span class="contact__label">Get In Touch</span>
+      <h2 class="contact__title">Let's Build Together</h2>
+      <p class="contact__subtitle">
+        Ready to start your next project? We're here to bring your vision to life.
+      </p>
+    </div>
+
+    <!-- Main Content: Form (60%) + Contact Info (40%) -->
+    <div class="contact__main">
+      <!-- Contact Form (60%) -->
+      <div class="contact__form-wrapper">
+        <form class="contact__form" id="contactForm">
+          <div class="contact__form-row">
+            <div class="contact__form-group">
+              <label for="firstName" class="contact__form-label">First Name *</label>
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                class="contact__form-input"
+                required
+              />
+            </div>
+            <div class="contact__form-group">
+              <label for="lastName" class="contact__form-label">Last Name *</label>
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                class="contact__form-input"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="contact__form-row">
+            <div class="contact__form-group">
+              <label for="email" class="contact__form-label">Email *</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="contact__form-input"
+                required
+              />
+            </div>
+            <div class="contact__form-group">
+              <label for="phone" class="contact__form-label">Phone</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                class="contact__form-input"
+              />
+            </div>
+          </div>
+
+          <div class="contact__form-group">
+            <label for="projectType" class="contact__form-label">Project Type *</label>
+            <select id="projectType" name="projectType" class="contact__form-input" required>
+              <option value="">Select a project type</option>
+              <option value="commercial">Commercial Construction</option>
+              <option value="residential">Custom Home Building</option>
+              <option value="renovation">Major Renovation</option>
+              <option value="property">Property Management</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="contact__form-group">
+            <label for="message" class="contact__form-label">Project Details *</label>
+            <textarea
+              id="message"
+              name="message"
+              rows="6"
+              class="contact__form-input contact__form-textarea"
+              placeholder="Tell us about your project..."
+              required
+            ></textarea>
+          </div>
+
+          <div class="contact__form-group">
+            <label class="contact__form-checkbox">
+              <input type="checkbox" name="newsletter" />
+              <span>I'd like to receive updates about Reap Construction projects</span>
+            </label>
+          </div>
+
+          <Button type="submit" variant="primary" size="large" block>
+            Send Message
+          </Button>
+
+          <p class="contact__form-note">
+            * Required fields. We'll respond within 24 business hours.
+          </p>
+        </form>
+      </div>
+
+      <!-- Contact Information (40%) -->
+      <div class="contact__info">
+        <h3 class="contact__info-title">Contact Information</h3>
+
+        <div class="contact__info-item">
+          <div class="contact__info-icon">
+            <i class="fa-solid fa-phone"></i>
+          </div>
+          <div>
+            <p class="contact__info-label">Call Us</p>
+            <a href={`tel:${contactInfo.phone.replace(/\D/g, '')}`} class="contact__info-value">
+              {contactInfo.phone}
+            </a>
+          </div>
+        </div>
+
+        <div class="contact__info-item">
+          <div class="contact__info-icon">
+            <i class="fa-solid fa-envelope"></i>
+          </div>
+          <div>
+            <p class="contact__info-label">Email Us</p>
+            <a href={`mailto:${contactInfo.email}`} class="contact__info-value">
+              {contactInfo.email}
+            </a>
+          </div>
+        </div>
+
+        <div class="contact__info-item">
+          <div class="contact__info-icon">
+            <i class="fa-solid fa-location-dot"></i>
+          </div>
+          <div>
+            <p class="contact__info-label">Visit Us</p>
+            <p class="contact__info-value">{contactInfo.address}</p>
+          </div>
+        </div>
+
+        <div class="contact__info-item">
+          <div class="contact__info-icon">
+            <i class="fa-solid fa-clock"></i>
+          </div>
+          <div>
+            <p class="contact__info-label">Business Hours</p>
+            <p class="contact__info-value">{contactInfo.hours}</p>
+          </div>
+        </div>
+
+        <div class="contact__badges">
+          <div class="contact__badge">
+            <i class="fa-solid fa-award"></i>
+            <span>Licensed & Insured</span>
+          </div>
+          <div class="contact__badge">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Bonded & Certified</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="contact__footer">
+      <div class="contact__footer-top">
+        <!-- Logo -->
+        <div class="contact__footer-logo">
+          <img
+            src="/assets/branding/reap-logomark.svg"
+            alt="Reap Construction"
+            class="contact__footer-logo-img"
+          />
+        </div>
+
+        <!-- Social Links -->
+        <div class="contact__social">
+          <a href="#" class="contact__social-link" aria-label="LinkedIn">
+            <i class="fa-brands fa-linkedin-in"></i>
+          </a>
+          <a href="#" class="contact__social-link" aria-label="Facebook">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+          <a href="#" class="contact__social-link" aria-label="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  @import '../styles/variables';
+  @import '../styles/mixins';
+
+  .contact {
+    background: linear-gradient(135deg, $color-heritage-green, darken($color-heritage-green, 5%));
+    position: relative;
+    overflow: hidden;
+
+    // Subtle pattern overlay
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image:
+        linear-gradient(30deg, rgba(255, 255, 255, 0.02) 12%, transparent 12.5%, transparent 87%, rgba(255, 255, 255, 0.02) 87.5%, rgba(255, 255, 255, 0.02)),
+        linear-gradient(150deg, rgba(255, 255, 255, 0.02) 12%, transparent 12.5%, transparent 87%, rgba(255, 255, 255, 0.02) 87.5%, rgba(255, 255, 255, 0.02));
+      background-size: 80px 140px;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    &__container {
+      @include container;
+      position: relative;
+      z-index: 1;
+    }
+
+    &__header {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto $spacing-5xl;
+    }
+
+    &__label {
+      display: inline-block;
+      font-size: 0.875rem;
+      font-weight: $font-weight-semibold;
+      color: $color-prestige-gold;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: $spacing-lg;
+      padding-bottom: $spacing-sm;
+      border-bottom: 2px solid $color-prestige-gold;
+    }
+
+    &__title {
+      font-family: $font-display;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: $font-weight-semibold;
+      color: $color-white;
+      line-height: 1.1;
+      margin-bottom: $spacing-lg;
+      margin-top: $spacing-md;
+    }
+
+    &__subtitle {
+      font-size: 1.25rem;
+      color: rgba($color-white, 0.9);
+      line-height: $line-height-relaxed;
+    }
+
+    // Main Content: 60/40 Split
+    &__main {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: $spacing-4xl;
+      margin-bottom: 80px;
+
+      @include media-lg {
+        grid-template-columns: 60% 1fr;
+      }
+    }
+
+    // Form Wrapper (60%)
+    &__form-wrapper {
+      background-color: rgba($color-white, 0.98);
+      border-radius: $border-radius-xl;
+      padding: $spacing-3xl;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba($color-white, 0.2);
+
+      @include media-lg {
+        padding: $spacing-4xl;
+      }
+    }
+
+    &__form {
+      &-row {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: $spacing-lg;
+
+        @include media-md {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      &-group {
+        margin-bottom: $spacing-lg;
+      }
+
+      &-label {
+        display: block;
+        font-size: 0.9375rem;
+        font-weight: $font-weight-semibold;
+        color: $color-heritage-green;
+        margin-bottom: $spacing-sm;
+      }
+
+      &-input {
+        width: 100%;
+        padding: $spacing-md $spacing-lg;
+        border: 2px solid lighten($color-charcoal, 60%);
+        border-radius: $border-radius-sm;
+        background-color: $color-white;
+        font-family: $font-primary;
+        font-size: 1rem;
+        transition: border-color $transition-fast;
+        color: $color-text;
+
+        &:focus {
+          outline: none;
+          border-color: $color-prestige-gold;
+        }
+
+        &::placeholder {
+          color: lighten($color-charcoal, 40%);
+        }
+      }
+
+      &-textarea {
+        resize: vertical;
+        min-height: 140px;
+      }
+
+      &-checkbox {
+        display: flex;
+        align-items: flex-start;
+        gap: $spacing-sm;
+        cursor: pointer;
+        font-size: 0.875rem;
+        color: $color-text;
+
+        input[type="checkbox"] {
+          width: auto;
+          margin-top: 0.25rem;
+          accent-color: $color-prestige-gold;
+        }
+      }
+
+      &-note {
+        margin-top: $spacing-lg;
+        font-size: 0.875rem;
+        color: $color-text-light;
+        text-align: center;
+      }
+    }
+
+    // Contact Info (40%)
+    &__info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      &-title {
+        font-size: $font-size-h4;
+        font-weight: $font-weight-semibold;
+        margin-bottom: $spacing-2xl;
+        color: $color-white;
+      }
+
+      &-item {
+        display: flex;
+        gap: $spacing-lg;
+        margin-bottom: $spacing-2xl;
+      }
+
+      &-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        background: rgba($color-prestige-gold, 0.2);
+        color: $color-prestige-gold;
+        border-radius: $border-radius-md;
+        flex-shrink: 0;
+        font-size: 1.25rem;
+      }
+
+      &-label {
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: $spacing-xs;
+        color: rgba($color-white, 0.7);
+      }
+
+      &-value {
+        font-size: 1.0625rem;
+        color: $color-white;
+        text-decoration: none;
+        transition: color $transition-fast;
+
+        &:hover {
+          color: $color-prestige-gold;
+        }
+      }
+    }
+
+    &__badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: $spacing-md;
+      margin-top: $spacing-3xl;
+      padding-top: $spacing-2xl;
+      border-top: 1px solid rgba($color-white, 0.2);
+    }
+
+    &__badge {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      padding: $spacing-md $spacing-lg;
+      background: rgba($color-white, 0.1);
+      border-radius: $border-radius-sm;
+      font-size: 0.875rem;
+      color: $color-white;
+
+      i {
+        color: $color-prestige-gold;
+      }
+    }
+
+    // Footer Section
+    &__footer {
+      border-top: 1px solid rgba($color-white, 0.15);
+      padding-top: $spacing-3xl;
+
+      &-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: $spacing-xl;
+      }
+
+      &-logo {
+        &-img {
+          height: 40px;
+          width: auto;
+          // Original color - no filter
+
+          @include media-md {
+            height: 50px;
+          }
+        }
+      }
+
+      &-divider {
+        width: 100%;
+        height: 1px;
+        background: rgba($color-white, 0.15);
+        margin: $spacing-xl 0;
+      }
+
+      &-bottom {
+        text-align: center;
+      }
+
+      &-link {
+        &--gold {
+          color: $color-prestige-gold;
+          text-decoration: none;
+
+          &:hover {
+            color: lighten($color-prestige-gold, 10%);
+          }
+        }
+      }
+    }
+
+    &__social {
+      display: flex;
+      gap: $spacing-md;
+
+      &-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border-radius: $border-radius-sm;
+        background-color: rgba($color-white, 0.1);
+        color: $color-white;
+        transition: all $transition-fast;
+        font-size: 1.125rem;
+
+        &:hover {
+          background-color: $color-prestige-gold;
+          color: $color-heritage-green;
+          transform: translateY(-2px);
+        }
+      }
+    }
+
+    &__copyright {
+      font-size: 0.875rem;
+      color: rgba($color-white, 0.6);
+      margin: 0;
+    }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('contactForm') as HTMLFormElement;
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    // Get form data
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData);
+
+    // Here you would normally send the data to your server
+    console.log('Form submitted:', data);
+
+    // Show success message (in production, this would be after successful API call)
+    alert('Thank you for your inquiry! We\'ll be in touch within 24 business hours.');
+
+    // Reset form
+    form.reset();
+  });
+</script>

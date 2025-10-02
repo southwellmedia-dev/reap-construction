@@ -1,16 +1,529 @@
 ---
+// Configuration: Set to true to use modern design, false for classic
+const USE_MODERN_DESIGN = true;
 
+// Hero variant selection: 'classic', 'modern', 'minimal', or 'masonry'
+const HERO_VARIANT = "masonry"; // Change this to test different hero variants
+
+// Import layouts
+import MainLayout from "../layouts/MainLayout.astro";
+import ModernLayout from "../layouts/ModernLayout.astro";
+
+// Import hero sections
+import Hero from "../sections/Hero.astro";
+import HeroModern from "../sections/HeroModern.astro";
+import HeroMinimal from "../sections/HeroMinimal.astro";
+import HeroMasonry from "../sections/HeroMasonry.astro";
+
+// Import other sections
+import Services from "../sections/Services.astro";
+import Portfolio from "../sections/Portfolio.astro";
+import Contact from "../sections/Contact.astro";
+
+// Choose layout based on configuration
+const Layout = USE_MODERN_DESIGN ? ModernLayout : MainLayout;
+
+// Choose hero section based on variant
+let HeroSection;
+switch (HERO_VARIANT) {
+  case "modern":
+    HeroSection = HeroModern;
+    break;
+  case "minimal":
+    HeroSection = HeroMinimal;
+    break;
+  case "masonry":
+    HeroSection = HeroMasonry;
+    break;
+  case "classic":
+  default:
+    HeroSection = Hero;
+    break;
+}
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout>
+  <HeroSection />
+
+  <!-- About Section -->
+  <section class="about section" id="about">
+    <div class="about__container">
+      <!-- Asymmetric Layout -->
+      <div class="about__layout">
+        <!-- Left Side: Image Composition -->
+        <div class="about__visual">
+          <!-- Main image -->
+          <div class="about__img-main">
+            <img
+              src="/assets/projects/warren/1746792005699.jpg"
+              alt="Luxury construction project"
+            />
+          </div>
+
+          <!-- Overlapping accent image -->
+          <div class="about__img-accent">
+            <img
+              src="/assets/projects/bryant/1755615602011.jpg"
+              alt="Modern architecture"
+            />
+          </div>
+
+          <!-- Stat Box -->
+          <div class="about__stat-box">
+            <div class="about__stat-number">25+</div>
+            <div class="about__stat-label">Years of Excellence</div>
+          </div>
+        </div>
+
+        <!-- Right Side: Content Flow -->
+        <div class="about__content">
+          <span class="about__label">Who We Are</span>
+          <h2 class="about__title">Building A Foundation of Excellence</h2>
+
+          <p class="about__intro">
+            As a proud subsidiary of <strong>Reap Capital</strong>, we bring
+            decades of experience, innovative techniques, and unwavering
+            commitment to quality.
+          </p>
+
+          <!-- Values - Clean List Style -->
+          <div class="about__values">
+            <div class="about__value">
+              <span class="about__value-number">01</span>
+              <div>
+                <h3>Integrity</h3>
+                <p>
+                  Honest communication and transparent processes in every
+                  project
+                </p>
+              </div>
+            </div>
+            <div class="about__value">
+              <span class="about__value-number">02</span>
+              <div>
+                <h3>Quality</h3>
+                <p>Superior craftsmanship that stands the test of time</p>
+              </div>
+            </div>
+            <div class="about__value">
+              <span class="about__value-number">03</span>
+              <div>
+                <h3>Partnership</h3>
+                <p>
+                  Collaborative relationships that extend beyond project
+                  completion
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Services />
+  <Portfolio />
+
+  <!-- Process Section -->
+  <section class="process section" id="process">
+    <div class="process__container">
+      <div class="process__header">
+        <span class="process__label">How We Work</span>
+        <h2 class="process__title">The Blueprint for Success</h2>
+        <p class="process__subtitle">
+          Our proven process ensures every project is delivered on time, on
+          budget, and beyond expectations
+        </p>
+      </div>
+
+      <div class="process__steps">
+        <div class="process__step">
+          <div class="process__step-number">01</div>
+          <h3 class="process__step-title">Consultation & Vision</h3>
+          <p class="process__step-description">
+            We begin by understanding your unique needs, goals, and vision for
+            the project
+          </p>
+        </div>
+        <div class="process__step">
+          <div class="process__step-number">02</div>
+          <h3 class="process__step-title">Design & Planning</h3>
+          <p class="process__step-description">
+            Our team develops comprehensive plans that balance aesthetics,
+            functionality, and budget
+          </p>
+        </div>
+        <div class="process__step">
+          <div class="process__step-number">03</div>
+          <h3 class="process__step-title">Execution & Craftsmanship</h3>
+          <p class="process__step-description">
+            With precision and attention to detail, we bring your vision to life
+          </p>
+        </div>
+        <div class="process__step">
+          <div class="process__step-number">04</div>
+          <h3 class="process__step-title">Delivery & Beyond</h3>
+          <p class="process__step-description">
+            We ensure smooth project handoff and remain your partner for future
+            needs
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Contact />
+</Layout>
+
+<style lang="scss">
+  @import "../styles/variables";
+  @import "../styles/mixins";
+
+  // About Section - Creative Asymmetric Design
+  .about {
+    padding: 120px 0;
+    position: relative;
+    overflow: hidden;
+
+    &__container {
+      @include container;
+      max-width: 1400px;
+    }
+
+    &__layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 60px;
+      align-items: center;
+
+      @include media-lg {
+        grid-template-columns: 40% 1fr;
+        gap: 80px;
+      }
+    }
+
+    // Image Composition - Clean & Refined
+    &__visual {
+      position: relative;
+      height: 600px;
+
+      @include media-lg {
+        height: 650px;
+      }
+    }
+
+    &__img-main {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 85%;
+      border-radius: $border-radius-lg;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      &:hover img {
+        transform: scale(1.05);
+      }
+    }
+
+    &__img-accent {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 50%;
+      height: 35%;
+      border-radius: $border-radius-md;
+      overflow: hidden;
+      border: 6px solid $color-white;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      z-index: 2;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      &:hover img {
+        transform: scale(1.05);
+      }
+    }
+
+    // Stat Box
+    &__stat-box {
+      position: absolute;
+      bottom: 10%;
+      left: -20px;
+      background: linear-gradient(
+        135deg,
+        $color-heritage-green,
+        darken($color-heritage-green, 8%)
+      );
+      padding: $spacing-xl $spacing-2xl;
+      border-radius: $border-radius-lg;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      z-index: 3;
+      text-align: center;
+      min-width: 180px;
+
+      @include media-lg {
+        left: -30px;
+        min-width: 200px;
+      }
+    }
+
+    &__stat-number {
+      font-family: $font-display;
+      font-size: 3.5rem;
+      font-weight: $font-weight-bold;
+      color: $color-prestige-gold;
+      line-height: 1;
+      margin-bottom: $spacing-sm;
+
+      @include media-lg {
+        font-size: 4rem;
+      }
+    }
+
+    &__stat-label {
+      font-size: 0.875rem;
+      font-weight: $font-weight-medium;
+      color: $color-white;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      line-height: 1.3;
+    }
+
+    // Content Area
+    &__content {
+      padding-right: 0;
+
+      @include media-lg {
+        padding-left: $spacing-2xl;
+      }
+    }
+
+    &__label {
+      display: inline-block;
+      font-size: 0.875rem;
+      font-weight: $font-weight-semibold;
+      color: $color-prestige-gold;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: $spacing-lg;
+      padding-bottom: $spacing-sm;
+      border-bottom: 2px solid $color-prestige-gold;
+    }
+
+    &__title {
+      font-family: $font-display;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: $font-weight-semibold;
+      color: $color-heritage-green;
+      line-height: 1.1;
+      margin-bottom: $spacing-xl;
+    }
+
+    &__intro {
+      font-size: 1.375rem;
+      line-height: 1.6;
+      color: $color-text;
+      margin-bottom: $spacing-3xl;
+
+      strong {
+        color: $color-heritage-green;
+        font-weight: $font-weight-semibold;
+      }
+    }
+
+    &__statement {
+      font-size: 1.125rem;
+      line-height: 1.7;
+      color: $color-text-light;
+      margin-bottom: $spacing-3xl;
+      font-style: italic;
+      padding-left: $spacing-xl;
+      border-left: 3px solid $color-prestige-gold;
+    }
+
+    // Values - Numbered List (No Boxes!)
+    &__values {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-2xl;
+    }
+
+    &__value {
+      display: flex;
+      gap: $spacing-xl;
+      align-items: flex-start;
+      transition: transform 0.3s ease;
+      padding-bottom: $spacing-xl;
+      border-bottom: 1px solid rgba($color-heritage-green, 0.1);
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover {
+        transform: translateX(8px);
+
+        .about__value-number {
+          transform: scale(1.1);
+          color: $color-heritage-green;
+        }
+
+        h3 {
+          color: $color-prestige-gold;
+        }
+      }
+
+      &-number {
+        font-family: $font-display;
+        font-size: 2rem;
+        font-weight: $font-weight-bold;
+        color: $color-prestige-gold;
+        line-height: 1;
+        min-width: 50px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      h3 {
+        font-size: 1.375rem;
+        font-weight: $font-weight-semibold;
+        color: $color-heritage-green;
+        margin-bottom: $spacing-sm;
+        line-height: 1.2;
+        transition: color 0.3s ease;
+      }
+
+      p {
+        font-size: 1rem;
+        color: $color-text-light;
+        line-height: 1.7;
+      }
+    }
+  }
+
+  // Process Section
+  .process {
+    background-color: $color-canvas;
+
+    &__container {
+      @include container;
+    }
+
+    &__header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto $spacing-4xl;
+    }
+
+    &__label {
+      display: inline-block;
+      font-size: 0.875rem;
+      font-weight: $font-weight-semibold;
+      color: $color-prestige-gold;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: $spacing-lg;
+      padding-bottom: $spacing-sm;
+      border-bottom: 2px solid $color-prestige-gold;
+    }
+
+    &__title {
+      font-family: $font-display;
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: $font-weight-semibold;
+      color: $color-heritage-green;
+      line-height: 1.1;
+      margin-bottom: $spacing-lg;
+      margin-top: $spacing-md;
+    }
+
+    &__subtitle {
+      font-size: 1.125rem;
+      color: $color-text-light;
+      line-height: $line-height-relaxed;
+    }
+
+    &__steps {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: $spacing-xl;
+
+      @include media-md {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @include media-lg {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      position: relative;
+
+      @include media-lg {
+        &::before {
+          content: "";
+          position: absolute;
+          top: 40px;
+          left: 10%;
+          right: 10%;
+          height: 2px;
+          background: linear-gradient(
+            90deg,
+            $color-prestige-gold 0%,
+            $color-prestige-gold 25%,
+            rgba($color-prestige-gold, 0.3) 25%,
+            rgba($color-prestige-gold, 0.3) 50%,
+            rgba($color-prestige-gold, 0.3) 75%,
+            rgba($color-prestige-gold, 0.3) 100%
+          );
+          z-index: 0;
+        }
+      }
+    }
+
+    &__step {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+
+      &-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 80px;
+        height: 80px;
+        background-color: $color-white;
+        color: $color-prestige-gold;
+        font-size: 1.5rem;
+        font-weight: $font-weight-bold;
+        border-radius: $border-radius-full;
+        box-shadow: $shadow-md;
+        margin-bottom: $spacing-lg;
+      }
+
+      &-title {
+        font-size: 1.125rem;
+        color: $color-heritage-green;
+        margin-bottom: $spacing-md;
+      }
+
+      &-description {
+        font-size: 0.9375rem;
+        color: $color-text-light;
+        line-height: $line-height-relaxed;
+      }
+    }
+  }
+</style>

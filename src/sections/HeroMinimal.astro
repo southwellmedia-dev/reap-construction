@@ -1,0 +1,332 @@
+---
+import Button from '../components/Button.astro';
+
+const heroImage = '/assets/projects/warren/1746792007716.jpg';
+---
+
+<section class="hero-minimal" id="hero">
+  <div class="hero-minimal__container">
+    <!-- Content Side -->
+    <div class="hero-minimal__content">
+      <h1 class="hero-minimal__title">
+        Turning challenges<br/>
+        <span class="hero-minimal__accent">into opportunities</span>
+      </h1>
+
+      <p class="hero-minimal__description">
+        Premier construction services. A subsidiary of Reap Capital.
+      </p>
+
+      <div class="hero-minimal__cta">
+        <Button href="#portfolio" variant="primary" size="large">
+          View Our Work
+        </Button>
+        <Button href="#contact" variant="outline" size="large">
+          Get a Quote
+        </Button>
+      </div>
+
+      <!-- Social links -->
+      <div class="hero-minimal__social">
+        <div class="hero-minimal__social-line"></div>
+        <a href="#" class="hero-minimal__social-link" aria-label="LinkedIn">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+        <a href="#" class="hero-minimal__social-link" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="#" class="hero-minimal__social-link" aria-label="Facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Image Side - Outside container for viewport edge positioning -->
+  <div class="hero-minimal__visual">
+      <div class="hero-minimal__image-wrapper">
+        <img
+          src={heroImage}
+          alt="Reap Construction Project"
+          class="hero-minimal__image"
+          loading="eager"
+        />
+      </div>
+      <!-- Corner accent -->
+      <div class="hero-minimal__corner-accent"></div>
+
+      <!-- Stats overlay -->
+      <div class="hero-minimal__stats">
+        <div class="hero-minimal__stat">
+          <span class="hero-minimal__stat-number">15+</span>
+          <span class="hero-minimal__stat-label">Years</span>
+        </div>
+        <div class="hero-minimal__stat">
+          <span class="hero-minimal__stat-number">200+</span>
+          <span class="hero-minimal__stat-label">Projects</span>
+        </div>
+        <div class="hero-minimal__stat hero-minimal__stat--quote">
+          <span class="hero-minimal__stat-quote">"Excellence in Every Detail"</span>
+          <span class="hero-minimal__stat-author">— Our Promise</span>
+        </div>
+      </div>
+  </div>
+</section>
+
+<style lang="scss">
+  @import '../styles/variables';
+  @import '../styles/mixins';
+
+  .hero-minimal {
+    position: relative;
+    height: 100vh;
+    min-height: 600px;
+    background: $color-white;
+    overflow: hidden;
+
+    &__container {
+      @include container;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    // Content Side
+    &__content {
+      width: 50%;
+      padding-top: 100px;
+      padding-bottom: $spacing-4xl;
+      z-index: 2;
+      position: relative;
+
+      @media (max-width: $breakpoint-lg) {
+        width: 100%;
+        padding-top: calc(100px + #{$spacing-2xl});
+      }
+    }
+
+    &__title {
+      font-family: $font-display;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: $color-heritage-green;
+      margin-bottom: $spacing-xl;
+      letter-spacing: -0.02em;
+      max-width: 800px;
+    }
+
+    &__accent {
+      display: block;
+      color: $color-prestige-gold;
+      position: relative;
+      margin-top: $spacing-xs;
+      font-weight: 600;
+    }
+
+    &__description {
+      font-family: $font-primary;
+      font-size: clamp(1.125rem, 1.5vw, 1.375rem);
+      font-weight: 400;
+      line-height: $line-height-relaxed;
+      color: $color-text;
+      margin-bottom: $spacing-2xl;
+      max-width: 480px;
+    }
+
+    &__cta {
+      display: flex;
+      gap: $spacing-lg;
+      margin-bottom: $spacing-3xl;
+      flex-wrap: wrap;
+
+      @include media-md {
+        flex-wrap: nowrap;
+      }
+    }
+
+    // Social links section
+    &__social {
+      position: absolute;
+      bottom: 10%;
+      left: 0;
+      display: flex;
+      align-items: center;
+      gap: $spacing-lg;
+
+      @media (max-width: $breakpoint-lg) {
+        display: none;
+      }
+
+      &-line {
+        width: 60px;
+        height: 2px;
+        background: $color-heritage-green;
+      }
+
+      &-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: $border-radius-sm;
+        color: $color-heritage-green;
+        transition: all $transition-fast;
+
+        &:hover {
+          background: $color-heritage-green;
+          color: $color-white;
+          transform: translateY(-2px);
+        }
+      }
+    }
+
+    // Image Side - Hard geometric edge
+    &__visual {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 50vw;
+      height: 85vh;
+      overflow: hidden;
+      z-index: 1;
+
+      // Background shadow layer for depth
+      &::after {
+        content: '';
+        position: absolute;
+        top: 30px;
+        left: -30px;
+        width: calc(100% + 30px);
+        height: 100%;
+        background: linear-gradient(135deg, $color-prestige-gold, $color-heritage-green);
+        opacity: 0.15;
+        z-index: -1;
+      }
+
+      @media (max-width: $breakpoint-lg) {
+        display: none;
+      }
+
+      // Hard angle cut
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100px;
+        width: 200px;
+        height: 100%;
+        background: $color-white;
+        transform: skewX(-5deg);
+        z-index: 1;
+      }
+    }
+
+    &__image-wrapper {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    &__image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: grayscale(80%) contrast(1.1) brightness(0.9);
+      transition: filter $transition-slow;
+
+      &:hover {
+        filter: grayscale(60%) contrast(1.2) brightness(0.95);
+      }
+    }
+
+    // Corner accent on image
+    &__corner-accent {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      width: 100px;
+      height: 100px;
+      border-right: 4px solid $color-prestige-gold;
+      border-bottom: 4px solid $color-prestige-gold;
+      z-index: 2;
+    }
+
+    // Stats overlay on image
+    &__stats {
+      position: absolute;
+      bottom: 60px;
+      left: 40px;
+      display: flex;
+      gap: $spacing-lg;
+      z-index: 3;
+      flex-wrap: wrap;
+      max-width: calc(100% - 80px);
+
+      @include media-xl {
+        left: 60px;
+        flex-wrap: nowrap;
+        gap: $spacing-xl;
+        max-width: none;
+      }
+    }
+
+    &__stat {
+      background: rgba($color-heritage-green, 0.95);
+      backdrop-filter: blur(10px);
+      padding: $spacing-lg $spacing-xl;
+      border-left: 4px solid $color-prestige-gold;
+
+      @include media-xl {
+        padding: $spacing-xl $spacing-2xl;
+      }
+
+      &--quote {
+        background: rgba($color-prestige-gold, 0.95);
+        border-left-color: $color-heritage-green;
+        flex: 1 1 250px;
+      }
+
+      &-number {
+        display: block;
+        font-family: $font-display;
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: $color-white;
+        line-height: 1;
+        margin-bottom: $spacing-xs;
+      }
+
+      &-label {
+        font-family: $font-primary;
+        font-size: 0.875rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: $color-prestige-gold;
+      }
+
+      &-quote {
+        display: block;
+        font-family: $font-display;
+        font-size: 1rem;
+        font-weight: 600;
+        color: $color-heritage-green;
+        line-height: 1.3;
+        margin-bottom: $spacing-sm;
+      }
+
+      &-author {
+        display: block;
+        font-family: $font-primary;
+        font-size: 0.75rem;
+        font-weight: 400;
+        color: $color-heritage-green;
+        opacity: 0.8;
+      }
+    }
+  }
+</style>

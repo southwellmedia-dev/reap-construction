@@ -1,0 +1,317 @@
+---
+import MasonryCarousel from "../components/MasonryCarousel.tsx";
+import { HeroAnimatedContent } from "../components/HeroContent.tsx";
+
+export interface Props {}
+---
+
+<section class="hero-masonry" id="hero">
+  <!-- Background decoration -->
+  <div class="hero-masonry__bg-decoration">
+    <div class="hero-masonry__mesh"></div>
+    <img
+      src="/assets/branding/reap-logomark.svg"
+      alt=""
+      aria-hidden="true"
+      class="hero-masonry__bg-logo"
+    />
+  </div>
+
+  <!-- Main content grid -->
+  <div class="hero-masonry__grid">
+    <!-- Content side -->
+    <div class="hero-masonry__content-wrapper">
+      <HeroAnimatedContent client:load />
+    </div>
+
+    <!-- Masonry carousel side -->
+    <div class="hero-masonry__carousel-wrapper">
+      <div class="hero-masonry__carousel-container">
+        <MasonryCarousel client:visible />
+      </div>
+
+      <!-- Decorative gradient overlay -->
+      <div class="hero-masonry__gradient-overlay"></div>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  @import "../styles/variables";
+  @import "../styles/mixins";
+
+  // Component-specific variables
+  $hero-carousel-height: 80vh;
+  $hero-carousel-padding-top: 100px;
+
+  .hero-masonry {
+    position: relative;
+    height: 100vh;
+    min-height: 600px;
+    overflow: hidden;
+    background-color: $color-canvas;
+    margin-top: 0; // Transparent header overlays hero
+
+    // Background decoration
+    &__bg-decoration {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      background-color: $color-canvas;
+    }
+
+    &__mesh {
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(
+        circle at 30% 50%,
+        rgba($color-prestige-gold, 0.02) 0%,
+        transparent 50%
+      );
+    }
+
+    &__bg-logo {
+      position: absolute;
+      height: auto;
+      opacity: 0.06;
+      filter: grayscale(100%);
+      pointer-events: none;
+      z-index: 1;
+
+      // Mobile: centered and lower
+      top: 30%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+
+      // Desktop: top-left positioning
+      @include media-lg {
+        top: -20%;
+        left: -15%;
+        transform: none;
+        width: 850px;
+      }
+    }
+
+    // Main grid layout
+    &__grid {
+      @include container; // Use the standard container
+      position: relative;
+      height: 100%;
+      display: grid;
+      grid-template-columns: 1fr;
+      z-index: 1;
+
+      @include media-lg {
+        grid-template-columns: minmax(550px, 1fr) 1fr;
+      }
+
+      @include media-xl {
+        grid-template-columns: minmax(600px, 1fr) 1.2fr;
+      }
+
+      @include media-2xl {
+        grid-template-columns: minmax(700px, 1fr) 1.4fr;
+      }
+    }
+
+    // Content side
+    &__content-wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: calc(80px + #{$spacing-xl}) 0 $spacing-xl 0; // Add header height to top padding
+
+      @include media-md {
+        padding: calc(80px + #{$spacing-2xl}) 0 $spacing-2xl 0;
+      }
+
+      @include media-lg {
+        padding-top: calc(80px + #{$spacing-3xl});
+        padding-bottom: $spacing-3xl;
+        padding-right: $spacing-2xl;
+      }
+    }
+
+    &__content {
+      position: relative;
+      z-index: 10;
+      max-width: 700px;
+      width: 100%;
+
+      // Center content on mobile
+      text-align: center;
+
+      @include media-lg {
+        text-align: left;
+      }
+    }
+
+    &__logo {
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: visible;
+    }
+
+    &__title {
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-family: $font-display;
+      font-weight: $font-weight-semibold;
+      line-height: 1.1;
+      color: $color-heritage-green;
+      margin-bottom: $spacing-xl;
+
+      &-accent {
+        color: $color-prestige-gold;
+        display: inline-block;
+      }
+    }
+
+    &__subtitle {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-family: $font-display;
+      font-weight: $font-weight-light;
+      line-height: 1.2;
+      color: $color-text;
+      margin-bottom: $spacing-xl;
+
+      &-accent {
+        font-weight: $font-weight-semibold;
+        color: $color-heritage-green;
+      }
+    }
+
+    &__description {
+      font-size: 1.125rem;
+      line-height: $line-height-relaxed;
+      color: $color-text-light;
+      margin-bottom: $spacing-2xl;
+    }
+
+    &__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: $spacing-lg;
+      margin-bottom: $spacing-2xl;
+
+      @include media-md {
+        flex-wrap: nowrap;
+      }
+    }
+
+    &__trust {
+      display: flex;
+      gap: $spacing-xl;
+      padding-top: $spacing-xl;
+      border-top: 1px solid rgba($color-heritage-green, 0.1);
+
+      &-item {
+        display: flex;
+        align-items: center;
+        gap: $spacing-sm;
+        font-size: 0.875rem;
+        color: $color-text-light;
+
+        svg {
+          width: 20px;
+          height: 20px;
+          stroke: $color-prestige-gold;
+        }
+      }
+    }
+
+    // Carousel side
+    &__carousel-wrapper {
+      position: relative;
+      display: none;
+      height: 100%;
+
+      @include media-lg {
+        display: flex;
+        align-items: flex-start; // Start from top
+        justify-content: flex-end;
+        padding-top: $hero-carousel-padding-top; // Much less padding from top
+        padding-right: 0; // Let carousel go to edge for fade effect
+      }
+    }
+
+    &__carousel-container {
+      position: relative;
+      height: $hero-carousel-height;
+      width: 100%;
+    }
+
+    &__gradient-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: $hero-carousel-height;
+      z-index: 10;
+      pointer-events: none;
+
+      // Subtle edge fades for smooth blending
+      background: linear-gradient(
+        to right,
+        rgba($color-canvas, 0.5) 0%,
+        transparent 5%,
+        transparent 95%,
+        rgba($color-canvas, 0.5) 100%
+      );
+    }
+  }
+
+  // Mobile optimizations
+  @media (max-width: 1023px) {
+    .hero-masonry {
+      &__grid {
+        padding: 0 $spacing-xl; // Ensure container padding on mobile
+      }
+
+      &__content-wrapper {
+        align-items: center;
+        text-align: center;
+        padding-left: 0;
+        padding-right: 0;
+      }
+
+      &__content {
+        max-width: 500px;
+        margin: 0 auto;
+      }
+
+      &__logo {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      &__trust {
+        justify-content: center;
+      }
+
+      &__actions {
+        justify-content: center;
+      }
+    }
+  }
+
+  // Respect user's motion preferences
+  @media (prefers-reduced-motion: reduce) {
+    .hero-masonry {
+      &__content {
+        animation: none;
+      }
+
+      &__carousel-container {
+        animation: none;
+      }
+    }
+  }
+</style>

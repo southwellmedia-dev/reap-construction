@@ -1,0 +1,230 @@
+// =============================================================================
+// Button Component Styles
+// =============================================================================
+
+@import '../variables';
+@import '../mixins';
+
+// Base Button
+.btn {
+  @include button-base;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.875rem;
+  min-width: 150px;
+
+  // Primary Button - Gold
+  &--primary {
+    background-color: $color-prestige-gold;
+    color: $color-heritage-green;
+    border: 2px solid $color-prestige-gold;
+
+    &:hover {
+      background-color: darken($color-prestige-gold, 10%);
+      border-color: darken($color-prestige-gold, 10%);
+      color: $color-heritage-green;
+      transform: translateY(-2px);
+      box-shadow: $shadow-md;
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  // Secondary Button - Green
+  &--secondary {
+    background-color: $color-heritage-green;
+    color: $color-white;
+    border: 2px solid $color-heritage-green;
+
+    &:hover {
+      background-color: lighten($color-heritage-green, 10%);
+      border-color: lighten($color-heritage-green, 10%);
+      transform: translateY(-2px);
+      box-shadow: $shadow-md;
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  // Outline Button
+  &--outline {
+    background-color: transparent;
+    color: $color-heritage-green;
+    border: 2px solid $color-heritage-green;
+
+    &:hover {
+      background-color: $color-heritage-green;
+      color: $color-white;
+      transform: translateY(-2px);
+      box-shadow: $shadow-md;
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &.btn--outline-light {
+      color: $color-white;
+      border-color: $color-white;
+
+      &:hover {
+        background-color: $color-white;
+        color: $color-heritage-green;
+      }
+    }
+
+    &.btn--outline-gold {
+      color: $color-prestige-gold;
+      border-color: $color-prestige-gold;
+
+      &:hover {
+        background-color: $color-prestige-gold;
+        color: $color-heritage-green;
+      }
+    }
+  }
+
+  // Ghost Button
+  &--ghost {
+    background-color: transparent;
+    color: $color-prestige-gold;
+    border: none;
+    padding: $spacing-sm $spacing-lg;
+
+    &:hover {
+      background-color: rgba($color-prestige-gold, 0.1);
+    }
+  }
+
+  // Size Variants
+  &--small {
+    padding: $spacing-sm $spacing-lg;
+    font-size: 0.75rem;
+    min-width: 100px;
+  }
+
+  &--large {
+    padding: $spacing-lg $spacing-2xl;
+    font-size: 1rem;
+    min-width: 200px;
+  }
+
+  // Block Button
+  &--block {
+    display: flex;
+    width: 100%;
+  }
+
+  // Icon Button
+  &--icon {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-sm;
+
+    svg {
+      width: 1.25em;
+      height: 1.25em;
+      transition: transform $transition-base;
+    }
+
+    &:hover svg {
+      transform: translateX(4px);
+    }
+  }
+
+  // Loading State
+  &--loading {
+    position: relative;
+    color: transparent;
+    pointer-events: none;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 1.25em;
+      height: 1.25em;
+      border: 2px solid rgba($color-white, 0.3);
+      border-top-color: $color-white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+  }
+}
+
+// Button Group
+.btn-group {
+  display: inline-flex;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+  align-items: center;
+
+  &--vertical {
+    flex-direction: column;
+    width: 100%;
+
+    .btn {
+      width: 100%;
+    }
+  }
+
+  &--connected {
+    gap: 0;
+
+    .btn {
+      border-radius: 0;
+
+      &:first-child {
+        border-top-left-radius: $border-radius-sm;
+        border-bottom-left-radius: $border-radius-sm;
+      }
+
+      &:last-child {
+        border-top-right-radius: $border-radius-sm;
+        border-bottom-right-radius: $border-radius-sm;
+      }
+
+      &:not(:last-child) {
+        border-right-width: 0;
+      }
+    }
+  }
+}
+
+// Floating Action Button
+.fab {
+  @include button-base;
+  position: fixed;
+  bottom: $spacing-xl;
+  right: $spacing-xl;
+  width: 56px;
+  height: 56px;
+  border-radius: $border-radius-full;
+  background-color: $color-prestige-gold;
+  color: $color-heritage-green;
+  box-shadow: $shadow-lg;
+  z-index: $z-fixed;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: $shadow-xl;
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+// Animations
+@keyframes spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}

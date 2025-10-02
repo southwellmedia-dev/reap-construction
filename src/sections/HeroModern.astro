@@ -1,0 +1,531 @@
+---
+import Button from '../components/Button.astro';
+
+// Using different project images for variety
+const heroImage = '/assets/projects/warren/1746792003243.jpg';
+---
+
+<section class="hero-modern" id="hero">
+  <!-- Background decoration -->
+  <div class="hero-modern__bg-decoration">
+    <div class="hero-modern__mesh"></div>
+  </div>
+
+  <!-- Main content grid -->
+  <div class="hero-modern__grid">
+    <!-- Content side -->
+    <div class="hero-modern__content-wrapper">
+      <div class="hero-modern__content">
+        <div class="hero-modern__badge">
+          <span>Excellence Since 2009</span>
+        </div>
+
+        <h1 class="hero-modern__title">
+          Building with
+          <span class="hero-modern__title-accent">Vision.</span>
+        </h1>
+
+        <h2 class="hero-modern__subtitle">
+          Executing with
+          <span class="hero-modern__subtitle-accent">Precision.</span>
+        </h2>
+
+        <p class="hero-modern__description">
+          Premier commercial and residential construction services
+          for the discerning client. A subsidiary of Reap Capital.
+        </p>
+
+        <div class="hero-modern__actions">
+          <Button href="#portfolio" variant="primary" size="large" icon>
+            View Our Work
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </Button>
+          <Button href="#contact" variant="outline" size="large">
+            Start Your Project
+          </Button>
+        </div>
+      </div>
+
+      <!-- Floating stats card -->
+      <div class="hero-modern__stats-card">
+        <div class="hero-modern__stat">
+          <span class="hero-modern__stat-value" data-target="15">0</span>
+          <span class="hero-modern__stat-label">Years of Excellence</span>
+        </div>
+        <div class="hero-modern__stat">
+          <span class="hero-modern__stat-value" data-target="200">0</span>
+          <span class="hero-modern__stat-label">Projects Delivered</span>
+        </div>
+        <div class="hero-modern__stat">
+          <span class="hero-modern__stat-value" data-target="100">0</span>
+          <span class="hero-modern__stat-label">Client Satisfaction</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Image side -->
+    <div class="hero-modern__image-wrapper">
+      <div class="hero-modern__image-container">
+        <img
+          src={heroImage}
+          alt="Premium construction project"
+          class="hero-modern__image"
+          loading="eager"
+        />
+        <div class="hero-modern__image-overlay"></div>
+      </div>
+
+      <!-- Decorative elements -->
+      <div class="hero-modern__accent-line"></div>
+      <div class="hero-modern__accent-dot"></div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="hero-modern__scroll">
+    <span>Scroll</span>
+    <div class="hero-modern__scroll-line"></div>
+  </div>
+</section>
+
+<style lang="scss">
+  @import '../styles/variables';
+  @import '../styles/mixins';
+
+  .hero-modern {
+    position: relative;
+    height: 100vh;
+    min-height: 600px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    background-color: $color-canvas;
+    margin-top: 0; // Transparent header overlays hero
+
+    @include media-lg {
+      overflow: visible; // Allow stats card to extend outside on larger screens
+    }
+
+    // Background decoration
+    &__bg-decoration {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    &__mesh {
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(
+        circle at 30% 50%,
+        rgba($color-prestige-gold, 0.05) 0%,
+        transparent 50%
+      );
+    }
+
+    // Main grid layout
+    &__grid {
+      position: relative;
+      height: 100%;
+      display: grid;
+      grid-template-columns: 1fr;
+      z-index: 1;
+
+      @include media-lg {
+        grid-template-columns: 1.4fr 1fr;
+      }
+    }
+
+    // Content side
+    &__content-wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: calc(80px + #{$spacing-xl}) $spacing-xl $spacing-xl; // Add header height to top padding
+
+      @include media-md {
+        padding: calc(80px + #{$spacing-2xl}) $spacing-2xl $spacing-2xl;
+      }
+
+      @include media-lg {
+        padding-left: 8%;
+        padding-right: $spacing-3xl;
+        padding-top: calc(80px + #{$spacing-3xl});
+        padding-bottom: $spacing-3xl;
+      }
+    }
+
+    &__content {
+      position: relative;
+      z-index: 2;
+      animation: slideInLeft 1s ease-out;
+    }
+
+    &__badge {
+      display: inline-block;
+      padding: $spacing-sm $spacing-lg;
+      background: rgba($color-prestige-gold, 0.1);
+      border: 1px solid $color-prestige-gold;
+      border-radius: $border-radius-full;
+      margin-bottom: $spacing-xl;
+
+      span {
+        font-size: 0.875rem;
+        font-weight: $font-weight-medium;
+        color: $color-heritage-green;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+    }
+
+    &__title {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-family: $font-display;
+      font-weight: 800;
+      line-height: 1;
+      color: $color-heritage-green;
+      margin-bottom: $spacing-md;
+
+      &-accent {
+        color: $color-prestige-gold;
+        display: inline-block;
+        position: relative;
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: -5px;
+          left: 0;
+          width: 100%;
+          height: 3px;
+          background: $color-prestige-gold;
+          animation: expandWidth 1s ease-out 0.5s both;
+        }
+      }
+    }
+
+    &__subtitle {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-family: $font-display;
+      font-weight: 300;
+      line-height: 1.2;
+      color: $color-text;
+      margin-bottom: $spacing-xl;
+
+      &-accent {
+        font-weight: 800;
+        color: $color-heritage-green;
+      }
+    }
+
+    &__description {
+      font-size: 1.125rem;
+      line-height: $line-height-relaxed;
+      color: $color-text-light;
+      max-width: 500px;
+      margin-bottom: $spacing-2xl;
+    }
+
+    &__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: $spacing-lg;
+
+      @include media-md {
+        flex-wrap: nowrap;
+      }
+    }
+
+    // Stats card
+    &__stats-card {
+      margin-top: $spacing-3xl;
+      background: $color-white;
+      border-radius: $border-radius-lg;
+      box-shadow: 0 20px 60px rgba($color-black, 0.15);
+      padding: $spacing-2xl;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: $spacing-xl;
+      animation: slideUp 1s ease-out 0.5s both;
+      max-width: 500px;
+
+      @include media-lg {
+        position: absolute;
+        bottom: $spacing-4xl;
+        right: 10%;
+        margin-top: 0;
+        width: 450px;
+      }
+
+      @include media-xl {
+        right: 15%;
+      }
+    }
+
+    &__stat {
+      text-align: center;
+
+      @include media-lg {
+        text-align: left;
+      }
+
+      &-value {
+        display: block;
+        font-size: clamp(1.5rem, 3vw, 2rem);
+        font-weight: $font-weight-bold;
+        color: $color-heritage-green;
+        margin-bottom: $spacing-xs;
+
+        &::after {
+          content: '+';
+        }
+
+        &[data-target="100"]::after {
+          content: '%';
+        }
+      }
+
+      &-label {
+        font-size: 0.75rem;
+        color: $color-text-light;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        line-height: 1.2;
+      }
+    }
+
+    // Image side
+    &__image-wrapper {
+      position: relative;
+      display: none;
+
+      @include media-lg {
+        display: block;
+      }
+    }
+
+    &__image-container {
+      position: absolute;
+      top: -10%;
+      left: -20%;
+      width: 120%;
+      height: 120%;
+      clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%);
+      animation: slideInRight 1s ease-out;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          135deg,
+          transparent 0%,
+          rgba($color-heritage-green, 0.1) 50%,
+          rgba($color-heritage-green, 0.3) 100%
+        );
+        z-index: 1;
+      }
+    }
+
+    &__image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: contrast(1.1) saturate(1.1);
+    }
+
+    &__image-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba($color-heritage-green, 0.2);
+      mix-blend-mode: multiply;
+      z-index: 1;
+    }
+
+    // Decorative elements
+    &__accent-line {
+      position: absolute;
+      top: 20%;
+      left: -2px;
+      width: 4px;
+      height: 200px;
+      background: $color-prestige-gold;
+      animation: growHeight 1s ease-out 1s both;
+    }
+
+    &__accent-dot {
+      position: absolute;
+      top: calc(20% + 200px);
+      left: -8px;
+      width: 16px;
+      height: 16px;
+      background: $color-prestige-gold;
+      border-radius: 50%;
+      animation: fadeIn 0.5s ease-out 1.5s both;
+    }
+
+    // Scroll indicator
+    &__scroll {
+      position: absolute;
+      bottom: $spacing-xl;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      color: $color-text-light;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      z-index: 2;
+
+      @include media-lg {
+        left: 8%;
+        transform: none;
+      }
+
+      &-line {
+        width: 30px;
+        height: 1px;
+        background: $color-text-light;
+        position: relative;
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 10px;
+          height: 1px;
+          background: $color-heritage-green;
+          animation: scrollLine 2s ease-in-out infinite;
+        }
+      }
+    }
+  }
+
+  // Animations
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes expandWidth {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+
+  @keyframes growHeight {
+    from {
+      height: 0;
+    }
+    to {
+      height: 200px;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes scrollLine {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(20px);
+    }
+  }
+</style>
+
+<script>
+  // Animate stats counter
+  const animateValue = (element, start, end, duration) => {
+    const range = end - start;
+    const increment = range / (duration / 16);
+    let current = start;
+
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= end) {
+        clearInterval(timer);
+        element.textContent = end.toString();
+      } else {
+        element.textContent = Math.floor(current).toString();
+      }
+    }, 16);
+  };
+
+  // Intersection Observer for stats animation
+  const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const statsValues = document.querySelectorAll('.hero-modern__stat-value');
+        statsValues.forEach((stat) => {
+          const element = stat;
+          const target = parseInt(element.dataset.target || '0');
+          animateValue(element, 0, target, 2000);
+        });
+        statsObserver.disconnect();
+      }
+    });
+  });
+
+  const statsCard = document.querySelector('.hero-modern__stats-card');
+  if (statsCard) {
+    statsObserver.observe(statsCard);
+  }
+</script>

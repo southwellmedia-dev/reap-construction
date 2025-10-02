@@ -1,0 +1,22 @@
+// =============================================================================
+// Global Styles - Main Entry Point
+// =============================================================================
+
+// Import Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap');
+
+// Core Design System
+@import 'variables';
+@import 'mixins';
+@import 'base';
+
+// Component Styles (to be added as we build components)
+@import 'components/buttons';
+// @import 'components/cards';
+// @import 'components/forms';
+
+// Section Styles (to be added as we build sections)
+// @import 'sections/hero';
+// @import 'sections/portfolio';
+// @import 'sections/services';
+// @import 'sections/contact';

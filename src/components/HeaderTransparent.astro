@@ -1,0 +1,1075 @@
+---
+import Button from './Button.astro';
+
+const navItems = [
+  { label: 'Who We Are', href: '#about', icon: 'fa-building', description: 'Learn about our story and values' },
+  { label: 'What We Do', href: '#services', icon: 'fa-tools', description: 'Explore our construction services' },
+  { label: 'Our Work', href: '#portfolio', icon: 'fa-images', description: 'View our completed projects' },
+  { label: 'Our Process', href: '#process', icon: 'fa-list-check', description: 'Discover how we build' },
+  { label: 'Contact', href: '#contact', icon: 'fa-envelope', description: 'Get in touch with our team' },
+];
+---
+
+<header class="header-transparent" id="header-transparent">
+  <div class="header-transparent__container">
+    <!-- Logo with text for scroll animation (initially hidden) -->
+    <a href="#top" class="header-transparent__logo" id="header-logo">
+      <img
+        src="/assets/branding/reap-logomark.svg"
+        alt="Reap Construction"
+        class="header-transparent__logo-img"
+      />
+      <div class="header-transparent__logo-divider"></div>
+      <div class="header-transparent__logo-content">
+        <span class="header-transparent__logo-text">
+          <strong>REAP</strong> CONSTRUCTION
+        </span>
+        <span class="header-transparent__logo-byline">
+          A Reap Capital Company
+        </span>
+      </div>
+    </a>
+
+    <div class="header-transparent__actions">
+      <!-- Phone button (hidden when menu open) -->
+      <a href="tel:+15551234567" class="header-transparent__phone" id="header-phone">
+        <i class="fa-solid fa-phone"></i>
+        <span class="header-transparent__phone-number">(555) 123-4567</span>
+      </a>
+
+      <!-- Horizontal nav (shown when menu open) -->
+      <nav class="header-transparent__horizontal-nav" id="header-horizontal-nav">
+        <ul class="header-transparent__horizontal-nav-list">
+          {navItems.map((item) => (
+            <li class="header-transparent__horizontal-nav-item">
+              <a href={item.href} class="header-transparent__horizontal-nav-link">
+                <i class={`fa-solid ${item.icon}`}></i>
+                <span>{item.label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <!-- Social icons (inside nav when visible) -->
+        <div class="header-transparent__social">
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <i class="fa-brands fa-linkedin-in"></i>
+          </a>
+        </div>
+      </nav>
+
+      <button
+        class="header-transparent__mobile-toggle"
+        aria-label="Toggle navigation menu"
+        aria-expanded="false"
+      >
+        <span class="header-transparent__mobile-toggle-bar"></span>
+        <span class="header-transparent__mobile-toggle-bar"></span>
+        <span class="header-transparent__mobile-toggle-bar"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Full-screen mobile menu overlay -->
+<div class="mobile-menu" id="mobile-menu" role="dialog" aria-modal="true" aria-labelledby="mobile-menu-title">
+  <div class="mobile-menu__overlay"></div>
+  <div class="mobile-menu__content">
+    <div class="mobile-menu__header">
+      <h2 id="mobile-menu-title" class="sr-only">Navigation Menu</h2>
+
+      <a href="#top" class="mobile-menu__logo">
+        <img
+          src="/assets/branding/reap-logomark.svg"
+          alt="Reap Construction"
+          class="mobile-menu__logo-img"
+        />
+        <div class="mobile-menu__logo-divider"></div>
+        <div class="mobile-menu__logo-content">
+          <span class="mobile-menu__logo-text">
+            <strong>REAP</strong> CONSTRUCTION
+          </span>
+          <span class="mobile-menu__logo-byline">
+            A Reap Capital Company
+          </span>
+        </div>
+      </a>
+
+      <button
+        class="mobile-menu__close"
+        aria-label="Close navigation menu"
+        id="mobile-menu-close"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <nav class="mobile-menu__nav">
+      <ul class="mobile-menu__list">
+        {navItems.map((item) => (
+          <li class="mobile-menu__item">
+            <a href={item.href} class="mobile-menu__link">
+              <div class="mobile-menu__link-icon">
+                <i class={`fa-solid ${item.icon}`}></i>
+              </div>
+              <div class="mobile-menu__link-content">
+                <span class="mobile-menu__link-label">{item.label}</span>
+                <span class="mobile-menu__link-description">{item.description}</span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="mobile-menu__footer">
+      <a href="tel:+15551234567" class="mobile-menu__phone">
+        <i class="fa-solid fa-phone"></i>
+        <span>(555) 123-4567</span>
+      </a>
+
+      <div class="mobile-menu__social">
+        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <i class="fa-brands fa-facebook-f"></i>
+        </a>
+        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <i class="fa-brands fa-linkedin-in"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style lang="scss">
+  @import '../styles/variables';
+  @import '../styles/mixins';
+
+  .header-transparent {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding-bottom: 40px; // Extended gradient area
+    background: transparent;
+    backdrop-filter: blur(0);
+    z-index: $z-sticky;
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: transform 0.4s ease, opacity 0.4s ease, background 0.3s ease;
+
+    &__container {
+      @include container;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+      transition: all $transition-base;
+    }
+
+    &__logo {
+      display: flex;
+      align-items: center;
+      gap: $spacing-lg;
+      text-decoration: none;
+      transition: opacity $transition-base, transform $transition-base;
+      opacity: 0;
+      transform: scale(0.8);
+
+      &.visible {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      &:hover {
+        transform: scale(1.02);
+      }
+
+      &-img {
+        height: 40px;
+        width: auto;
+        transition: filter $transition-base;
+
+        @include media-md {
+          height: 44px;
+        }
+      }
+
+      &-divider {
+        display: none;
+        width: 1px;
+        height: 40px;
+        background-color: rgba($color-heritage-green, 0.2);
+
+        @include media-md {
+          display: block;
+          height: 44px;
+        }
+      }
+
+      &-content {
+        display: none;
+        flex-direction: column;
+        gap: 2px;
+
+        @include media-md {
+          display: flex;
+        }
+      }
+
+      &-text {
+        font-family: $font-display;
+        font-size: 1.125rem;
+        font-weight: $font-weight-medium;
+        color: $color-heritage-green;
+        letter-spacing: 0.15em;
+        white-space: nowrap;
+        line-height: 1.2;
+
+        strong {
+          font-weight: 800;
+        }
+
+        @include media-md {
+          font-size: 1.25rem;
+        }
+      }
+
+      &-byline {
+        font-family: $font-display;
+        font-size: 0.65rem;
+        font-weight: $font-weight-medium;
+        color: rgba($color-heritage-green, 0.5);
+        letter-spacing: 0.45em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        line-height: 1;
+
+        @include media-md {
+          font-size: 0.7rem;
+          letter-spacing: 0.5em;
+        }
+      }
+    }
+
+    &__actions {
+      display: flex;
+      align-items: center;
+      gap: $spacing-lg;
+      margin-left: auto;
+    }
+
+    &__phone {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      background-color: $color-heritage-green;
+      color: $color-white;
+      text-decoration: none;
+      font-weight: $font-weight-medium;
+      transition: all $transition-fast;
+      padding: $spacing-sm $spacing-md;
+      border-radius: $border-radius-md;
+      font-size: 0.875rem;
+
+      i {
+        font-size: 0.875rem;
+        color: $color-white;
+      }
+
+      &-number {
+        display: none;
+
+        @include media-md {
+          display: inline;
+        }
+      }
+
+      &:hover {
+        background-color: darken($color-heritage-green, 5%);
+        transform: translateY(-1px);
+        box-shadow: $shadow-sm;
+      }
+
+      &.hidden {
+        display: none;
+      }
+    }
+
+    &__horizontal-nav {
+      display: none;
+      position: relative;
+
+      &.visible {
+        display: flex;
+        align-items: center;
+        gap: $spacing-md;
+        animation: slideInWithGradient 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      }
+
+      &.closing {
+        display: flex;
+        align-items: center;
+        gap: $spacing-md;
+        animation: slideOutWithGradient 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      }
+
+      &-list {
+        display: flex;
+        align-items: center;
+        gap: $spacing-sm;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      &-item {
+        margin: 0;
+      }
+
+      &-link {
+        display: flex;
+        align-items: center;
+        gap: $spacing-sm;
+        color: $color-heritage-green;
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: $font-weight-medium;
+        transition: all $transition-fast;
+        padding: $spacing-sm $spacing-md;
+        border-radius: $border-radius-md;
+        white-space: nowrap;
+
+        i {
+          font-size: 0.875rem;
+          transition: transform $transition-fast;
+        }
+
+        &:hover {
+          color: $color-prestige-gold;
+          background-color: rgba($color-prestige-gold, 0.1);
+
+          i {
+            transform: scale(1.1);
+          }
+        }
+
+        &.active {
+          background-color: $color-heritage-green;
+          color: $color-white;
+          font-weight: $font-weight-medium;
+          transform: translateY(-1px);
+          box-shadow: $shadow-sm;
+
+          i {
+            color: $color-white;
+          }
+        }
+      }
+    }
+
+    // Gradient slide-in animation
+    @keyframes slideInWithGradient {
+      0% {
+        clip-path: inset(0 0 0 100%);
+      }
+      100% {
+        clip-path: inset(0 0 0 0);
+      }
+    }
+
+    // Gradient slide-out animation
+    @keyframes slideOutWithGradient {
+      0% {
+        clip-path: inset(0 0 0 0);
+      }
+      100% {
+        clip-path: inset(0 0 0 100%);
+      }
+    }
+
+    &__social {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      padding-left: $spacing-md;
+      border-left: 1px solid rgba($color-heritage-green, 0.15);
+
+      a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: rgba($color-text-light, 0.08);
+        color: $color-text-light;
+        transition: all $transition-fast;
+        font-size: 0.875rem;
+
+        &:hover {
+          background-color: $color-heritage-green;
+          color: $color-white;
+          transform: translateY(-2px);
+        }
+      }
+    }
+
+    &__mobile-toggle {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+
+      &-bar {
+        width: 24px;
+        height: 2px;
+        background-color: $color-heritage-green;
+        transition: all $transition-fast;
+      }
+
+      &[aria-expanded="true"] {
+        .header-transparent__mobile-toggle-bar {
+          &:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+          }
+
+          &:nth-child(2) {
+            opacity: 0;
+          }
+
+          &:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+          }
+        }
+      }
+    }
+
+    // Visible state (when scrolled)
+    &--visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    // Scrolled state
+    &--scrolled {
+      padding-bottom: 0; // Remove extended gradient when scrolled
+      background: rgba($color-white, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+
+      .header-transparent__container {
+        height: 70px;
+      }
+
+      .header-transparent__logo-img {
+        height: 38px;
+
+        @include media-md {
+          height: 42px;
+        }
+      }
+    }
+
+    // Dark variant (when over light background)
+    &--dark {
+      .header-transparent__nav-link,
+      .header-transparent__mobile-toggle-bar {
+        color: $color-white;
+        background-color: $color-white;
+      }
+
+      .header-transparent__logo-img {
+        filter: brightness(0) invert(1);
+      }
+    }
+  }
+
+  // Mobile menu overlay
+  .mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity $transition-base, visibility $transition-base;
+
+    &.active {
+      visibility: visible;
+      opacity: 1;
+
+      .mobile-menu__content {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      .mobile-menu__item {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    &__overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba($color-heritage-green, 0.98);
+      backdrop-filter: blur(10px);
+    }
+
+    &__content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: transform $transition-slow, opacity $transition-slow;
+    }
+
+    &__header {
+      position: relative;
+      padding: $spacing-lg $spacing-xl;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba($color-white, 0.1);
+    }
+
+    &__logo {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      text-decoration: none;
+      transition: opacity $transition-base;
+
+      &:hover {
+        opacity: 0.8;
+      }
+
+      &-img {
+        width: 40px;
+        height: 40px;
+        filter: brightness(0) invert(1);
+      }
+
+      &-divider {
+        width: 1px;
+        height: 40px;
+        background-color: rgba($color-white, 0.3);
+      }
+
+      &-content {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      &-text {
+        font-size: 0.875rem;
+        font-weight: $font-weight-regular;
+        color: $color-white;
+        letter-spacing: 0.05em;
+        line-height: 1;
+
+        strong {
+          font-weight: $font-weight-bold;
+        }
+      }
+
+      &-byline {
+        font-size: 0.625rem;
+        color: rgba($color-white, 0.7);
+        letter-spacing: 0.03em;
+        line-height: 1;
+      }
+    }
+
+    &__close {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba($color-white, 0.1);
+      border: 2px solid rgba($color-white, 0.2);
+      border-radius: 50%;
+      color: $color-white;
+      font-size: 1.25rem;
+      cursor: pointer;
+      transition: all $transition-base;
+      padding: 0;
+
+      i {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      &:hover {
+        background: rgba($color-white, 0.2);
+        border-color: $color-white;
+        transform: rotate(90deg);
+      }
+
+      &:focus-visible {
+        outline: 2px solid $color-prestige-gold;
+        outline-offset: 2px;
+      }
+    }
+
+    &__nav {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 $spacing-xl;
+    }
+
+    &__list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    &__item {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity $transition-base, transform $transition-base;
+
+      @for $i from 1 through 5 {
+        &:nth-child(#{$i}) {
+          transition-delay: #{$i * 0.1}s;
+        }
+      }
+
+      &:not(:last-child) {
+        margin-bottom: $spacing-md;
+      }
+    }
+
+    &__link {
+      display: flex;
+      align-items: center;
+      gap: $spacing-lg;
+      padding: $spacing-lg;
+      color: $color-white;
+      text-decoration: none;
+      border-radius: $border-radius-lg;
+      transition: all $transition-base;
+      border: 2px solid transparent;
+
+      &-icon {
+        flex-shrink: 0;
+        width: 56px;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba($color-prestige-gold, 0.15);
+        border-radius: $border-radius-md;
+        transition: all $transition-base;
+
+        i {
+          font-size: 1.5rem;
+          color: $color-prestige-gold;
+          transition: transform $transition-base;
+        }
+      }
+
+      &-content {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        flex: 1;
+      }
+
+      &-label {
+        font-family: $font-display;
+        font-size: 1.25rem;
+        font-weight: $font-weight-semibold;
+        color: $color-white;
+        line-height: 1.2;
+      }
+
+      &-description {
+        font-size: 0.875rem;
+        color: rgba($color-white, 0.7);
+        line-height: 1.3;
+      }
+
+      &:hover {
+        background: rgba($color-white, 0.08);
+        border-color: rgba($color-prestige-gold, 0.2);
+        transform: translateX(4px);
+
+        .mobile-menu__link-icon {
+          background: $color-prestige-gold;
+          transform: scale(1.05);
+
+          i {
+            color: $color-heritage-green;
+          }
+        }
+      }
+
+      &:focus-visible {
+        outline: 2px solid $color-prestige-gold;
+        outline-offset: 2px;
+      }
+    }
+
+    &__footer {
+      padding: $spacing-xl;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: $spacing-lg;
+      border-top: 1px solid rgba($color-white, 0.2);
+    }
+
+    &__phone {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      color: $color-white;
+      text-decoration: none;
+      font-size: 1.125rem;
+      font-weight: $font-weight-semibold;
+      padding: $spacing-sm $spacing-lg;
+      border-radius: $border-radius-md;
+      transition: all $transition-base;
+
+      i {
+        color: $color-prestige-gold;
+      }
+
+      &:hover {
+        background: rgba($color-white, 0.1);
+      }
+
+      &:focus-visible {
+        outline: 2px solid $color-prestige-gold;
+        outline-offset: 2px;
+      }
+    }
+
+    &__social {
+      display: flex;
+      gap: $spacing-md;
+
+      a {
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $color-white;
+        border: 2px solid rgba($color-white, 0.3);
+        border-radius: 50%;
+        transition: all $transition-base;
+
+        &:hover {
+          background: rgba($color-white, 0.1);
+          border-color: $color-prestige-gold;
+          color: $color-prestige-gold;
+        }
+
+        &:focus-visible {
+          outline: 2px solid $color-prestige-gold;
+          outline-offset: 2px;
+        }
+      }
+    }
+
+    // Hide on desktop
+    @include media-lg {
+      display: none;
+    }
+  }
+
+  // Screen reader only class
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+</style>
+
+<script>
+  // Smooth scrolling for navigation links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+
+      // Handle scroll to top
+      if (targetId === '#top') {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+        return;
+      }
+
+      if (targetId && targetId !== '#') {
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          const headerOffset = 80;
+          const elementPosition = targetElement.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }
+    });
+  });
+
+  // Header scroll behavior with logo animation
+  let lastScroll = 0;
+  const header = document.getElementById('header-transparent');
+  const headerLogo = document.getElementById('header-logo');
+  const heroLogo = document.getElementById('hero-logo');
+
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.pageYOffset;
+
+    // Show header and logo when scrolled down
+    if (currentScroll > 150) {
+      header?.classList.add('header-transparent--visible');
+      header?.classList.add('header-transparent--scrolled');
+      headerLogo?.classList.add('visible');
+      if (heroLogo) {
+        heroLogo.style.opacity = '0';
+      }
+    } else {
+      header?.classList.remove('header-transparent--visible');
+      header?.classList.remove('header-transparent--scrolled');
+      headerLogo?.classList.remove('visible');
+      if (heroLogo) {
+        heroLogo.style.opacity = '1';
+      }
+    }
+
+    lastScroll = currentScroll;
+  });
+
+  // Mobile menu functionality
+  const mobileToggle = document.querySelector('.header-transparent__mobile-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileMenuClose = document.getElementById('mobile-menu-close');
+  const mobileMenuLinks = document.querySelectorAll('.mobile-menu__link');
+  const headerPhone = document.getElementById('header-phone');
+  const horizontalNav = document.getElementById('header-horizontal-nav');
+
+  let focusedElementBeforeMenu = null;
+
+  // Function to get focusable elements
+  function getFocusableElements(container) {
+    const focusableSelectors = [
+      'a[href]',
+      'button:not([disabled])',
+      'textarea:not([disabled])',
+      'input:not([disabled])',
+      'select:not([disabled])',
+      '[tabindex]:not([tabindex="-1"])'
+    ];
+
+    const elements = container.querySelectorAll(focusableSelectors.join(','));
+    return Array.from(elements).filter(el => {
+      return el.offsetParent !== null && !el.hasAttribute('disabled');
+    });
+  }
+
+  // Function to trap focus within mobile menu
+  function trapFocus(e) {
+    if (!mobileMenu) return;
+
+    const focusableElements = getFocusableElements(mobileMenu);
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+
+    if (e.key !== 'Tab') return;
+
+    if (e.shiftKey) {
+      if (document.activeElement === firstElement) {
+        e.preventDefault();
+        lastElement?.focus();
+      }
+    } else {
+      if (document.activeElement === lastElement) {
+        e.preventDefault();
+        firstElement?.focus();
+      }
+    }
+  }
+
+  // Open mobile menu
+  function openMobileMenu() {
+    if (!mobileMenu || !mobileToggle) return;
+
+    // Store currently focused element
+    focusedElementBeforeMenu = document.activeElement;
+
+    // Open menu
+    mobileMenu.classList.add('active');
+    mobileToggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+
+    // Focus close button
+    setTimeout(() => {
+      mobileMenuClose?.focus();
+    }, 100);
+
+    // Add focus trap
+    document.addEventListener('keydown', trapFocus);
+  }
+
+  // Close mobile menu
+  function closeMobileMenu() {
+    if (!mobileMenu || !mobileToggle) return;
+
+    // Close menu
+    mobileMenu.classList.remove('active');
+    mobileToggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+
+    // Remove focus trap
+    document.removeEventListener('keydown', trapFocus);
+
+    // Restore focus
+    if (focusedElementBeforeMenu) {
+      focusedElementBeforeMenu.focus();
+      focusedElementBeforeMenu = null;
+    }
+  }
+
+  // Hamburger toggle - opens mobile menu on mobile, toggles phone/nav on desktop
+  mobileToggle?.addEventListener('click', () => {
+    const isMobile = window.innerWidth < 1024; // lg breakpoint
+
+    if (isMobile) {
+      // Mobile: open full-screen menu
+      const isExpanded = mobileToggle.getAttribute('aria-expanded') === 'true';
+      if (isExpanded) {
+        closeMobileMenu();
+      } else {
+        openMobileMenu();
+      }
+    } else {
+      // Desktop: toggle phone/nav
+      const isExpanded = mobileToggle.getAttribute('aria-expanded') === 'true';
+      mobileToggle.setAttribute('aria-expanded', !isExpanded ? 'true' : 'false');
+
+      if (!isExpanded) {
+        headerPhone?.classList.add('hidden');
+        horizontalNav?.classList.remove('closing');
+        horizontalNav?.classList.add('visible');
+      } else {
+        horizontalNav?.classList.add('closing');
+        horizontalNav?.classList.remove('visible');
+
+        setTimeout(() => {
+          headerPhone?.classList.remove('hidden');
+          horizontalNav?.classList.remove('closing');
+        }, 400);
+      }
+    }
+  });
+
+  // Close button
+  mobileMenuClose?.addEventListener('click', closeMobileMenu);
+
+  // Close menu when clicking menu links (auto-close after navigation)
+  mobileMenuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      // Small delay to allow scroll to initiate
+      setTimeout(() => {
+        closeMobileMenu();
+      }, 100);
+    });
+  });
+
+  // Close menu when clicking logo in mobile menu
+  const mobileMenuLogo = document.querySelector('.mobile-menu__logo');
+  mobileMenuLogo?.addEventListener('click', () => {
+    setTimeout(() => {
+      closeMobileMenu();
+    }, 100);
+  });
+
+  // Close menu on ESC key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileMenu?.classList.contains('active')) {
+      closeMobileMenu();
+    }
+  });
+
+  // Close menu on overlay click
+  mobileMenu?.querySelector('.mobile-menu__overlay')?.addEventListener('click', closeMobileMenu);
+
+  // Scroll Spy - Highlight active section
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.header-transparent__horizontal-nav-link');
+
+  function highlightActiveSection() {
+    const scrollPosition = window.scrollY + 100; // Offset for header
+
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.offsetHeight;
+      const sectionId = section.getAttribute('id');
+
+      if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+        // Remove active class from all links
+        navLinks.forEach(link => link.classList.remove('active'));
+
+        // Add active class to current section's link
+        const activeLink = document.querySelector(`.header-transparent__horizontal-nav-link[href="#${sectionId}"]`);
+        if (activeLink) {
+          activeLink.classList.add('active');
+        }
+      }
+    });
+  }
+
+  // Run on scroll
+  window.addEventListener('scroll', highlightActiveSection);
+
+  // Run on page load
+  highlightActiveSection();
+</script>

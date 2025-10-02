@@ -1,0 +1,274 @@
+---
+import Button from './Button.astro';
+
+const navItems = [
+  { label: 'Services', href: '#services' },
+  { label: 'Our Work', href: '#portfolio' },
+  { label: 'About', href: '#about' },
+  { label: 'Process', href: '#process' },
+];
+---
+
+<header class="header" id="header">
+  <div class="header__container">
+    <a href="/" class="header__logo">
+      <img
+        src="/assets/branding/reap-logomark.svg"
+        alt="Reap Construction"
+        class="header__logo-img"
+      />
+    </a>
+
+    <nav class="header__nav" aria-label="Main navigation">
+      <ul class="header__nav-list">
+        {navItems.map((item) => (
+          <li class="header__nav-item">
+            <a href={item.href} class="header__nav-link">
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="header__cta">
+      <Button href="#contact" variant="primary" size="small">
+        Get Quote
+      </Button>
+    </div>
+
+    <button
+      class="header__mobile-toggle"
+      aria-label="Toggle navigation menu"
+      aria-expanded="false"
+    >
+      <span class="header__mobile-toggle-bar"></span>
+      <span class="header__mobile-toggle-bar"></span>
+      <span class="header__mobile-toggle-bar"></span>
+    </button>
+  </div>
+</header>
+
+<style lang="scss">
+  @import '../styles/variables';
+  @import '../styles/mixins';
+
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: $color-white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: $z-sticky;
+    transition: all $transition-base;
+
+    &__container {
+      @include container;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
+    }
+
+    &__logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      transition: transform $transition-base;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      &-img {
+        height: 48px;
+        width: auto;
+
+        @include media-md {
+          height: 56px;
+        }
+      }
+    }
+
+    &__nav {
+      display: none;
+
+      @include media-lg {
+        display: block;
+      }
+
+      &-list {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        gap: $spacing-xl;
+      }
+
+      &-link {
+        color: $color-text;
+        font-weight: $font-weight-medium;
+        text-decoration: none;
+        position: relative;
+        transition: color $transition-fast;
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: -4px;
+          left: 0;
+          width: 0;
+          height: 2px;
+          background-color: $color-prestige-gold;
+          transition: width $transition-base;
+        }
+
+        &:hover {
+          color: $color-heritage-green;
+
+          &::after {
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    &__cta {
+      display: none;
+
+      @include media-lg {
+        display: block;
+      }
+    }
+
+    &__mobile-toggle {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+
+      @include media-lg {
+        display: none;
+      }
+
+      &-bar {
+        width: 24px;
+        height: 2px;
+        background-color: $color-heritage-green;
+        transition: all $transition-fast;
+      }
+
+      &[aria-expanded="true"] {
+        .header__mobile-toggle-bar {
+          &:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+          }
+
+          &:nth-child(2) {
+            opacity: 0;
+          }
+
+          &:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+          }
+        }
+      }
+    }
+  }
+
+  // Scrolled State
+  .header--scrolled {
+    background-color: rgba($color-white, 0.98);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+
+    .header__container {
+      height: 60px;
+    }
+  }
+
+  // Mobile Menu
+  .header__mobile-menu {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $color-white;
+    transform: translateX(-100%);
+    transition: transform $transition-base;
+    padding: $spacing-xl;
+    overflow-y: auto;
+
+    &--open {
+      transform: translateX(0);
+    }
+
+    .header__nav-list {
+      flex-direction: column;
+      gap: $spacing-lg;
+    }
+
+    .header__nav-link {
+      font-size: 1.25rem;
+    }
+  }
+</style>
+
+<script>
+  // Smooth scrolling for navigation links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      if (targetId && targetId !== '#') {
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          const headerOffset = 80;
+          const elementPosition = targetElement.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }
+    });
+  });
+
+  // Header scroll behavior
+  let lastScroll = 0;
+  const header = document.getElementById('header');
+
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.pageYOffset;
+
+    if (currentScroll > 50) {
+      header?.classList.add('header--scrolled');
+    } else {
+      header?.classList.remove('header--scrolled');
+    }
+
+    lastScroll = currentScroll;
+  });
+
+  // Mobile menu toggle
+  const mobileToggle = document.querySelector('.header__mobile-toggle');
+  const mobileMenu = document.querySelector('.header__mobile-menu');
+
+  mobileToggle?.addEventListener('click', () => {
+    const isExpanded = mobileToggle.getAttribute('aria-expanded') === 'true';
+    mobileToggle.setAttribute('aria-expanded', !isExpanded ? 'true' : 'false');
+    mobileMenu?.classList.toggle('header__mobile-menu--open');
+  });
+</script>

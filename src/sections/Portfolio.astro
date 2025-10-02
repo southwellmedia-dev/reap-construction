@@ -1,0 +1,787 @@
+---
+import { projects } from "../data/projects";
+import Button from "../components/Button.astro";
+---
+
+<section class="portfolio section" id="portfolio">
+  <div class="portfolio__container">
+    <div class="portfolio__header">
+      <span class="portfolio__label">Our Work</span>
+      <h2 class="portfolio__title">Defining the Skyline</h2>
+      <p class="portfolio__subtitle">
+        A showcase of our recent projects demonstrating quality, craftsmanship,
+        and attention to detail
+      </p>
+    </div>
+
+    <div class="portfolio__grid">
+      {
+        projects.map((project, index) => (
+          <article
+            class="project-card"
+            data-project={project.id}
+            style={`animation-delay: ${index * 0.15}s`}
+          >
+            <div class="project-card__image-wrapper">
+              <img
+                src={project.images[0]}
+                alt={`${project.title} - ${project.category}`}
+                class="project-card__image"
+                loading="lazy"
+              />
+              <div class="project-card__overlay">
+                <button
+                  class="project-card__view-btn"
+                  data-project-id={project.id}
+                >
+                  View Project Details
+                </button>
+              </div>
+            </div>
+            <div class="project-card__content">
+              <h3 class="project-card__title">{project.title}</h3>
+              <p class="project-card__description">{project.description}</p>
+
+              <div class="project-card__divider" />
+
+              <span class="project-card__category">{project.category}</span>
+
+              <div class="project-card__badges">
+                <span class="project-card__badge">
+                  <i class="fa-regular fa-calendar" />
+                  {project.completionYear}
+                </span>
+                <span class="project-card__badge">
+                  <i class="fa-regular fa-clock" />
+                  {project.duration}
+                </span>
+                <span class="project-card__badge">
+                  <i class="fa-solid fa-ruler-combined" />
+                  {project.size}
+                </span>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Project Details Modal -->
+<div
+  class="gallery-modal"
+  id="galleryModal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="galleryTitle"
+>
+  <div class="gallery-modal__overlay"></div>
+  <div class="gallery-modal__content">
+    <div class="gallery-modal__header">
+      <div class="gallery-modal__header-left">
+        <h3 class="gallery-modal__title" id="galleryTitle"></h3>
+        <span class="gallery-modal__category"></span>
+      </div>
+      <button class="gallery-modal__close" aria-label="Close project details">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="gallery-modal__body">
+      <!-- Left Column: Project Info -->
+      <div class="gallery-modal__info">
+        <div class="gallery-modal__description-wrapper">
+          <h4 class="gallery-modal__section-title">Project Overview</h4>
+          <p class="gallery-modal__description"></p>
+        </div>
+
+        <div class="gallery-modal__stats">
+          <div class="gallery-modal__stat">
+            <i class="fa-regular fa-calendar"></i>
+            <div class="gallery-modal__stat-content">
+              <span class="gallery-modal__stat-label">Completed</span>
+              <span class="gallery-modal__stat-value" data-stat="year"></span>
+            </div>
+          </div>
+          <div class="gallery-modal__stat">
+            <i class="fa-regular fa-clock"></i>
+            <div class="gallery-modal__stat-content">
+              <span class="gallery-modal__stat-label">Duration</span>
+              <span class="gallery-modal__stat-value" data-stat="duration"
+              ></span>
+            </div>
+          </div>
+          <div class="gallery-modal__stat">
+            <i class="fa-solid fa-ruler-combined"></i>
+            <div class="gallery-modal__stat-content">
+              <span class="gallery-modal__stat-label">Size</span>
+              <span class="gallery-modal__stat-value" data-stat="size"></span>
+            </div>
+          </div>
+          <div class="gallery-modal__stat" data-stat-container="value">
+            <i class="fa-solid fa-dollar-sign"></i>
+            <div class="gallery-modal__stat-content">
+              <span class="gallery-modal__stat-label">Value</span>
+              <span class="gallery-modal__stat-value" data-stat="value"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Gallery -->
+      <div class="gallery-modal__gallery">
+        <h4 class="gallery-modal__section-title">Project Gallery</h4>
+        <div class="gallery-modal__grid"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style lang="scss">
+  @import "../styles/variables";
+  @import "../styles/mixins";
+
+  .portfolio {
+    background-color: $color-white;
+
+    &__container {
+      @include container;
+    }
+
+    &__header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto $spacing-4xl;
+    }
+
+    &__label {
+      display: inline-block;
+      font-size: 0.875rem;
+      font-weight: $font-weight-semibold;
+      color: $color-prestige-gold;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: $spacing-lg;
+      padding-bottom: $spacing-sm;
+      border-bottom: 2px solid $color-prestige-gold;
+    }
+
+    &__title {
+      font-family: $font-display;
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: $font-weight-semibold;
+      color: $color-heritage-green;
+      line-height: 1.1;
+      margin-bottom: $spacing-lg;
+      margin-top: $spacing-md;
+    }
+
+    &__subtitle {
+      font-size: 1.125rem;
+      color: $color-text-light;
+      line-height: $line-height-relaxed;
+    }
+
+    &__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: $spacing-2xl;
+      margin-bottom: $spacing-4xl;
+
+      @include media-md {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @include media-lg {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    &__cta {
+      text-align: center;
+    }
+  }
+
+  .project-card {
+    background-color: $color-canvas;
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+    box-shadow: $shadow-md;
+    transition: all $transition-base;
+    animation: fadeInUp 0.8s ease-out forwards;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: $shadow-xl;
+
+      .project-card__image {
+        transform: scale(1.1);
+      }
+
+      .project-card__overlay {
+        opacity: 1;
+      }
+    }
+
+    &__image-wrapper {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 16 / 10;
+    }
+
+    &__image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform $transition-slow;
+    }
+
+    &__overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        180deg,
+        rgba($color-black, 0.2) 0%,
+        rgba($color-black, 0.7) 100%
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity $transition-base;
+    }
+
+    &__view-btn {
+      @include button-base;
+      background-color: $color-prestige-gold;
+      color: $color-heritage-green;
+      padding: $spacing-md $spacing-xl;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+
+      &:hover {
+        background-color: lighten($color-prestige-gold, 10%);
+        transform: scale(1.05);
+      }
+    }
+
+    &__content {
+      padding: $spacing-xl;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    &__category {
+      display: block;
+      width: 100%;
+      text-align: center;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: $spacing-xs $spacing-md;
+      background-color: $color-prestige-gold;
+      color: $color-heritage-green;
+      font-weight: $font-weight-semibold;
+      border-radius: $border-radius-full;
+      margin-bottom: $spacing-md;
+    }
+
+    &__title {
+      font-size: $font-size-h4;
+      font-weight: $font-weight-semibold;
+      color: $color-heritage-green;
+      margin-bottom: $spacing-md;
+    }
+
+    &__description {
+      font-size: 0.9375rem;
+      color: $color-text;
+      line-height: $line-height-relaxed;
+      margin-bottom: $spacing-lg;
+    }
+
+    &__divider {
+      height: 1px;
+      background-color: rgba($color-heritage-green, 0.15);
+      margin-top: auto;
+      margin-bottom: $spacing-lg;
+    }
+
+    &__badges {
+      display: flex;
+      gap: $spacing-sm;
+    }
+
+    &__badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: $spacing-xs;
+      padding: $spacing-xs $spacing-md;
+      background-color: rgba($color-prestige-gold, 0.1);
+      color: $color-heritage-green;
+      font-size: 0.75rem;
+      font-weight: $font-weight-medium;
+      border-radius: $border-radius-full;
+      transition: all $transition-fast;
+      flex: 1;
+
+      i {
+        color: $color-prestige-gold;
+        font-size: 0.75rem;
+      }
+
+      &:hover {
+        background-color: rgba($color-prestige-gold, 0.2);
+      }
+    }
+  }
+
+  // Gallery Modal
+  .gallery-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: $z-modal;
+    animation: fadeIn 0.3s ease-out;
+
+    &--open {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &__overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba($color-heritage-green, 0.95);
+      backdrop-filter: blur(5px);
+    }
+
+    &__content {
+      position: relative;
+      z-index: 1;
+      max-width: 1400px;
+      width: 95%;
+      max-height: 95vh;
+      background: $color-white;
+      border-radius: $border-radius-lg;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: $shadow-xl;
+    }
+
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: $spacing-xl $spacing-2xl;
+      border-bottom: 1px solid rgba($color-heritage-green, 0.1);
+      gap: $spacing-lg;
+
+      &-left {
+        flex: 1;
+      }
+    }
+
+    &__title {
+      color: $color-heritage-green;
+      font-size: $font-size-h3;
+      font-family: $font-display;
+      font-weight: $font-weight-semibold;
+      margin: 0 0 $spacing-xs 0;
+      line-height: 1.2;
+    }
+
+    &__category {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba($color-prestige-gold, 0.1);
+      color: $color-prestige-gold;
+      font-size: 0.75rem;
+      font-weight: $font-weight-semibold;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-radius: $border-radius-sm;
+    }
+
+    &__close {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+      background: rgba($color-heritage-green, 0.05);
+      border: 2px solid rgba($color-heritage-green, 0.1);
+      border-radius: 50%;
+      color: $color-heritage-green;
+      font-size: 1.25rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all $transition-base;
+      padding: 0;
+
+      i {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      &:hover {
+        background: $color-heritage-green;
+        border-color: $color-heritage-green;
+        color: $color-white;
+        transform: rotate(90deg);
+      }
+
+      &:focus-visible {
+        outline: 2px solid $color-prestige-gold;
+        outline-offset: 2px;
+      }
+    }
+
+    &__body {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: $spacing-2xl;
+      padding: $spacing-2xl;
+      overflow-y: auto;
+      flex: 1;
+
+      @include media-lg {
+        grid-template-columns: 400px 1fr;
+        padding: $spacing-3xl;
+      }
+
+      @include media-xl {
+        grid-template-columns: 450px 1fr;
+      }
+    }
+
+    &__info {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-2xl;
+    }
+
+    &__stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: $spacing-lg;
+    }
+
+    &__stat {
+      display: flex;
+      align-items: flex-start;
+      gap: $spacing-md;
+      padding: $spacing-lg;
+      background: rgba($color-heritage-green, 0.03);
+      border-radius: $border-radius-md;
+      border: 1px solid rgba($color-heritage-green, 0.1);
+
+      i {
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba($color-prestige-gold, 0.1);
+        color: $color-prestige-gold;
+        border-radius: $border-radius-sm;
+        font-size: 1.125rem;
+      }
+
+      &-content {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        flex: 1;
+      }
+
+      &-label {
+        font-size: 0.75rem;
+        color: $color-text-light;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: $font-weight-semibold;
+      }
+
+      &-value {
+        font-size: 1rem;
+        color: $color-heritage-green;
+        font-weight: $font-weight-semibold;
+        font-family: $font-display;
+      }
+    }
+
+    &__section-title {
+      font-size: $font-size-h5;
+      font-family: $font-display;
+      font-weight: $font-weight-semibold;
+      color: $color-heritage-green;
+      margin: 0 0 $spacing-md 0;
+    }
+
+    &__description {
+      font-size: 0.9375rem;
+      line-height: $line-height-relaxed;
+      color: $color-text;
+      margin: 0;
+    }
+
+    &__gallery {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-lg;
+      min-height: 0;
+    }
+
+    &__grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: $spacing-sm;
+      max-height: 500px;
+      overflow-y: auto;
+
+      img {
+        width: 100%;
+        height: 140px;
+        object-fit: cover;
+        border-radius: $border-radius-sm;
+        transition: all $transition-base;
+        border: 2px solid transparent;
+
+        &:hover {
+          border-color: $color-prestige-gold;
+          box-shadow: $shadow-md;
+        }
+      }
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<script>
+  import { projects } from "../data/projects";
+
+  // Gallery Modal Functionality - Guard against missing elements
+  const modal = document.getElementById("galleryModal");
+
+  // Early exit if modal doesn't exist
+  if (!modal) {
+    console.warn(
+      "Gallery modal element not found. Gallery functionality will be disabled."
+    );
+  } else {
+    // Query child elements without type assertions
+    const modalTitle = modal.querySelector(".gallery-modal__title");
+    const modalCategory = modal.querySelector(".gallery-modal__category");
+    const modalDescription = modal.querySelector(".gallery-modal__description");
+    const gridContainer = modal.querySelector(".gallery-modal__grid");
+    const closeBtn = modal.querySelector(".gallery-modal__close");
+    const statYear = modal.querySelector('[data-stat="year"]');
+    const statDuration = modal.querySelector('[data-stat="duration"]');
+    const statSize = modal.querySelector('[data-stat="size"]');
+    const statValue = modal.querySelector('[data-stat="value"]');
+    const statValueContainer = modal.querySelector(
+      '[data-stat-container="value"]'
+    );
+
+    // Validate required elements
+    if (!modalTitle || !modalCategory || !modalDescription || !gridContainer) {
+      console.error(
+        "Required modal elements are missing. Gallery will not function properly."
+      );
+    }
+
+    let currentProject: (typeof projects)[0] | null = null;
+    let triggerButton: HTMLElement | null = null;
+    let focusTrapHandler: ((e: KeyboardEvent) => void) | null = null;
+
+    // Focus trap utilities
+    function getFocusableElements(container: HTMLElement): HTMLElement[] {
+      const focusableSelectors = [
+        "a[href]",
+        "button:not([disabled])",
+        "textarea:not([disabled])",
+        "input:not([disabled])",
+        "select:not([disabled])",
+        '[tabindex]:not([tabindex="-1"])',
+      ];
+
+      const elements = container.querySelectorAll<HTMLElement>(
+        focusableSelectors.join(",")
+      );
+      return Array.from(elements).filter((el) => {
+        return el.offsetParent !== null && !el.hasAttribute("disabled");
+      });
+    }
+
+    function createFocusTrap(container: HTMLElement) {
+      const focusableElements = getFocusableElements(container);
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      focusTrapHandler = (e: KeyboardEvent) => {
+        if (e.key !== "Tab") return;
+
+        if (e.shiftKey) {
+          // Shift + Tab
+          if (document.activeElement === firstElement) {
+            e.preventDefault();
+            lastElement?.focus();
+          }
+        } else {
+          // Tab
+          if (document.activeElement === lastElement) {
+            e.preventDefault();
+            firstElement?.focus();
+          }
+        }
+      };
+
+      container.addEventListener("keydown", focusTrapHandler);
+
+      // Focus first element
+      firstElement?.focus();
+    }
+
+    function removeFocusTrap(container: HTMLElement) {
+      if (focusTrapHandler) {
+        container.removeEventListener("keydown", focusTrapHandler);
+        focusTrapHandler = null;
+      }
+    }
+
+    // Open gallery
+    document.querySelectorAll(".project-card__view-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const projectId = btn.getAttribute("data-project-id");
+        currentProject = projects.find((p) => p.id === projectId) || null;
+
+        if (
+          currentProject &&
+          modal &&
+          modalTitle &&
+          modalCategory &&
+          modalDescription &&
+          gridContainer
+        ) {
+          // Store the trigger button for focus restoration
+          triggerButton = btn as HTMLElement;
+
+          // Populate modal content
+          modalTitle.textContent = currentProject.title;
+          modalCategory.textContent = currentProject.category;
+          modalDescription.textContent = currentProject.description;
+
+          // Populate stats
+          if (statYear) statYear.textContent = currentProject.completionYear;
+          if (statDuration) statDuration.textContent = currentProject.duration;
+          if (statSize) statSize.textContent = currentProject.size;
+
+          // Show/hide value stat if it exists
+          if (statValueContainer) {
+            if (currentProject.value) {
+              statValueContainer.style.display = "flex";
+              if (statValue) statValue.textContent = currentProject.value;
+            } else {
+              statValueContainer.style.display = "none";
+            }
+          }
+
+          // Load image grid
+          gridContainer.innerHTML = "";
+          currentProject.images.forEach((img, index) => {
+            const imgElement = document.createElement("img");
+            imgElement.src = img;
+            imgElement.alt = `${currentProject?.title} - Image ${index + 1}`;
+            imgElement.loading = "lazy";
+            gridContainer.appendChild(imgElement);
+          });
+
+          modal.classList.add("gallery-modal--open");
+          document.body.style.overflow = "hidden";
+
+          // Create focus trap for keyboard accessibility
+          createFocusTrap(modal);
+        }
+      });
+    });
+
+    // Helper function to close modal and restore focus
+    function closeModal() {
+      // Remove focus trap
+      removeFocusTrap(modal);
+
+      modal.classList.remove("gallery-modal--open");
+      document.body.style.overflow = "";
+
+      // Restore focus to trigger button if it exists and is still in the document
+      if (triggerButton && document.contains(triggerButton)) {
+        triggerButton.focus();
+      }
+      triggerButton = null;
+    }
+
+    // Close modal
+    closeBtn?.addEventListener("click", () => {
+      closeModal();
+    });
+
+    // Close on escape key
+    document.addEventListener("keydown", (e) => {
+      if (
+        e.key === "Escape" &&
+        modal.classList.contains("gallery-modal--open")
+      ) {
+        closeModal();
+      }
+    });
+
+    // Close on background click
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+  }
+</script>
