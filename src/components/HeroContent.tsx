@@ -57,15 +57,15 @@ export const HeroAnimatedContent: React.FC = () => {
 
       {/* Actions */}
       <motion.div className="hero-masonry__actions" variants={itemVariants}>
-        <a href="#portfolio" className="btn btn--primary btn--large btn--icon">
-          View Our Work
+        <a href="#about" className="btn btn--primary btn--large btn--icon">
+          Who We Are
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
             <line x1="5" y1="12" x2="19" y2="12"></line>
             <polyline points="12 5 19 12 12 19"></polyline>
           </svg>
         </a>
-        <a href="#contact" className="btn btn--outline btn--large">
-          Start Your Project
+        <a href="#services" className="btn btn--outline btn--large">
+          What We Do
         </a>
       </motion.div>
 

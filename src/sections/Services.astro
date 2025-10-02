@@ -53,7 +53,7 @@ const services = [
 
     <div class="services__grid">
       {services.map((service, index) => (
-        <article class="service-card" style={`animation-delay: ${index * 0.1}s`}>
+        <article class="service-card group" style={`animation-delay: ${index * 0.1}s`}>
           <div class="service-card__icon" set:html={service.icon}></div>
           <h3 class="service-card__title">{service.title}</h3>
           <p class="service-card__description">{service.description}</p>
@@ -62,9 +62,11 @@ const services = [
               <li class="service-card__feature">{feature}</li>
             ))}
           </ul>
-          <Button href="#contact" variant="outline" block>
-            Learn More
-          </Button>
+          <div class="service-card__button">
+            <Button href="#contact" variant="outline" block>
+              Learn More
+            </Button>
+          </div>
         </article>
       ))}
     </div>
@@ -205,8 +207,17 @@ const services = [
     }
   }
 
-  .service-card .btn {
-    margin-top: $spacing-xl;
+  .service-card {
+    &__button {
+      margin-top: $spacing-xl;
+    }
+
+    &:hover &__button .btn {
+      background-color: $color-heritage-green;
+      color: $color-white;
+      transform: translateY(-2px);
+      box-shadow: $shadow-md;
+    }
   }
 
   @keyframes fadeInUp {

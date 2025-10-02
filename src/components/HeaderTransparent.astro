@@ -13,7 +13,7 @@ const navItems = [
 <header class="header-transparent" id="header-transparent">
   <div class="header-transparent__container">
     <!-- Logo with text for scroll animation (initially hidden) -->
-    <a href="/" class="header-transparent__logo" id="header-logo">
+    <a href="#top" class="header-transparent__logo" id="header-logo">
       <img
         src="/assets/branding/reap-logomark.svg"
         alt="Reap Construction"
@@ -260,14 +260,14 @@ const navItems = [
       &.visible {
         display: flex;
         align-items: center;
-        gap: $spacing-xl;
+        gap: $spacing-md;
         animation: slideInWithGradient 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
       }
 
       &.closing {
         display: flex;
         align-items: center;
-        gap: $spacing-xl;
+        gap: $spacing-md;
         animation: slideOutWithGradient 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
       }
 
@@ -348,7 +348,7 @@ const navItems = [
     &__social {
       display: flex;
       align-items: center;
-      gap: $spacing-xs;
+      gap: $spacing-sm;
       padding-left: $spacing-md;
       border-left: 1px solid rgba($color-heritage-green, 0.15);
 
@@ -510,6 +510,16 @@ const navItems = [
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
       const targetId = this.getAttribute('href');
+
+      // Handle scroll to top
+      if (targetId === '#top') {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+        return;
+      }
+
       if (targetId && targetId !== '#') {
         const targetElement = document.querySelector(targetId);
         if (targetElement) {

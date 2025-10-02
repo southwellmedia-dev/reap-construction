@@ -135,7 +135,7 @@
 }
 
 @mixin focus-ring {
-  &:focus {
+  &:focus-visible {
     outline: none;
     box-shadow: 0 0 0 3px rgba($color-prestige-gold, 0.5);
   }
