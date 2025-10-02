@@ -2,6 +2,7 @@
 import HeaderTransparent from '../components/HeaderTransparent.astro';
 // import Footer from '../components/Footer.astro'; // Now integrated into Contact section
 import '../styles/global.scss';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 export interface Props {
   title?: string;
@@ -52,9 +53,6 @@ const canonicalURL = baseOrigin ? new URL(Astro.url.pathname, baseOrigin) : null
 
     <!-- Google Fonts: DM Sans + Playfair Display -->
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet" />
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
     <!-- Schema.org markup -->
     <script type="application/ld+json">

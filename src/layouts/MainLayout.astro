@@ -2,6 +2,7 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.scss';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 export interface Props {
   title?: string;
@@ -49,9 +50,6 @@ const canonicalURL = baseOrigin ? new URL(Astro.url.pathname, baseOrigin) : null
     <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
     <!-- Schema.org markup -->
     <script type="application/ld+json">
