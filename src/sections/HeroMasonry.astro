@@ -1,6 +1,6 @@
 ---
-import Button from '../components/Button.astro';
 import MasonryCarousel from "../components/MasonryCarousel.tsx";
+import { HeroAnimatedContent } from "../components/HeroContent.tsx";
 
 export interface Props {}
 ---
@@ -9,72 +9,19 @@ export interface Props {}
   <!-- Background decoration -->
   <div class="hero-masonry__bg-decoration">
     <div class="hero-masonry__mesh"></div>
+    <img
+      src="/assets/branding/reap-logomark.svg"
+      alt=""
+      aria-hidden="true"
+      class="hero-masonry__bg-logo"
+    />
   </div>
 
   <!-- Main content grid -->
   <div class="hero-masonry__grid">
     <!-- Content side -->
     <div class="hero-masonry__content-wrapper">
-      <div class="hero-masonry__content" data-animate-stagger>
-        <a href="/" class="hero-masonry__logo" id="hero-logo" aria-label="Reap Construction Home" data-animate-item>
-          <img
-            src="/assets/branding/reap-logomark.svg"
-            alt="Reap Construction"
-            width="160"
-            height="160"
-            loading="eager"
-            class="hero-masonry__logo-img"
-          />
-        </a>
-
-        <h1 class="hero-masonry__title" data-animate-item>
-          Turning your challenges into
-          <span class="hero-masonry__title-accent">opportunities</span>
-        </h1>
-
-        <p class="hero-masonry__description" data-animate-item>
-          Premier commercial and residential construction services
-          for the discerning client. A subsidiary of Reap Capital.
-        </p>
-
-        <div class="hero-masonry__actions" data-animate-item>
-          <Button href="#portfolio" variant="primary" size="large" icon>
-            View Our Work
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </Button>
-          <Button href="#contact" variant="outline" size="large">
-            Start Your Project
-          </Button>
-        </div>
-
-        <div class="hero-masonry__trust" data-animate-item>
-          <div class="hero-masonry__trust-item">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path d="M9 11l3 3L22 4"></path>
-              <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
-            </svg>
-            <span>Licensed & Insured</span>
-          </div>
-          <div class="hero-masonry__trust-item">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-            </svg>
-            <span>Award Winning</span>
-          </div>
-          <div class="hero-masonry__trust-item">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path>
-              <circle cx="9" cy="7" r="4"></circle>
-              <path d="M23 21v-2a4 4 0 00-3-3.87"></path>
-              <path d="M16 3.13a4 4 0 010 7.75"></path>
-            </svg>
-            <span>Expert Team</span>
-          </div>
-        </div>
-      </div>
+      <HeroAnimatedContent client:load />
     </div>
 
     <!-- Masonry carousel side -->
@@ -129,6 +76,18 @@ export interface Props {}
       );
     }
 
+    &__bg-logo {
+      position: absolute;
+      top: -20%;
+      left: -15%;
+      width: 850px;
+      height: auto;
+      opacity: 0.06;
+      filter: grayscale(100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
     // Main grid layout
     &__grid {
       @include container; // Use the standard container
@@ -180,26 +139,6 @@ export interface Props {}
     &__logo {
       display: inline-block;
       margin-bottom: 2rem;
-      transition:
-        opacity 0.6s ease,
-        transform 0.6s ease;
-      border-radius: 8px;
-      outline: 2px solid transparent;
-      outline-offset: 4px;
-
-      &:hover {
-        transform: scale(1.05);
-      }
-
-      &:focus-visible {
-        outline-color: $color-prestige-gold;
-        outline-offset: 8px;
-      }
-
-      &-img {
-        height: 160px;
-        width: auto;
-      }
     }
 
     &__title {
@@ -353,10 +292,6 @@ export interface Props {}
 
       &__carousel-container {
         animation: none;
-      }
-
-      &__logo {
-        transition: none;
       }
     }
   }

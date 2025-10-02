@@ -2,10 +2,11 @@
 import Button from './Button.astro';
 
 const navItems = [
-  { label: 'Services', href: '#services' },
-  { label: 'Our Work', href: '#portfolio' },
-  { label: 'About', href: '#about' },
-  { label: 'Process', href: '#process' },
+  { label: 'About', href: '#about', icon: 'fa-building' },
+  { label: 'Services', href: '#services', icon: 'fa-tools' },
+  { label: 'Portfolio', href: '#portfolio', icon: 'fa-images' },
+  { label: 'Process', href: '#process', icon: 'fa-list-check' },
+  { label: 'Contact', href: '#contact', icon: 'fa-envelope' },
 ];
 ---
 
@@ -19,16 +20,49 @@ const navItems = [
         class="header-transparent__logo-img"
       />
       <div class="header-transparent__logo-divider"></div>
-      <span class="header-transparent__logo-text">
-        <strong>REAP</strong> CONSTRUCTION
-      </span>
+      <div class="header-transparent__logo-content">
+        <span class="header-transparent__logo-text">
+          <strong>REAP</strong> CONSTRUCTION
+        </span>
+        <span class="header-transparent__logo-byline">
+          A Reap Capital Company
+        </span>
+      </div>
     </a>
 
     <div class="header-transparent__actions">
-      <a href="tel:+15551234567" class="header-transparent__phone">
+      <!-- Phone button (hidden when menu open) -->
+      <a href="tel:+15551234567" class="header-transparent__phone" id="header-phone">
         <i class="fa-solid fa-phone"></i>
         <span class="header-transparent__phone-number">(555) 123-4567</span>
       </a>
+
+      <!-- Horizontal nav (shown when menu open) -->
+      <nav class="header-transparent__horizontal-nav" id="header-horizontal-nav">
+        <ul class="header-transparent__horizontal-nav-list">
+          {navItems.map((item) => (
+            <li class="header-transparent__horizontal-nav-item">
+              <a href={item.href} class="header-transparent__horizontal-nav-link">
+                <i class={`fa-solid ${item.icon}`}></i>
+                <span>{item.label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <!-- Social icons (inside nav when visible) -->
+        <div class="header-transparent__social">
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <i class="fa-brands fa-linkedin-in"></i>
+          </a>
+        </div>
+      </nav>
 
       <button
         class="header-transparent__mobile-toggle"
@@ -49,7 +83,8 @@ const navItems = [
         {navItems.map((item) => (
           <li class="header-transparent__mobile-nav-item">
             <a href={item.href} class="header-transparent__mobile-nav-link">
-              {item.label}
+              <i class={`fa-solid ${item.icon}`}></i>
+              <span>{item.label}</span>
             </a>
           </li>
         ))}
@@ -129,18 +164,47 @@ const navItems = [
         }
       }
 
-      &-text {
+      &-content {
         display: none;
-        font-family: $font-display;
-        font-size: 1rem;
-        font-weight: $font-weight-semibold;
-        color: $color-heritage-green;
-        letter-spacing: 0.05em;
-        white-space: nowrap;
+        flex-direction: column;
+        gap: 2px;
 
         @include media-md {
-          display: block;
-          font-size: 1.125rem;
+          display: flex;
+        }
+      }
+
+      &-text {
+        font-family: $font-display;
+        font-size: 1.125rem;
+        font-weight: $font-weight-medium;
+        color: $color-heritage-green;
+        letter-spacing: 0.15em;
+        white-space: nowrap;
+        line-height: 1.2;
+
+        strong {
+          font-weight: 800;
+        }
+
+        @include media-md {
+          font-size: 1.25rem;
+        }
+      }
+
+      &-byline {
+        font-family: $font-display;
+        font-size: 0.65rem;
+        font-weight: $font-weight-medium;
+        color: rgba($color-heritage-green, 0.5);
+        letter-spacing: 0.45em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        line-height: 1;
+
+        @include media-md {
+          font-size: 0.7rem;
+          letter-spacing: 0.5em;
         }
       }
     }
@@ -156,16 +220,18 @@ const navItems = [
       display: flex;
       align-items: center;
       gap: $spacing-sm;
-      color: $color-heritage-green;
+      background-color: $color-heritage-green;
+      color: $color-white;
       text-decoration: none;
       font-weight: $font-weight-medium;
       transition: all $transition-fast;
       padding: $spacing-sm $spacing-md;
-      border-radius: $border-radius-sm;
+      border-radius: $border-radius-md;
+      font-size: 0.875rem;
 
       i {
-        font-size: 1rem;
-        color: $color-prestige-gold;
+        font-size: 0.875rem;
+        color: $color-white;
       }
 
       &-number {
@@ -177,10 +243,131 @@ const navItems = [
       }
 
       &:hover {
-        background-color: rgba($color-heritage-green, 0.05);
+        background-color: darken($color-heritage-green, 5%);
+        transform: translateY(-1px);
+        box-shadow: $shadow-sm;
+      }
+
+      &.hidden {
+        display: none;
+      }
+    }
+
+    &__horizontal-nav {
+      display: none;
+      position: relative;
+
+      &.visible {
+        display: flex;
+        align-items: center;
+        gap: $spacing-xl;
+        animation: slideInWithGradient 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      }
+
+      &.closing {
+        display: flex;
+        align-items: center;
+        gap: $spacing-xl;
+        animation: slideOutWithGradient 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      }
+
+      &-list {
+        display: flex;
+        align-items: center;
+        gap: $spacing-sm;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      &-item {
+        margin: 0;
+      }
+
+      &-link {
+        display: flex;
+        align-items: center;
+        gap: $spacing-sm;
+        color: $color-heritage-green;
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: $font-weight-medium;
+        transition: all $transition-fast;
+        padding: $spacing-sm $spacing-md;
+        border-radius: $border-radius-md;
+        white-space: nowrap;
 
         i {
-          color: $color-heritage-green;
+          font-size: 0.875rem;
+          transition: transform $transition-fast;
+        }
+
+        &:hover {
+          color: $color-prestige-gold;
+          background-color: rgba($color-prestige-gold, 0.1);
+
+          i {
+            transform: scale(1.1);
+          }
+        }
+
+        &.active {
+          background-color: $color-heritage-green;
+          color: $color-white;
+          font-weight: $font-weight-medium;
+          transform: translateY(-1px);
+          box-shadow: $shadow-sm;
+
+          i {
+            color: $color-white;
+          }
+        }
+      }
+    }
+
+    // Gradient slide-in animation
+    @keyframes slideInWithGradient {
+      0% {
+        clip-path: inset(0 0 0 100%);
+      }
+      100% {
+        clip-path: inset(0 0 0 0);
+      }
+    }
+
+    // Gradient slide-out animation
+    @keyframes slideOutWithGradient {
+      0% {
+        clip-path: inset(0 0 0 0);
+      }
+      100% {
+        clip-path: inset(0 0 0 100%);
+      }
+    }
+
+    &__social {
+      display: flex;
+      align-items: center;
+      gap: $spacing-xs;
+      padding-left: $spacing-md;
+      border-left: 1px solid rgba($color-heritage-green, 0.15);
+
+      a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: rgba($color-text-light, 0.08);
+        color: $color-text-light;
+        transition: all $transition-fast;
+        font-size: 0.875rem;
+
+        &:hover {
+          background-color: $color-heritage-green;
+          color: $color-white;
+          transform: translateY(-2px);
         }
       }
     }
@@ -252,12 +439,19 @@ const navItems = [
       }
 
       &-link {
-        display: block;
+        display: flex;
+        align-items: center;
+        gap: $spacing-md;
         font-size: 1.5rem;
         color: $color-heritage-green;
         text-decoration: none;
         padding: $spacing-sm 0;
         transition: color $transition-fast;
+
+        i {
+          font-size: 1.25rem;
+          min-width: 30px;
+        }
 
         &:hover {
           color: $color-prestige-gold;
@@ -369,14 +563,62 @@ const navItems = [
     lastScroll = currentScroll;
   });
 
-  // Mobile menu toggle
+  // Hamburger toggle - only toggles phone/nav, not mobile menu
   const mobileToggle = document.querySelector('.header-transparent__mobile-toggle');
-  const mobileMenu = document.querySelector('.header-transparent__mobile-menu');
+  const headerPhone = document.getElementById('header-phone');
+  const horizontalNav = document.getElementById('header-horizontal-nav');
 
   mobileToggle?.addEventListener('click', () => {
     const isExpanded = mobileToggle.getAttribute('aria-expanded') === 'true';
     mobileToggle.setAttribute('aria-expanded', !isExpanded ? 'true' : 'false');
-    mobileMenu?.classList.toggle('header-transparent__mobile-menu--open');
-    document.body.style.overflow = !isExpanded ? 'hidden' : '';
+
+    // Toggle between phone and horizontal nav
+    if (!isExpanded) {
+      // Menu opening - hide phone, show nav
+      headerPhone?.classList.add('hidden');
+      horizontalNav?.classList.remove('closing');
+      horizontalNav?.classList.add('visible');
+    } else {
+      // Menu closing - animate out then show phone
+      horizontalNav?.classList.add('closing');
+      horizontalNav?.classList.remove('visible');
+
+      // Wait for animation to complete, then show phone
+      setTimeout(() => {
+        headerPhone?.classList.remove('hidden');
+        horizontalNav?.classList.remove('closing');
+      }, 400); // Match animation duration
+    }
   });
+
+  // Scroll Spy - Highlight active section
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.header-transparent__horizontal-nav-link');
+
+  function highlightActiveSection() {
+    const scrollPosition = window.scrollY + 100; // Offset for header
+
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.offsetHeight;
+      const sectionId = section.getAttribute('id');
+
+      if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+        // Remove active class from all links
+        navLinks.forEach(link => link.classList.remove('active'));
+
+        // Add active class to current section's link
+        const activeLink = document.querySelector(`.header-transparent__horizontal-nav-link[href="#${sectionId}"]`);
+        if (activeLink) {
+          activeLink.classList.add('active');
+        }
+      }
+    });
+  }
+
+  // Run on scroll
+  window.addEventListener('scroll', highlightActiveSection);
+
+  // Run on page load
+  highlightActiveSection();
 </script>
