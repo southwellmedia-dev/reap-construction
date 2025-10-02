@@ -1,6 +1,8 @@
 ---
 import Button from '../components/Button.astro';
 import MasonryCarousel from '../components/MasonryCarousel.tsx';
+
+export interface Props {}
 ---
 
 <section class="hero-masonry" id="hero">
@@ -14,17 +16,20 @@ import MasonryCarousel from '../components/MasonryCarousel.tsx';
     <!-- Content side -->
     <div class="hero-masonry__content-wrapper">
       <div class="hero-masonry__content">
-        <a href="/" class="hero-masonry__logo" id="hero-logo">
+        <a href="/" class="hero-masonry__logo" id="hero-logo" aria-label="Reap Construction Home">
           <img
             src="/assets/branding/reap-logomark.svg"
             alt="Reap Construction"
+            width="160"
+            height="160"
+            loading="eager"
             class="hero-masonry__logo-img"
           />
         </a>
 
         <h1 class="hero-masonry__title">
-          Turning challenges into
-          <span class="hero-masonry__title-accent">opportunities.</span>
+          Turning your challenges into
+          <span class="hero-masonry__title-accent">opportunities</span>
         </h1>
 
         <p class="hero-masonry__description">
@@ -35,7 +40,7 @@ import MasonryCarousel from '../components/MasonryCarousel.tsx';
         <div class="hero-masonry__actions">
           <Button href="#portfolio" variant="primary" size="large" icon>
             View Our Work
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <line x1="5" y1="12" x2="19" y2="12"></line>
               <polyline points="12 5 19 12 12 19"></polyline>
             </svg>
@@ -48,17 +53,26 @@ import MasonryCarousel from '../components/MasonryCarousel.tsx';
         <!-- Trust indicators -->
         <div class="hero-masonry__trust">
           <div class="hero-masonry__trust-item">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path d="M9 11l3 3L22 4"></path>
               <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
             </svg>
             <span>Licensed & Insured</span>
           </div>
           <div class="hero-masonry__trust-item">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
             </svg>
             <span>Award Winning</span>
+          </div>
+          <div class="hero-masonry__trust-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 00-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 010 7.75"></path>
+            </svg>
+            <span>Expert Team</span>
           </div>
         </div>
       </div>
@@ -67,24 +81,22 @@ import MasonryCarousel from '../components/MasonryCarousel.tsx';
     <!-- Masonry carousel side -->
     <div class="hero-masonry__carousel-wrapper">
       <div class="hero-masonry__carousel-container">
-        <MasonryCarousel client:load />
+        <MasonryCarousel client:visible />
       </div>
 
       <!-- Decorative gradient overlay -->
       <div class="hero-masonry__gradient-overlay"></div>
     </div>
   </div>
-
-  <!-- Scroll indicator -->
-  <div class="hero-masonry__scroll">
-    <span>Scroll to explore</span>
-    <div class="hero-masonry__scroll-line"></div>
-  </div>
 </section>
 
 <style lang="scss">
   @import '../styles/variables';
   @import '../styles/mixins';
+
+  // Component-specific variables
+  $hero-carousel-height: 80vh;
+  $hero-carousel-padding-top: 100px;
 
   .hero-masonry {
     position: relative;
@@ -171,9 +183,17 @@ import MasonryCarousel from '../components/MasonryCarousel.tsx';
       display: inline-block;
       margin-bottom: 2rem;
       transition: opacity 0.6s ease, transform 0.6s ease;
+      border-radius: 8px;
+      outline: 2px solid transparent;
+      outline-offset: 4px;
 
       &:hover {
         transform: scale(1.05);
+      }
+
+      &:focus-visible {
+        outline-color: $color-prestige-gold;
+        outline-offset: 8px;
       }
 
       &-img {
@@ -183,28 +203,16 @@ import MasonryCarousel from '../components/MasonryCarousel.tsx';
     }
 
     &__title {
-      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-size: clamp(3rem, 6vw, 5.5rem);
       font-family: $font-display;
       font-weight: $font-weight-semibold;
       line-height: 1.1;
       color: $color-heritage-green;
-      margin-bottom: $spacing-md;
+      margin-bottom: $spacing-xl;
 
       &-accent {
         color: $color-prestige-gold;
         display: inline-block;
-        position: relative;
-
-        &::after {
-          content: '';
-          position: absolute;
-          bottom: -5px;
-          left: 0;
-          width: 100%;
-          height: 2px;
-          background: linear-gradient(90deg, $color-prestige-gold 0%, rgba($color-prestige-gold, 0.3) 100%);
-          animation: expandWidth 1s ease-out 0.5s both;
-        }
       }
     }
 
@@ -271,14 +279,14 @@ import MasonryCarousel from '../components/MasonryCarousel.tsx';
         display: flex;
         align-items: flex-start; // Start from top
         justify-content: flex-end;
-        padding-top: 100px; // Much less padding from top
+        padding-top: $hero-carousel-padding-top; // Much less padding from top
         padding-right: 0; // Let carousel go to edge for fade effect
       }
     }
 
     &__carousel-container {
       position: relative;
-      height: 80vh;
+      height: $hero-carousel-height;
       width: 100%;
       animation: fadeIn 1s ease-out 0.5s both;
     }
@@ -288,7 +296,7 @@ import MasonryCarousel from '../components/MasonryCarousel.tsx';
       top: 0;
       left: 0;
       width: 100%;
-      height: 80vh;
+      height: $hero-carousel-height;
       z-index: 10;
       pointer-events: none;
 
@@ -300,53 +308,6 @@ import MasonryCarousel from '../components/MasonryCarousel.tsx';
         transparent 95%,
         rgba($color-canvas, 0.5) 100%
       );
-    }
-
-    // Scroll indicator
-    &__scroll {
-      position: absolute;
-      bottom: $spacing-2xl;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      align-items: center;
-      gap: $spacing-sm;
-      color: $color-text-light;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      z-index: 2;
-      opacity: 0;
-      animation: fadeInUp 1s ease-out 1s both;
-
-      @include media-lg {
-        left: auto;
-        right: auto;
-        transform: translateX(-50%);
-      }
-
-      @include media-xl {
-        left: calc(50% - 400px); // Align with container edge
-        transform: none;
-      }
-
-      &-line {
-        width: 30px;
-        height: 1px;
-        background: $color-text-light;
-        position: relative;
-
-        &::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 10px;
-          height: 1px;
-          background: $color-heritage-green;
-          animation: scrollLine 2s ease-in-out infinite;
-        }
-      }
     }
   }
 
@@ -382,24 +343,6 @@ import MasonryCarousel from '../components/MasonryCarousel.tsx';
     }
   }
 
-  @keyframes expandWidth {
-    from {
-      width: 0;
-    }
-    to {
-      width: 100%;
-    }
-  }
-
-  @keyframes scrollLine {
-    0%, 100% {
-      transform: translateX(0);
-    }
-    50% {
-      transform: translateX(20px);
-    }
-  }
-
   // Mobile optimizations
   @media (max-width: 1023px) {
     .hero-masonry {
@@ -431,9 +374,22 @@ import MasonryCarousel from '../components/MasonryCarousel.tsx';
       &__actions {
         justify-content: center;
       }
+    }
+  }
 
-      &__scroll {
-        display: none; // Hide on mobile for cleaner look
+  // Respect user's motion preferences
+  @media (prefers-reduced-motion: reduce) {
+    .hero-masonry {
+      &__content {
+        animation: none;
+      }
+
+      &__carousel-container {
+        animation: none;
+      }
+
+      &__logo {
+        transition: none;
       }
     }
   }
