@@ -221,6 +221,27 @@ const services = [
     }
   }
 
+  // Respect user's motion preferences
+  @media (prefers-reduced-motion: reduce) {
+    .service-card {
+      animation: none;
+      transition: none;
+      opacity: 1;
+
+      &:hover {
+        transform: none;
+
+        .service-card__icon {
+          transform: none;
+        }
+      }
+
+      &:hover &__button .btn {
+        transform: none;
+      }
+    }
+  }
+
   @keyframes fadeInUp {
     from {
       opacity: 0;
