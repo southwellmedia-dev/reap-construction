@@ -493,7 +493,7 @@ const heroImage = '/assets/projects/warren/1746792003243.jpg';
 
 <script>
   // Animate stats counter
-  const animateValue = (element: HTMLElement, start: number, end: number, duration: number) => {
+  const animateValue = (element, start, end, duration) => {
     const range = end - start;
     const increment = range / (duration / 16);
     let current = start;
@@ -515,7 +515,7 @@ const heroImage = '/assets/projects/warren/1746792003243.jpg';
       if (entry.isIntersecting) {
         const statsValues = document.querySelectorAll('.hero-modern__stat-value');
         statsValues.forEach((stat) => {
-          const element = stat as HTMLElement;
+          const element = stat;
           const target = parseInt(element.dataset.target || '0');
           animateValue(element, 0, target, 2000);
         });

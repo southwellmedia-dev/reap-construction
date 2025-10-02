@@ -15,7 +15,8 @@ const {
   ogImage = '/og-image.jpg'
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const baseOrigin = Astro.site || Astro.url.origin;
+const canonicalURL = baseOrigin ? new URL(Astro.url.pathname, baseOrigin) : null;
 ---
 
 <!DOCTYPE html>
@@ -25,18 +26,18 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonicalURL} />
+    {canonicalURL && <link rel="canonical" href={canonicalURL} />}
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalURL} />
+    {canonicalURL && <meta property="og:url" content={canonicalURL} />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonicalURL} />
+    {canonicalURL && <meta property="twitter:url" content={canonicalURL} />}
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={ogImage} />

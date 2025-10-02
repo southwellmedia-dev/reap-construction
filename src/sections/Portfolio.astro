@@ -65,7 +65,7 @@ import Button from '../components/Button.astro';
 </section>
 
 <!-- Project Gallery Modal -->
-<div class="gallery-modal" id="galleryModal">
+<div class="gallery-modal" id="galleryModal" role="dialog" aria-modal="true" aria-labelledby="galleryTitle">
   <div class="gallery-modal__content">
     <button class="gallery-modal__close" aria-label="Close gallery">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -75,7 +75,7 @@ import Button from '../components/Button.astro';
     </button>
 
     <div class="gallery-modal__header">
-      <h3 class="gallery-modal__title"></h3>
+      <h3 class="gallery-modal__title" id="galleryTitle"></h3>
       <p class="gallery-modal__category"></p>
     </div>
 
@@ -478,29 +478,98 @@ import Button from '../components/Button.astro';
 <script>
   import { projects } from '../data/projects';
 
-  // Gallery Modal Functionality
+  // Gallery Modal Functionality - Guard against missing elements
   const modal = document.getElementById('galleryModal');
-  const modalTitle = modal?.querySelector('.gallery-modal__title') as HTMLElement;
-  const modalCategory = modal?.querySelector('.gallery-modal__category') as HTMLElement;
-  const modalImage = modal?.querySelector('.gallery-modal__image') as HTMLImageElement;
-  const thumbnailsContainer = modal?.querySelector('.gallery-modal__thumbnails');
-  const closeBtn = modal?.querySelector('.gallery-modal__close');
-  const prevBtn = modal?.querySelector('.gallery-modal__nav--prev');
-  const nextBtn = modal?.querySelector('.gallery-modal__nav--next');
 
-  let currentProject: typeof projects[0] | null = null;
-  let currentImageIndex = 0;
+  // Early exit if modal doesn't exist
+  if (!modal) {
+    console.warn('Gallery modal element not found. Gallery functionality will be disabled.');
+  } else {
+    // Query child elements without type assertions
+    const modalTitle = modal.querySelector('.gallery-modal__title');
+    const modalCategory = modal.querySelector('.gallery-modal__category');
+    const modalImage = modal.querySelector('.gallery-modal__image');
+    const thumbnailsContainer = modal.querySelector('.gallery-modal__thumbnails');
+    const closeBtn = modal.querySelector('.gallery-modal__close');
+    const prevBtn = modal.querySelector('.gallery-modal__nav--prev');
+    const nextBtn = modal.querySelector('.gallery-modal__nav--next');
 
-  // Open gallery
-  document.querySelectorAll('.project-card__view-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const projectId = btn.getAttribute('data-project-id');
-      currentProject = projects.find(p => p.id === projectId) || null;
+    // Validate required elements
+    if (!modalTitle || !modalCategory || !modalImage) {
+      console.error('Required modal elements are missing. Gallery will not function properly.');
+    }
 
-      if (currentProject && modal) {
-        currentImageIndex = 0;
-        modalTitle.textContent = currentProject.title;
-        modalCategory.textContent = currentProject.category;
+    let currentProject: typeof projects[0] | null = null;
+    let currentImageIndex = 0;
+    let triggerButton: HTMLElement | null = null;
+    let focusTrapHandler: ((e: KeyboardEvent) => void) | null = null;
+
+    // Focus trap utilities
+    function getFocusableElements(container: HTMLElement): HTMLElement[] {
+      const focusableSelectors = [
+        'a[href]',
+        'button:not([disabled])',
+        'textarea:not([disabled])',
+        'input:not([disabled])',
+        'select:not([disabled])',
+        '[tabindex]:not([tabindex="-1"])'
+      ];
+
+      const elements = container.querySelectorAll<HTMLElement>(focusableSelectors.join(','));
+      return Array.from(elements).filter(el => {
+        return el.offsetParent !== null && !el.hasAttribute('disabled');
+      });
+    }
+
+    function createFocusTrap(container: HTMLElement) {
+      const focusableElements = getFocusableElements(container);
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      focusTrapHandler = (e: KeyboardEvent) => {
+        if (e.key !== 'Tab') return;
+
+        if (e.shiftKey) {
+          // Shift + Tab
+          if (document.activeElement === firstElement) {
+            e.preventDefault();
+            lastElement?.focus();
+          }
+        } else {
+          // Tab
+          if (document.activeElement === lastElement) {
+            e.preventDefault();
+            firstElement?.focus();
+          }
+        }
+      };
+
+      container.addEventListener('keydown', focusTrapHandler);
+
+      // Focus first element
+      firstElement?.focus();
+    }
+
+    function removeFocusTrap(container: HTMLElement) {
+      if (focusTrapHandler) {
+        container.removeEventListener('keydown', focusTrapHandler);
+        focusTrapHandler = null;
+      }
+    }
+
+    // Open gallery
+    document.querySelectorAll('.project-card__view-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const projectId = btn.getAttribute('data-project-id');
+        currentProject = projects.find(p => p.id === projectId) || null;
+
+        if (currentProject && modal && modalTitle && modalCategory && modalImage) {
+          // Store the trigger button for focus restoration
+          triggerButton = btn as HTMLElement;
+
+          currentImageIndex = 0;
+          modalTitle.textContent = currentProject.title;
+          modalCategory.textContent = currentProject.category;
 
         // Load thumbnails
         if (thumbnailsContainer) {
@@ -521,57 +590,73 @@ import Button from '../components/Button.astro';
         updateGalleryImage();
         modal.classList.add('gallery-modal--open');
         document.body.style.overflow = 'hidden';
+
+        // Create focus trap for keyboard accessibility
+        createFocusTrap(modal);
+        }
+      });
+    });
+
+    function updateGalleryImage() {
+      if (currentProject && modalImage) {
+        modalImage.src = currentProject.images[currentImageIndex];
+        modalImage.alt = `${currentProject.title} - Image ${currentImageIndex + 1}`;
+
+        // Update thumbnail active state
+        const thumbnails = thumbnailsContainer?.querySelectorAll('img');
+        thumbnails?.forEach((thumb, index) => {
+          thumb.classList.toggle('active', index === currentImageIndex);
+        });
+      }
+    }
+
+    // Navigation
+    prevBtn?.addEventListener('click', () => {
+      if (currentProject) {
+        currentImageIndex = (currentImageIndex - 1 + currentProject.images.length) % currentProject.images.length;
+        updateGalleryImage();
       }
     });
-  });
 
-  function updateGalleryImage() {
-    if (currentProject && modalImage) {
-      modalImage.src = currentProject.images[currentImageIndex];
-      modalImage.alt = `${currentProject.title} - Image ${currentImageIndex + 1}`;
+    nextBtn?.addEventListener('click', () => {
+      if (currentProject) {
+        currentImageIndex = (currentImageIndex + 1) % currentProject.images.length;
+        updateGalleryImage();
+      }
+    });
 
-      // Update thumbnail active state
-      const thumbnails = thumbnailsContainer?.querySelectorAll('img');
-      thumbnails?.forEach((thumb, index) => {
-        thumb.classList.toggle('active', index === currentImageIndex);
-      });
+    // Helper function to close modal and restore focus
+    function closeModal() {
+      // Remove focus trap
+      removeFocusTrap(modal);
+
+      modal.classList.remove('gallery-modal--open');
+      document.body.style.overflow = '';
+
+      // Restore focus to trigger button if it exists and is still in the document
+      if (triggerButton && document.contains(triggerButton)) {
+        triggerButton.focus();
+      }
+      triggerButton = null;
     }
+
+    // Close modal
+    closeBtn?.addEventListener('click', () => {
+      closeModal();
+    });
+
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('gallery-modal--open')) {
+        closeModal();
+      }
+    });
+
+    // Close on background click
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
   }
-
-  // Navigation
-  prevBtn?.addEventListener('click', () => {
-    if (currentProject) {
-      currentImageIndex = (currentImageIndex - 1 + currentProject.images.length) % currentProject.images.length;
-      updateGalleryImage();
-    }
-  });
-
-  nextBtn?.addEventListener('click', () => {
-    if (currentProject) {
-      currentImageIndex = (currentImageIndex + 1) % currentProject.images.length;
-      updateGalleryImage();
-    }
-  });
-
-  // Close modal
-  closeBtn?.addEventListener('click', () => {
-    modal?.classList.remove('gallery-modal--open');
-    document.body.style.overflow = '';
-  });
-
-  // Close on escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal?.classList.contains('gallery-modal--open')) {
-      modal.classList.remove('gallery-modal--open');
-      document.body.style.overflow = '';
-    }
-  });
-
-  // Close on background click
-  modal?.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      modal.classList.remove('gallery-modal--open');
-      document.body.style.overflow = '';
-    }
-  });
 </script>

@@ -1,5 +1,5 @@
 import { motion, useAnimationControls } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 interface AnimatedLogoProps {
   scale?: number; // Scale multiplier for the entire logo (default: 1)
@@ -12,95 +12,142 @@ export default function AnimatedLogo({ scale = 1 }: AnimatedLogoProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [hasPlayedOnce, setHasPlayedOnce] = useState(false);
 
+  // Refs for cleanup
+  const mountedRef = useRef(true);
+  const isHoveredRef = useRef(false);
+  const initialTimersRef = useRef<NodeJS.Timeout[]>([]);
+  const hoverTimersRef = useRef<NodeJS.Timeout[]>([]);
+
   // Initial animation sequence on mount
   useEffect(() => {
     const playInitialSequence = async () => {
       // 0.8s: Divider slides in
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      dividerControls.start({
-        width: "1px",
-        opacity: 1,
-        transition: { duration: 0.4, ease: [0.4, 0, 0.2, 1] },
-      });
+      const timer1 = setTimeout(() => {
+        if (!mountedRef.current) return;
+        dividerControls.start({
+          width: "1px",
+          opacity: 1,
+          transition: { duration: 0.4, ease: [0.4, 0, 0.2, 1] },
+        });
+      }, 800);
+      initialTimersRef.current.push(timer1);
 
       // 1.2s: Text slides in
-      await new Promise((resolve) => setTimeout(resolve, 400));
-      textControls.start({
-        x: 0,
-        opacity: 1,
-        transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] },
-      });
+      const timer2 = setTimeout(() => {
+        if (!mountedRef.current) return;
+        textControls.start({
+          x: 0,
+          opacity: 1,
+          transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] },
+        });
+      }, 1200);
+      initialTimersRef.current.push(timer2);
 
       // 1.8s: Byline fades in
-      await new Promise((resolve) => setTimeout(resolve, 600));
-      bylineControls.start({
-        opacity: 1,
-        transition: { duration: 0.4, ease: [0.4, 0, 0.2, 1] },
-      });
-
-      // 2.2-4.2s: Hold for 2 seconds
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const timer3 = setTimeout(() => {
+        if (!mountedRef.current) return;
+        bylineControls.start({
+          opacity: 1,
+          transition: { duration: 0.4, ease: [0.4, 0, 0.2, 1] },
+        });
+      }, 1800);
+      initialTimersRef.current.push(timer3);
 
       // 4.2s: Start collapse - text and byline fade out
-      textControls.start({
-        x: -20,
-        opacity: 0,
-        transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] },
-      });
-      bylineControls.start({
-        opacity: 0,
-        transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] },
-      });
+      const timer4 = setTimeout(() => {
+        if (!mountedRef.current) return;
+        textControls.start({
+          x: -20,
+          opacity: 0,
+          transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] },
+        });
+        bylineControls.start({
+          opacity: 0,
+          transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] },
+        });
+      }, 4200);
+      initialTimersRef.current.push(timer4);
 
-      // Divider collapses
-      await new Promise((resolve) => setTimeout(resolve, 200));
-      dividerControls.start({
-        width: "0px",
-        opacity: 0,
-        transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
-      });
+      // 4.4s: Divider collapses
+      const timer5 = setTimeout(() => {
+        if (!mountedRef.current) return;
+        dividerControls.start({
+          width: "0px",
+          opacity: 0,
+          transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
+        });
+      }, 4400);
+      initialTimersRef.current.push(timer5);
 
-      setHasPlayedOnce(true);
+      // 4.7s: Set has played once
+      const timer6 = setTimeout(() => {
+        if (!mountedRef.current) return;
+        setHasPlayedOnce(true);
+      }, 4700);
+      initialTimersRef.current.push(timer6);
     };
 
     playInitialSequence();
+
+    // Cleanup function
+    return () => {
+      mountedRef.current = false;
+      initialTimersRef.current.forEach(clearTimeout);
+      initialTimersRef.current = [];
+      hoverTimersRef.current.forEach(clearTimeout);
+      hoverTimersRef.current = [];
+    };
   }, [dividerControls, textControls, bylineControls]);
 
   // Hover animation sequence
   const handleMouseEnter = () => {
     if (!hasPlayedOnce) return;
+
+    // Clear any existing hover timers
+    hoverTimersRef.current.forEach(clearTimeout);
+    hoverTimersRef.current = [];
+
     setIsHovered(true);
+    isHoveredRef.current = true;
 
-    const playHoverSequence = async () => {
-      // Divider slides in
-      dividerControls.start({
-        width: "1px",
-        opacity: 1,
-        transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
-      });
+    // Divider slides in immediately
+    dividerControls.start({
+      width: "1px",
+      opacity: 1,
+      transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
+    });
 
-      // Text slides in
-      await new Promise((resolve) => setTimeout(resolve, 150));
+    // Text slides in after 150ms
+    const hoverTimer1 = setTimeout(() => {
+      if (!mountedRef.current || !isHoveredRef.current) return;
       textControls.start({
         x: 0,
         opacity: 1,
         transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] },
       });
+    }, 150);
+    hoverTimersRef.current.push(hoverTimer1);
 
-      // Byline fades in
-      await new Promise((resolve) => setTimeout(resolve, 400));
+    // Byline fades in after 550ms
+    const hoverTimer2 = setTimeout(() => {
+      if (!mountedRef.current || !isHoveredRef.current) return;
       bylineControls.start({
         opacity: 1,
         transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
       });
-    };
-
-    playHoverSequence();
+    }, 550);
+    hoverTimersRef.current.push(hoverTimer2);
   };
 
   const handleMouseLeave = () => {
     if (!hasPlayedOnce) return;
+
+    // Clear hover timers immediately
+    hoverTimersRef.current.forEach(clearTimeout);
+    hoverTimersRef.current = [];
+
     setIsHovered(false);
+    isHoveredRef.current = false;
 
     // Collapse sequence
     textControls.start({
@@ -113,13 +160,16 @@ export default function AnimatedLogo({ scale = 1 }: AnimatedLogoProps) {
       transition: { duration: 0.4, ease: [0.4, 0, 0.2, 1] },
     });
 
-    setTimeout(() => {
+    // Divider collapses after 150ms
+    const leaveTimer = setTimeout(() => {
+      if (!mountedRef.current) return;
       dividerControls.start({
         width: "0px",
         opacity: 0,
         transition: { duration: 0.25, ease: [0.4, 0, 0.2, 1] },
       });
     }, 150);
+    hoverTimersRef.current.push(leaveTimer);
   };
 
   return (

@@ -138,10 +138,50 @@ const MasonryCarousel: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const cardTimers = useRef<Map<string, NodeJS.Timeout>>(new Map());
 
-  // Calculate total heights for seamless loops
-  const totalHeight1 = column1Data.length * 250;
-  const totalHeight2 = column2Data.length * 250;
-  const totalHeight3 = column3Data.length * 250;
+  const column1Ref = useRef<HTMLDivElement>(null);
+  const column2Ref = useRef<HTMLDivElement>(null);
+  const column3Ref = useRef<HTMLDivElement>(null);
+
+  // State for measured heights
+  const [totalHeight1, setTotalHeight1] = useState(0);
+  const [totalHeight2, setTotalHeight2] = useState(0);
+  const [totalHeight3, setTotalHeight3] = useState(0);
+
+  // Measure actual column heights
+  useEffect(() => {
+    const measureHeights = () => {
+      // Each column renders data 3 times, so divide by 3 to get one iteration's height
+      if (column1Ref.current) {
+        const height = column1Ref.current.scrollHeight / 3;
+        setTotalHeight1(height);
+      }
+      if (column2Ref.current) {
+        const height = column2Ref.current.scrollHeight / 3;
+        setTotalHeight2(height);
+      }
+      if (column3Ref.current) {
+        const height = column3Ref.current.scrollHeight / 3;
+        setTotalHeight3(height);
+      }
+    };
+
+    // Initial measurement after a short delay to ensure rendering is complete
+    const timeout = setTimeout(measureHeights, 100);
+
+    // Set up ResizeObserver to update on size changes
+    const resizeObserver = new ResizeObserver(() => {
+      measureHeights();
+    });
+
+    if (column1Ref.current) resizeObserver.observe(column1Ref.current);
+    if (column2Ref.current) resizeObserver.observe(column2Ref.current);
+    if (column3Ref.current) resizeObserver.observe(column3Ref.current);
+
+    return () => {
+      clearTimeout(timeout);
+      resizeObserver.disconnect();
+    };
+  }, []);
 
   // Independent card coloring effect - each card has its own cycle
   useEffect(() => {
@@ -209,10 +249,15 @@ const MasonryCarousel: React.FC = () => {
 
   // Column 1 animation
   useEffect(() => {
+    if (totalHeight1 === 0) return; // Wait for height measurement
+
+    let cancelled = false;
+
     const animateColumn = async () => {
-      while (true) {
+      while (!cancelled) {
         if (isPaused1) {
           await new Promise((resolve) => setTimeout(resolve, 100));
+          if (cancelled) break;
           continue;
         }
 
@@ -227,19 +272,30 @@ const MasonryCarousel: React.FC = () => {
           },
         });
 
+        if (cancelled) break;
         y1.set(0);
       }
     };
 
     animateColumn();
+
+    return () => {
+      cancelled = true;
+      controls1.stop();
+    };
   }, [isPaused1, controls1, totalHeight1, y1]);
 
   // Column 2 animation
   useEffect(() => {
+    if (totalHeight2 === 0) return; // Wait for height measurement
+
+    let cancelled = false;
+
     const animateColumn = async () => {
-      while (true) {
+      while (!cancelled) {
         if (isPaused2) {
           await new Promise((resolve) => setTimeout(resolve, 100));
+          if (cancelled) break;
           continue;
         }
 
@@ -254,19 +310,30 @@ const MasonryCarousel: React.FC = () => {
           },
         });
 
+        if (cancelled) break;
         y2.set(0);
       }
     };
 
     animateColumn();
+
+    return () => {
+      cancelled = true;
+      controls2.stop();
+    };
   }, [isPaused2, controls2, totalHeight2, y2]);
 
   // Column 3 animation
   useEffect(() => {
+    if (totalHeight3 === 0) return; // Wait for height measurement
+
+    let cancelled = false;
+
     const animateColumn = async () => {
-      while (true) {
+      while (!cancelled) {
         if (isPaused3) {
           await new Promise((resolve) => setTimeout(resolve, 100));
+          if (cancelled) break;
           continue;
         }
 
@@ -281,11 +348,17 @@ const MasonryCarousel: React.FC = () => {
           },
         });
 
+        if (cancelled) break;
         y3.set(0);
       }
     };
 
     animateColumn();
+
+    return () => {
+      cancelled = true;
+      controls3.stop();
+    };
   }, [isPaused3, controls3, totalHeight3, y3]);
 
   const renderMasonryItem = (item: MasonryItem, itemKey: string) => {
@@ -329,6 +402,7 @@ const MasonryCarousel: React.FC = () => {
         transition={{ duration: 0.6, delay: 0.5 }}
       >
         <motion.div
+          ref={column1Ref}
           className="masonry-column masonry-column--1"
           style={{ y: y1 }}
           animate={controls1}
@@ -359,6 +433,7 @@ const MasonryCarousel: React.FC = () => {
         </motion.div>
 
         <motion.div
+          ref={column2Ref}
           className="masonry-column masonry-column--2"
           style={{ y: y2 }}
           animate={controls2}
@@ -389,6 +464,7 @@ const MasonryCarousel: React.FC = () => {
         </motion.div>
 
         <motion.div
+          ref={column3Ref}
           className="masonry-column masonry-column--3"
           style={{ y: y3 }}
           animate={controls3}

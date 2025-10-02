@@ -75,27 +75,6 @@ const navItems = [
       </button>
     </div>
   </div>
-
-  <!-- Mobile menu -->
-  <div class="header-transparent__mobile-menu">
-    <nav class="header-transparent__mobile-nav">
-      <ul class="header-transparent__mobile-nav-list">
-        {navItems.map((item) => (
-          <li class="header-transparent__mobile-nav-item">
-            <a href={item.href} class="header-transparent__mobile-nav-link">
-              <i class={`fa-solid ${item.icon}`}></i>
-              <span>{item.label}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
-      <div class="header-transparent__mobile-cta">
-        <Button href="#contact" variant="primary" size="large" block>
-          Get Quote
-        </Button>
-      </div>
-    </nav>
-  </div>
 </header>
 
 <style lang="scss">
@@ -409,60 +388,6 @@ const navItems = [
       }
     }
 
-    // Mobile menu
-    &__mobile-menu {
-      position: fixed;
-      top: 80px;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: $color-white;
-      transform: translateX(-100%);
-      transition: transform $transition-base;
-      padding: $spacing-2xl;
-      z-index: $z-modal-backdrop;
-
-      &--open {
-        transform: translateX(0);
-      }
-    }
-
-    &__mobile-nav {
-      &-list {
-        list-style: none;
-        padding: 0;
-        margin: 0 0 $spacing-2xl 0;
-      }
-
-      &-item {
-        margin-bottom: $spacing-lg;
-      }
-
-      &-link {
-        display: flex;
-        align-items: center;
-        gap: $spacing-md;
-        font-size: 1.5rem;
-        color: $color-heritage-green;
-        text-decoration: none;
-        padding: $spacing-sm 0;
-        transition: color $transition-fast;
-
-        i {
-          font-size: 1.25rem;
-          min-width: 30px;
-        }
-
-        &:hover {
-          color: $color-prestige-gold;
-        }
-      }
-    }
-
-    &__mobile-cta {
-      margin-top: $spacing-2xl;
-    }
-
     // Visible state (when scrolled)
     &--visible {
       transform: translateY(0);
@@ -531,14 +456,6 @@ const navItems = [
             top: offsetPosition,
             behavior: 'smooth'
           });
-
-          // Close mobile menu if open
-          const mobileMenu = document.querySelector('.header-transparent__mobile-menu');
-          const mobileToggle = document.querySelector('.header-transparent__mobile-toggle');
-          if (mobileMenu?.classList.contains('header-transparent__mobile-menu--open')) {
-            mobileMenu.classList.remove('header-transparent__mobile-menu--open');
-            mobileToggle?.setAttribute('aria-expanded', 'false');
-          }
         }
       }
     });
