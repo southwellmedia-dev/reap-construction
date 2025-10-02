@@ -5,6 +5,10 @@ export interface Project {
   description: string;
   images: string[];
   featured: boolean;
+  completionYear: string;
+  duration: string;
+  size: string;
+  value?: string;
 }
 
 export const projects: Project[] = [
@@ -22,6 +26,10 @@ export const projects: Project[] = [
       '/assets/projects/warren/1746792007716.jpg',
     ],
     featured: true,
+    completionYear: '2024',
+    duration: '8 Weeks',
+    size: '24 Units',
+    value: '$450K',
   },
   {
     id: 'bryant',
@@ -36,6 +44,10 @@ export const projects: Project[] = [
       '/assets/projects/bryant/1755615606507.jpg',
     ],
     featured: true,
+    completionYear: '2024',
+    duration: '4 Weeks',
+    size: '32k sq ft',
+    value: '$125K',
   },
   {
     id: 'calvin',
@@ -49,5 +61,9 @@ export const projects: Project[] = [
       '/assets/projects/calvin/1750251604516.jpg',
     ],
     featured: true,
+    completionYear: '2024',
+    duration: '6 Weeks',
+    size: '18 Units',
+    value: '$280K',
   },
 ];

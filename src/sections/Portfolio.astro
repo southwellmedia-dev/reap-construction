@@ -30,9 +30,27 @@ import Button from '../components/Button.astro';
             </div>
           </div>
           <div class="project-card__content">
-            <span class="project-card__category">{project.category}</span>
             <h3 class="project-card__title">{project.title}</h3>
             <p class="project-card__description">{project.description}</p>
+
+            <div class="project-card__divider"></div>
+
+            <span class="project-card__category">{project.category}</span>
+
+            <div class="project-card__badges">
+              <span class="project-card__badge">
+                <i class="fa-regular fa-calendar"></i>
+                {project.completionYear}
+              </span>
+              <span class="project-card__badge">
+                <i class="fa-regular fa-clock"></i>
+                {project.duration}
+              </span>
+              <span class="project-card__badge">
+                <i class="fa-solid fa-ruler-combined"></i>
+                {project.size}
+              </span>
+            </div>
           </div>
         </article>
       ))}
@@ -156,6 +174,8 @@ import Button from '../components/Button.astro';
     transition: all $transition-base;
     animation: fadeInUp 0.8s ease-out forwards;
     opacity: 0;
+    display: flex;
+    flex-direction: column;
 
     &:hover {
       transform: translateY(-8px);
@@ -218,15 +238,24 @@ import Button from '../components/Button.astro';
 
     &__content {
       padding: $spacing-xl;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
     }
 
     &__category {
-      display: inline-block;
+      display: block;
+      width: 100%;
+      text-align: center;
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      color: $color-prestige-gold;
-      margin-bottom: $spacing-sm;
+      padding: $spacing-xs $spacing-md;
+      background-color: $color-prestige-gold;
+      color: $color-heritage-green;
+      font-weight: $font-weight-semibold;
+      border-radius: $border-radius-full;
+      margin-bottom: $spacing-md;
     }
 
     &__title {
@@ -240,6 +269,43 @@ import Button from '../components/Button.astro';
       font-size: 0.9375rem;
       color: $color-text;
       line-height: $line-height-relaxed;
+      margin-bottom: $spacing-lg;
+    }
+
+    &__divider {
+      height: 1px;
+      background-color: rgba($color-heritage-green, 0.15);
+      margin-top: auto;
+      margin-bottom: $spacing-lg;
+    }
+
+    &__badges {
+      display: flex;
+      gap: $spacing-sm;
+    }
+
+    &__badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: $spacing-xs;
+      padding: $spacing-xs $spacing-md;
+      background-color: rgba($color-prestige-gold, 0.1);
+      color: $color-heritage-green;
+      font-size: 0.75rem;
+      font-weight: $font-weight-medium;
+      border-radius: $border-radius-full;
+      transition: all $transition-fast;
+      flex: 1;
+
+      i {
+        color: $color-prestige-gold;
+        font-size: 0.75rem;
+      }
+
+      &:hover {
+        background-color: rgba($color-prestige-gold, 0.2);
+      }
     }
   }
 
