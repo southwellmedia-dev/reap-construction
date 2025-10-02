@@ -1,6 +1,6 @@
 ---
 import HeaderTransparent from '../components/HeaderTransparent.astro';
-import Footer from '../components/Footer.astro';
+// import Footer from '../components/Footer.astro'; // Now integrated into Contact section
 import '../styles/global.scss';
 
 export interface Props {
@@ -95,6 +95,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       <slot />
     </main>
 
-    <Footer />
+    <!-- Footer now integrated into Contact section -->
   </body>
 </html>

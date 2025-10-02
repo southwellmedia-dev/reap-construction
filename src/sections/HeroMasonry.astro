@@ -1,6 +1,6 @@
 ---
 import Button from '../components/Button.astro';
-import MasonryCarousel from '../components/MasonryCarousel.tsx';
+import MasonryCarousel from "../components/MasonryCarousel.tsx";
 
 export interface Props {}
 ---
@@ -15,8 +15,8 @@ export interface Props {}
   <div class="hero-masonry__grid">
     <!-- Content side -->
     <div class="hero-masonry__content-wrapper">
-      <div class="hero-masonry__content">
-        <a href="/" class="hero-masonry__logo" id="hero-logo" aria-label="Reap Construction Home">
+      <div class="hero-masonry__content" data-animate-stagger>
+        <a href="/" class="hero-masonry__logo" id="hero-logo" aria-label="Reap Construction Home" data-animate-item>
           <img
             src="/assets/branding/reap-logomark.svg"
             alt="Reap Construction"
@@ -27,17 +27,17 @@ export interface Props {}
           />
         </a>
 
-        <h1 class="hero-masonry__title">
+        <h1 class="hero-masonry__title" data-animate-item>
           Turning your challenges into
           <span class="hero-masonry__title-accent">opportunities</span>
         </h1>
 
-        <p class="hero-masonry__description">
+        <p class="hero-masonry__description" data-animate-item>
           Premier commercial and residential construction services
           for the discerning client. A subsidiary of Reap Capital.
         </p>
 
-        <div class="hero-masonry__actions">
+        <div class="hero-masonry__actions" data-animate-item>
           <Button href="#portfolio" variant="primary" size="large" icon>
             View Our Work
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -50,8 +50,7 @@ export interface Props {}
           </Button>
         </div>
 
-        <!-- Trust indicators -->
-        <div class="hero-masonry__trust">
+        <div class="hero-masonry__trust" data-animate-item>
           <div class="hero-masonry__trust-item">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path d="M9 11l3 3L22 4"></path>
@@ -91,8 +90,8 @@ export interface Props {}
 </section>
 
 <style lang="scss">
-  @import '../styles/variables';
-  @import '../styles/mixins';
+  @import "../styles/variables";
+  @import "../styles/mixins";
 
   // Component-specific variables
   $hero-carousel-height: 80vh;
@@ -174,7 +173,6 @@ export interface Props {}
     &__content {
       position: relative;
       z-index: 10;
-      animation: slideInLeft 1s ease-out;
       max-width: 700px;
       width: 100%;
     }
@@ -182,7 +180,9 @@ export interface Props {}
     &__logo {
       display: inline-block;
       margin-bottom: 2rem;
-      transition: opacity 0.6s ease, transform 0.6s ease;
+      transition:
+        opacity 0.6s ease,
+        transform 0.6s ease;
       border-radius: 8px;
       outline: 2px solid transparent;
       outline-offset: 4px;
@@ -288,7 +288,6 @@ export interface Props {}
       position: relative;
       height: $hero-carousel-height;
       width: 100%;
-      animation: fadeIn 1s ease-out 0.5s both;
     }
 
     &__gradient-overlay {
@@ -308,38 +307,6 @@ export interface Props {}
         transparent 95%,
         rgba($color-canvas, 0.5) 100%
       );
-    }
-  }
-
-  // Animations
-  @keyframes slideInLeft {
-    from {
-      opacity: 0;
-      transform: translateX(-50px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
     }
   }
 

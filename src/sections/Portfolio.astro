@@ -3,9 +3,10 @@ import { projects } from '../data/projects';
 import Button from '../components/Button.astro';
 ---
 
-<section class="portfolio section bg-canvas" id="portfolio">
+<section class="portfolio section" id="portfolio">
   <div class="portfolio__container">
     <div class="portfolio__header">
+      <span class="portfolio__label">Our Work</span>
       <h2 class="portfolio__title">Defining the Skyline</h2>
       <p class="portfolio__subtitle">
         A showcase of our recent projects demonstrating quality, craftsmanship, and attention to detail
@@ -87,6 +88,8 @@ import Button from '../components/Button.astro';
   @import '../styles/mixins';
 
   .portfolio {
+    background-color: $color-white;
+
     &__container {
       @include container;
     }
@@ -97,10 +100,26 @@ import Button from '../components/Button.astro';
       margin: 0 auto $spacing-4xl;
     }
 
-    &__title {
-      @include heading-style;
-      font-size: $font-size-h2;
+    &__label {
+      display: inline-block;
+      font-size: 0.875rem;
+      font-weight: $font-weight-semibold;
+      color: $color-prestige-gold;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
       margin-bottom: $spacing-lg;
+      padding-bottom: $spacing-sm;
+      border-bottom: 2px solid $color-prestige-gold;
+    }
+
+    &__title {
+      font-family: $font-display;
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: $font-weight-semibold;
+      color: $color-heritage-green;
+      line-height: 1.1;
+      margin-bottom: $spacing-lg;
+      margin-top: $spacing-md;
     }
 
     &__subtitle {
@@ -130,7 +149,7 @@ import Button from '../components/Button.astro';
   }
 
   .project-card {
-    background-color: $color-white;
+    background-color: $color-canvas;
     border-radius: $border-radius-lg;
     overflow: hidden;
     box-shadow: $shadow-md;

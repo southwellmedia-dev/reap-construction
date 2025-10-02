@@ -19,12 +19,15 @@ const navItems = [
         class="header-transparent__logo-img"
       />
       <div class="header-transparent__logo-divider"></div>
-      <span class="header-transparent__logo-text">REAP CONSTRUCTION</span>
+      <span class="header-transparent__logo-text">
+        <strong>REAP</strong> CONSTRUCTION
+      </span>
     </a>
 
     <div class="header-transparent__actions">
-      <a href="#contact" class="header-transparent__contact-link">
-        Contact
+      <a href="tel:+15551234567" class="header-transparent__phone">
+        <i class="fa-solid fa-phone"></i>
+        <span class="header-transparent__phone-number">(555) 123-4567</span>
       </a>
 
       <button
@@ -149,23 +152,36 @@ const navItems = [
       margin-left: auto;
     }
 
-    &__contact-link {
+    &__phone {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
       color: $color-heritage-green;
-      font-weight: $font-weight-medium;
       text-decoration: none;
-      padding: $spacing-sm $spacing-xl;
-      border: 2px solid $color-heritage-green;
-      border-radius: $border-radius-sm;
+      font-weight: $font-weight-medium;
       transition: all $transition-fast;
-      white-space: nowrap;
+      padding: $spacing-sm $spacing-md;
+      border-radius: $border-radius-sm;
 
-      @include media-md {
-        padding: $spacing-sm $spacing-2xl;
+      i {
+        font-size: 1rem;
+        color: $color-prestige-gold;
+      }
+
+      &-number {
+        display: none;
+
+        @include media-md {
+          display: inline;
+        }
       }
 
       &:hover {
-        background-color: $color-heritage-green;
-        color: $color-white;
+        background-color: rgba($color-heritage-green, 0.05);
+
+        i {
+          color: $color-heritage-green;
+        }
       }
     }
 

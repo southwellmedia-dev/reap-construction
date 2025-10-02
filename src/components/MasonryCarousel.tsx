@@ -322,11 +322,20 @@ const MasonryCarousel: React.FC = () => {
 
   return (
     <div className="masonry-carousel" ref={containerRef}>
-      <div className="masonry-columns">
+      <motion.div
+        className="masonry-columns"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.5 }}
+      >
         <motion.div
           className="masonry-column masonry-column--1"
           style={{ y: y1 }}
           animate={controls1}
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
           onMouseEnter={() => setIsPaused1(true)}
           onMouseLeave={() => setIsPaused1(false)}
         >
@@ -353,6 +362,10 @@ const MasonryCarousel: React.FC = () => {
           className="masonry-column masonry-column--2"
           style={{ y: y2 }}
           animate={controls2}
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
           onMouseEnter={() => setIsPaused2(true)}
           onMouseLeave={() => setIsPaused2(false)}
         >
@@ -379,6 +392,10 @@ const MasonryCarousel: React.FC = () => {
           className="masonry-column masonry-column--3"
           style={{ y: y3 }}
           animate={controls3}
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
           onMouseEnter={() => setIsPaused3(true)}
           onMouseLeave={() => setIsPaused3(false)}
         >
@@ -400,7 +417,7 @@ const MasonryCarousel: React.FC = () => {
             }
           )}
         </motion.div>
-      </div>
+      </motion.div>
 
       <style jsx>{`
         .masonry-carousel {

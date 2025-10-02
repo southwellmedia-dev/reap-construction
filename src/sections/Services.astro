@@ -1,4 +1,6 @@
 ---
+import Button from '../components/Button.astro';
+
 const services = [
   {
     icon: `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -42,6 +44,7 @@ const services = [
 <section class="services section" id="services">
   <div class="services__container">
     <div class="services__header">
+      <span class="services__label">What We Do</span>
       <h2 class="services__title">Our Capabilities</h2>
       <p class="services__subtitle">
         Comprehensive construction services backed by decades of expertise and a commitment to excellence
@@ -59,13 +62,9 @@ const services = [
               <li class="service-card__feature">{feature}</li>
             ))}
           </ul>
-          <a href="#contact" class="service-card__link">
+          <Button href="#contact" variant="outline" block>
             Learn More
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </a>
+          </Button>
         </article>
       ))}
     </div>
@@ -89,10 +88,26 @@ const services = [
       margin: 0 auto $spacing-4xl;
     }
 
-    &__title {
-      @include heading-style;
-      font-size: $font-size-h2;
+    &__label {
+      display: inline-block;
+      font-size: 0.875rem;
+      font-weight: $font-weight-semibold;
+      color: $color-prestige-gold;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
       margin-bottom: $spacing-lg;
+      padding-bottom: $spacing-sm;
+      border-bottom: 2px solid $color-prestige-gold;
+    }
+
+    &__title {
+      font-family: $font-display;
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: $font-weight-semibold;
+      color: $color-heritage-green;
+      line-height: 1.1;
+      margin-bottom: $spacing-lg;
+      margin-top: $spacing-md;
     }
 
     &__subtitle {
@@ -124,6 +139,9 @@ const services = [
     transition: all $transition-base;
     animation: fadeInUp 0.6s ease-out forwards;
     opacity: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 
     &:hover {
       transform: translateY(-8px);
@@ -133,14 +151,6 @@ const services = [
         color: $color-white;
         background-color: $color-prestige-gold;
         transform: scale(1.1);
-      }
-
-      .service-card__link {
-        color: $color-prestige-gold;
-
-        svg {
-          transform: translateX(4px);
-        }
       }
     }
 
@@ -174,7 +184,8 @@ const services = [
     &__features {
       list-style: none;
       padding: 0;
-      margin: 0 0 $spacing-lg 0;
+      margin: 0 0 auto 0;
+      flex-grow: 1;
     }
 
     &__feature {
@@ -192,20 +203,10 @@ const services = [
         font-weight: $font-weight-bold;
       }
     }
+  }
 
-    &__link {
-      display: inline-flex;
-      align-items: center;
-      gap: $spacing-sm;
-      color: $color-heritage-green;
-      font-weight: $font-weight-medium;
-      text-decoration: none;
-      transition: color $transition-fast;
-
-      svg {
-        transition: transform $transition-fast;
-      }
-    }
+  .service-card .btn {
+    margin-top: $spacing-xl;
   }
 
   @keyframes fadeInUp {
