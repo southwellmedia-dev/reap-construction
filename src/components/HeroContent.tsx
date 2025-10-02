@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import AnimatedLogo from './AnimatedLogo.tsx';
 
@@ -31,6 +31,21 @@ const itemVariants = {
 };
 
 export const HeroAnimatedContent: React.FC = () => {
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    // Check if desktop on mount
+    const checkIsDesktop = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+
+    checkIsDesktop();
+
+    // Listen for resize
+    window.addEventListener('resize', checkIsDesktop);
+    return () => window.removeEventListener('resize', checkIsDesktop);
+  }, []);
+
   return (
     <motion.div
       className="hero-masonry__content"
@@ -38,9 +53,17 @@ export const HeroAnimatedContent: React.FC = () => {
       initial="hidden"
       animate="visible"
     >
-      {/* Logo */}
+      {/* Logo - Animated for desktop, static for mobile */}
       <motion.div variants={itemVariants} className="hero-masonry__logo" id="hero-logo">
-        <AnimatedLogo scale={2} />
+        {isDesktop ? (
+          <AnimatedLogo scale={2} />
+        ) : (
+          <img
+            src="/assets/branding/reap-logomark.svg"
+            alt="Reap Construction"
+            style={{ width: '120px', height: '120px', margin: '0 auto', display: 'block', overflow: 'visible' }}
+          />
+        )}
       </motion.div>
 
       {/* Title */}

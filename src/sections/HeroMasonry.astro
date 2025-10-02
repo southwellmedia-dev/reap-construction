@@ -78,14 +78,25 @@ export interface Props {}
 
     &__bg-logo {
       position: absolute;
-      top: -20%;
-      left: -15%;
-      width: 850px;
       height: auto;
       opacity: 0.06;
       filter: grayscale(100%);
       pointer-events: none;
       z-index: 1;
+
+      // Mobile: centered and lower
+      top: 30%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+
+      // Desktop: top-left positioning
+      @include media-lg {
+        top: -20%;
+        left: -15%;
+        transform: none;
+        width: 850px;
+      }
     }
 
     // Main grid layout
@@ -134,11 +145,19 @@ export interface Props {}
       z-index: 10;
       max-width: 700px;
       width: 100%;
+
+      // Center content on mobile
+      text-align: center;
+
+      @include media-lg {
+        text-align: left;
+      }
     }
 
     &__logo {
-      display: inline-block;
       margin-bottom: 2rem;
+      position: relative;
+      overflow: visible;
     }
 
     &__title {

@@ -2,11 +2,11 @@
 import Button from './Button.astro';
 
 const navItems = [
-  { label: 'Who We Are', href: '#about', icon: 'fa-building' },
-  { label: 'What We Do', href: '#services', icon: 'fa-tools' },
-  { label: 'Our Work', href: '#portfolio', icon: 'fa-images' },
-  { label: 'Our Process', href: '#process', icon: 'fa-list-check' },
-  { label: 'Contact', href: '#contact', icon: 'fa-envelope' },
+  { label: 'Who We Are', href: '#about', icon: 'fa-building', description: 'Learn about our story and values' },
+  { label: 'What We Do', href: '#services', icon: 'fa-tools', description: 'Explore our construction services' },
+  { label: 'Our Work', href: '#portfolio', icon: 'fa-images', description: 'View our completed projects' },
+  { label: 'Our Process', href: '#process', icon: 'fa-list-check', description: 'Discover how we build' },
+  { label: 'Contact', href: '#contact', icon: 'fa-envelope', description: 'Get in touch with our team' },
 ];
 ---
 
@@ -76,6 +76,78 @@ const navItems = [
     </div>
   </div>
 </header>
+
+<!-- Full-screen mobile menu overlay -->
+<div class="mobile-menu" id="mobile-menu" role="dialog" aria-modal="true" aria-labelledby="mobile-menu-title">
+  <div class="mobile-menu__overlay"></div>
+  <div class="mobile-menu__content">
+    <div class="mobile-menu__header">
+      <h2 id="mobile-menu-title" class="sr-only">Navigation Menu</h2>
+
+      <a href="#top" class="mobile-menu__logo">
+        <img
+          src="/assets/branding/reap-logomark.svg"
+          alt="Reap Construction"
+          class="mobile-menu__logo-img"
+        />
+        <div class="mobile-menu__logo-divider"></div>
+        <div class="mobile-menu__logo-content">
+          <span class="mobile-menu__logo-text">
+            <strong>REAP</strong> CONSTRUCTION
+          </span>
+          <span class="mobile-menu__logo-byline">
+            A Reap Capital Company
+          </span>
+        </div>
+      </a>
+
+      <button
+        class="mobile-menu__close"
+        aria-label="Close navigation menu"
+        id="mobile-menu-close"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <nav class="mobile-menu__nav">
+      <ul class="mobile-menu__list">
+        {navItems.map((item) => (
+          <li class="mobile-menu__item">
+            <a href={item.href} class="mobile-menu__link">
+              <div class="mobile-menu__link-icon">
+                <i class={`fa-solid ${item.icon}`}></i>
+              </div>
+              <div class="mobile-menu__link-content">
+                <span class="mobile-menu__link-label">{item.label}</span>
+                <span class="mobile-menu__link-description">{item.description}</span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="mobile-menu__footer">
+      <a href="tel:+15551234567" class="mobile-menu__phone">
+        <i class="fa-solid fa-phone"></i>
+        <span>(555) 123-4567</span>
+      </a>
+
+      <div class="mobile-menu__social">
+        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <i class="fa-brands fa-facebook-f"></i>
+        </a>
+        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <i class="fa-brands fa-linkedin-in"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <style lang="scss">
   @import '../styles/variables';
@@ -427,6 +499,332 @@ const navItems = [
       }
     }
   }
+
+  // Mobile menu overlay
+  .mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity $transition-base, visibility $transition-base;
+
+    &.active {
+      visibility: visible;
+      opacity: 1;
+
+      .mobile-menu__content {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      .mobile-menu__item {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    &__overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba($color-heritage-green, 0.98);
+      backdrop-filter: blur(10px);
+    }
+
+    &__content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: transform $transition-slow, opacity $transition-slow;
+    }
+
+    &__header {
+      position: relative;
+      padding: $spacing-lg $spacing-xl;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba($color-white, 0.1);
+    }
+
+    &__logo {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      text-decoration: none;
+      transition: opacity $transition-base;
+
+      &:hover {
+        opacity: 0.8;
+      }
+
+      &-img {
+        width: 40px;
+        height: 40px;
+        filter: brightness(0) invert(1);
+      }
+
+      &-divider {
+        width: 1px;
+        height: 40px;
+        background-color: rgba($color-white, 0.3);
+      }
+
+      &-content {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      &-text {
+        font-size: 0.875rem;
+        font-weight: $font-weight-regular;
+        color: $color-white;
+        letter-spacing: 0.05em;
+        line-height: 1;
+
+        strong {
+          font-weight: $font-weight-bold;
+        }
+      }
+
+      &-byline {
+        font-size: 0.625rem;
+        color: rgba($color-white, 0.7);
+        letter-spacing: 0.03em;
+        line-height: 1;
+      }
+    }
+
+    &__close {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba($color-white, 0.1);
+      border: 2px solid rgba($color-white, 0.2);
+      border-radius: 50%;
+      color: $color-white;
+      font-size: 1.25rem;
+      cursor: pointer;
+      transition: all $transition-base;
+      padding: 0;
+
+      i {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      &:hover {
+        background: rgba($color-white, 0.2);
+        border-color: $color-white;
+        transform: rotate(90deg);
+      }
+
+      &:focus-visible {
+        outline: 2px solid $color-prestige-gold;
+        outline-offset: 2px;
+      }
+    }
+
+    &__nav {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 $spacing-xl;
+    }
+
+    &__list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    &__item {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity $transition-base, transform $transition-base;
+
+      @for $i from 1 through 5 {
+        &:nth-child(#{$i}) {
+          transition-delay: #{$i * 0.1}s;
+        }
+      }
+
+      &:not(:last-child) {
+        margin-bottom: $spacing-md;
+      }
+    }
+
+    &__link {
+      display: flex;
+      align-items: center;
+      gap: $spacing-lg;
+      padding: $spacing-lg;
+      color: $color-white;
+      text-decoration: none;
+      border-radius: $border-radius-lg;
+      transition: all $transition-base;
+      border: 2px solid transparent;
+
+      &-icon {
+        flex-shrink: 0;
+        width: 56px;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba($color-prestige-gold, 0.15);
+        border-radius: $border-radius-md;
+        transition: all $transition-base;
+
+        i {
+          font-size: 1.5rem;
+          color: $color-prestige-gold;
+          transition: transform $transition-base;
+        }
+      }
+
+      &-content {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        flex: 1;
+      }
+
+      &-label {
+        font-family: $font-display;
+        font-size: 1.25rem;
+        font-weight: $font-weight-semibold;
+        color: $color-white;
+        line-height: 1.2;
+      }
+
+      &-description {
+        font-size: 0.875rem;
+        color: rgba($color-white, 0.7);
+        line-height: 1.3;
+      }
+
+      &:hover {
+        background: rgba($color-white, 0.08);
+        border-color: rgba($color-prestige-gold, 0.2);
+        transform: translateX(4px);
+
+        .mobile-menu__link-icon {
+          background: $color-prestige-gold;
+          transform: scale(1.05);
+
+          i {
+            color: $color-heritage-green;
+          }
+        }
+      }
+
+      &:focus-visible {
+        outline: 2px solid $color-prestige-gold;
+        outline-offset: 2px;
+      }
+    }
+
+    &__footer {
+      padding: $spacing-xl;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: $spacing-lg;
+      border-top: 1px solid rgba($color-white, 0.2);
+    }
+
+    &__phone {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      color: $color-white;
+      text-decoration: none;
+      font-size: 1.125rem;
+      font-weight: $font-weight-semibold;
+      padding: $spacing-sm $spacing-lg;
+      border-radius: $border-radius-md;
+      transition: all $transition-base;
+
+      i {
+        color: $color-prestige-gold;
+      }
+
+      &:hover {
+        background: rgba($color-white, 0.1);
+      }
+
+      &:focus-visible {
+        outline: 2px solid $color-prestige-gold;
+        outline-offset: 2px;
+      }
+    }
+
+    &__social {
+      display: flex;
+      gap: $spacing-md;
+
+      a {
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $color-white;
+        border: 2px solid rgba($color-white, 0.3);
+        border-radius: 50%;
+        transition: all $transition-base;
+
+        &:hover {
+          background: rgba($color-white, 0.1);
+          border-color: $color-prestige-gold;
+          color: $color-prestige-gold;
+        }
+
+        &:focus-visible {
+          outline: 2px solid $color-prestige-gold;
+          outline-offset: 2px;
+        }
+      }
+    }
+
+    // Hide on desktop
+    @include media-lg {
+      display: none;
+    }
+  }
+
+  // Screen reader only class
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
 </style>
 
 <script>
@@ -490,33 +888,159 @@ const navItems = [
     lastScroll = currentScroll;
   });
 
-  // Hamburger toggle - only toggles phone/nav, not mobile menu
+  // Mobile menu functionality
   const mobileToggle = document.querySelector('.header-transparent__mobile-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileMenuClose = document.getElementById('mobile-menu-close');
+  const mobileMenuLinks = document.querySelectorAll('.mobile-menu__link');
   const headerPhone = document.getElementById('header-phone');
   const horizontalNav = document.getElementById('header-horizontal-nav');
 
-  mobileToggle?.addEventListener('click', () => {
-    const isExpanded = mobileToggle.getAttribute('aria-expanded') === 'true';
-    mobileToggle.setAttribute('aria-expanded', !isExpanded ? 'true' : 'false');
+  let focusedElementBeforeMenu = null;
 
-    // Toggle between phone and horizontal nav
-    if (!isExpanded) {
-      // Menu opening - hide phone, show nav
-      headerPhone?.classList.add('hidden');
-      horizontalNav?.classList.remove('closing');
-      horizontalNav?.classList.add('visible');
+  // Function to get focusable elements
+  function getFocusableElements(container) {
+    const focusableSelectors = [
+      'a[href]',
+      'button:not([disabled])',
+      'textarea:not([disabled])',
+      'input:not([disabled])',
+      'select:not([disabled])',
+      '[tabindex]:not([tabindex="-1"])'
+    ];
+
+    const elements = container.querySelectorAll(focusableSelectors.join(','));
+    return Array.from(elements).filter(el => {
+      return el.offsetParent !== null && !el.hasAttribute('disabled');
+    });
+  }
+
+  // Function to trap focus within mobile menu
+  function trapFocus(e) {
+    if (!mobileMenu) return;
+
+    const focusableElements = getFocusableElements(mobileMenu);
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+
+    if (e.key !== 'Tab') return;
+
+    if (e.shiftKey) {
+      if (document.activeElement === firstElement) {
+        e.preventDefault();
+        lastElement?.focus();
+      }
     } else {
-      // Menu closing - animate out then show phone
-      horizontalNav?.classList.add('closing');
-      horizontalNav?.classList.remove('visible');
+      if (document.activeElement === lastElement) {
+        e.preventDefault();
+        firstElement?.focus();
+      }
+    }
+  }
 
-      // Wait for animation to complete, then show phone
-      setTimeout(() => {
-        headerPhone?.classList.remove('hidden');
+  // Open mobile menu
+  function openMobileMenu() {
+    if (!mobileMenu || !mobileToggle) return;
+
+    // Store currently focused element
+    focusedElementBeforeMenu = document.activeElement;
+
+    // Open menu
+    mobileMenu.classList.add('active');
+    mobileToggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+
+    // Focus close button
+    setTimeout(() => {
+      mobileMenuClose?.focus();
+    }, 100);
+
+    // Add focus trap
+    document.addEventListener('keydown', trapFocus);
+  }
+
+  // Close mobile menu
+  function closeMobileMenu() {
+    if (!mobileMenu || !mobileToggle) return;
+
+    // Close menu
+    mobileMenu.classList.remove('active');
+    mobileToggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+
+    // Remove focus trap
+    document.removeEventListener('keydown', trapFocus);
+
+    // Restore focus
+    if (focusedElementBeforeMenu) {
+      focusedElementBeforeMenu.focus();
+      focusedElementBeforeMenu = null;
+    }
+  }
+
+  // Hamburger toggle - opens mobile menu on mobile, toggles phone/nav on desktop
+  mobileToggle?.addEventListener('click', () => {
+    const isMobile = window.innerWidth < 1024; // lg breakpoint
+
+    if (isMobile) {
+      // Mobile: open full-screen menu
+      const isExpanded = mobileToggle.getAttribute('aria-expanded') === 'true';
+      if (isExpanded) {
+        closeMobileMenu();
+      } else {
+        openMobileMenu();
+      }
+    } else {
+      // Desktop: toggle phone/nav
+      const isExpanded = mobileToggle.getAttribute('aria-expanded') === 'true';
+      mobileToggle.setAttribute('aria-expanded', !isExpanded ? 'true' : 'false');
+
+      if (!isExpanded) {
+        headerPhone?.classList.add('hidden');
         horizontalNav?.classList.remove('closing');
-      }, 400); // Match animation duration
+        horizontalNav?.classList.add('visible');
+      } else {
+        horizontalNav?.classList.add('closing');
+        horizontalNav?.classList.remove('visible');
+
+        setTimeout(() => {
+          headerPhone?.classList.remove('hidden');
+          horizontalNav?.classList.remove('closing');
+        }, 400);
+      }
     }
   });
+
+  // Close button
+  mobileMenuClose?.addEventListener('click', closeMobileMenu);
+
+  // Close menu when clicking menu links (auto-close after navigation)
+  mobileMenuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      // Small delay to allow scroll to initiate
+      setTimeout(() => {
+        closeMobileMenu();
+      }, 100);
+    });
+  });
+
+  // Close menu when clicking logo in mobile menu
+  const mobileMenuLogo = document.querySelector('.mobile-menu__logo');
+  mobileMenuLogo?.addEventListener('click', () => {
+    setTimeout(() => {
+      closeMobileMenu();
+    }, 100);
+  });
+
+  // Close menu on ESC key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileMenu?.classList.contains('active')) {
+      closeMobileMenu();
+    }
+  });
+
+  // Close menu on overlay click
+  mobileMenu?.querySelector('.mobile-menu__overlay')?.addEventListener('click', closeMobileMenu);
 
   // Scroll Spy - Highlight active section
   const sections = document.querySelectorAll('section[id]');

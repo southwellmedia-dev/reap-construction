@@ -1,6 +1,6 @@
 ---
-import { projects } from '../data/projects';
-import Button from '../components/Button.astro';
+import { projects } from "../data/projects";
+import Button from "../components/Button.astro";
 ---
 
 <section class="portfolio section" id="portfolio">
@@ -9,101 +9,138 @@ import Button from '../components/Button.astro';
       <span class="portfolio__label">Our Work</span>
       <h2 class="portfolio__title">Defining the Skyline</h2>
       <p class="portfolio__subtitle">
-        A showcase of our recent projects demonstrating quality, craftsmanship, and attention to detail
+        A showcase of our recent projects demonstrating quality, craftsmanship,
+        and attention to detail
       </p>
     </div>
 
     <div class="portfolio__grid">
-      {projects.map((project, index) => (
-        <article class="project-card" data-project={project.id} style={`animation-delay: ${index * 0.15}s`}>
-          <div class="project-card__image-wrapper">
-            <img
-              src={project.images[0]}
-              alt={`${project.title} - ${project.category}`}
-              class="project-card__image"
-              loading="lazy"
-            />
-            <div class="project-card__overlay">
-              <button class="project-card__view-btn" data-project-id={project.id}>
-                View Gallery
-              </button>
+      {
+        projects.map((project, index) => (
+          <article
+            class="project-card"
+            data-project={project.id}
+            style={`animation-delay: ${index * 0.15}s`}
+          >
+            <div class="project-card__image-wrapper">
+              <img
+                src={project.images[0]}
+                alt={`${project.title} - ${project.category}`}
+                class="project-card__image"
+                loading="lazy"
+              />
+              <div class="project-card__overlay">
+                <button
+                  class="project-card__view-btn"
+                  data-project-id={project.id}
+                >
+                  View Project Details
+                </button>
+              </div>
             </div>
-          </div>
-          <div class="project-card__content">
-            <h3 class="project-card__title">{project.title}</h3>
-            <p class="project-card__description">{project.description}</p>
+            <div class="project-card__content">
+              <h3 class="project-card__title">{project.title}</h3>
+              <p class="project-card__description">{project.description}</p>
 
-            <div class="project-card__divider"></div>
+              <div class="project-card__divider" />
 
-            <span class="project-card__category">{project.category}</span>
+              <span class="project-card__category">{project.category}</span>
 
-            <div class="project-card__badges">
-              <span class="project-card__badge">
-                <i class="fa-regular fa-calendar"></i>
-                {project.completionYear}
-              </span>
-              <span class="project-card__badge">
-                <i class="fa-regular fa-clock"></i>
-                {project.duration}
-              </span>
-              <span class="project-card__badge">
-                <i class="fa-solid fa-ruler-combined"></i>
-                {project.size}
-              </span>
+              <div class="project-card__badges">
+                <span class="project-card__badge">
+                  <i class="fa-regular fa-calendar" />
+                  {project.completionYear}
+                </span>
+                <span class="project-card__badge">
+                  <i class="fa-regular fa-clock" />
+                  {project.duration}
+                </span>
+                <span class="project-card__badge">
+                  <i class="fa-solid fa-ruler-combined" />
+                  {project.size}
+                </span>
+              </div>
             </div>
-          </div>
-        </article>
-      ))}
-    </div>
-
-    <div class="portfolio__cta">
-      <Button href="#contact" variant="primary" size="large">
-        Discuss Your Project
-      </Button>
+          </article>
+        ))
+      }
     </div>
   </div>
 </section>
 
-<!-- Project Gallery Modal -->
-<div class="gallery-modal" id="galleryModal" role="dialog" aria-modal="true" aria-labelledby="galleryTitle">
+<!-- Project Details Modal -->
+<div
+  class="gallery-modal"
+  id="galleryModal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="galleryTitle"
+>
+  <div class="gallery-modal__overlay"></div>
   <div class="gallery-modal__content">
-    <button class="gallery-modal__close" aria-label="Close gallery">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
-      </svg>
-    </button>
-
     <div class="gallery-modal__header">
-      <h3 class="gallery-modal__title" id="galleryTitle"></h3>
-      <p class="gallery-modal__category"></p>
+      <div class="gallery-modal__header-left">
+        <h3 class="gallery-modal__title" id="galleryTitle"></h3>
+        <span class="gallery-modal__category"></span>
+      </div>
+      <button class="gallery-modal__close" aria-label="Close project details">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
     </div>
 
-    <div class="gallery-modal__slider">
-      <button class="gallery-modal__nav gallery-modal__nav--prev" aria-label="Previous image">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="15 18 9 12 15 6"></polyline>
-        </svg>
-      </button>
+    <div class="gallery-modal__body">
+      <!-- Left Column: Project Info -->
+      <div class="gallery-modal__info">
+        <div class="gallery-modal__description-wrapper">
+          <h4 class="gallery-modal__section-title">Project Overview</h4>
+          <p class="gallery-modal__description"></p>
+        </div>
 
-      <div class="gallery-modal__image-container">
-        <img class="gallery-modal__image" alt="">
+        <div class="gallery-modal__stats">
+          <div class="gallery-modal__stat">
+            <i class="fa-regular fa-calendar"></i>
+            <div class="gallery-modal__stat-content">
+              <span class="gallery-modal__stat-label">Completed</span>
+              <span class="gallery-modal__stat-value" data-stat="year"></span>
+            </div>
+          </div>
+          <div class="gallery-modal__stat">
+            <i class="fa-regular fa-clock"></i>
+            <div class="gallery-modal__stat-content">
+              <span class="gallery-modal__stat-label">Duration</span>
+              <span class="gallery-modal__stat-value" data-stat="duration"
+              ></span>
+            </div>
+          </div>
+          <div class="gallery-modal__stat">
+            <i class="fa-solid fa-ruler-combined"></i>
+            <div class="gallery-modal__stat-content">
+              <span class="gallery-modal__stat-label">Size</span>
+              <span class="gallery-modal__stat-value" data-stat="size"></span>
+            </div>
+          </div>
+          <div class="gallery-modal__stat" data-stat-container="value">
+            <i class="fa-solid fa-dollar-sign"></i>
+            <div class="gallery-modal__stat-content">
+              <span class="gallery-modal__stat-label">Value</span>
+              <span class="gallery-modal__stat-value" data-stat="value"></span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <button class="gallery-modal__nav gallery-modal__nav--next" aria-label="Next image">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="9 18 15 12 9 6"></polyline>
-        </svg>
-      </button>
+      <!-- Right Column: Gallery -->
+      <div class="gallery-modal__gallery">
+        <h4 class="gallery-modal__section-title">Project Gallery</h4>
+        <div class="gallery-modal__grid"></div>
+      </div>
     </div>
-
-    <div class="gallery-modal__thumbnails"></div>
   </div>
 </div>
 
 <style lang="scss">
-  @import '../styles/variables';
-  @import '../styles/mixins';
+  @import "../styles/variables";
+  @import "../styles/mixins";
 
   .portfolio {
     background-color: $color-white;
@@ -317,7 +354,6 @@ import Button from '../components/Button.astro';
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba($color-black, 0.95);
     z-index: $z-modal;
     animation: fadeIn 0.3s ease-out;
 
@@ -327,128 +363,216 @@ import Button from '../components/Button.astro';
       justify-content: center;
     }
 
-    &__content {
-      position: relative;
-      max-width: 1200px;
-      width: 90%;
-      max-height: 90vh;
-      display: flex;
-      flex-direction: column;
+    &__overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba($color-heritage-green, 0.95);
+      backdrop-filter: blur(5px);
     }
 
-    &__close {
-      position: absolute;
-      top: $spacing-lg;
-      right: $spacing-lg;
-      background: rgba($color-white, 0.1);
-      border: none;
-      color: $color-white;
-      width: 48px;
-      height: 48px;
-      border-radius: $border-radius-full;
-      cursor: pointer;
+    &__content {
+      position: relative;
+      z-index: 1;
+      max-width: 1400px;
+      width: 95%;
+      max-height: 95vh;
+      background: $color-white;
+      border-radius: $border-radius-lg;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all $transition-fast;
-      z-index: 10;
-
-      &:hover {
-        background: rgba($color-white, 0.2);
-        transform: rotate(90deg);
-      }
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: $shadow-xl;
     }
 
     &__header {
-      text-align: center;
-      margin-bottom: $spacing-xl;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: $spacing-xl $spacing-2xl;
+      border-bottom: 1px solid rgba($color-heritage-green, 0.1);
+      gap: $spacing-lg;
+
+      &-left {
+        flex: 1;
+      }
     }
 
     &__title {
-      color: $color-white;
+      color: $color-heritage-green;
       font-size: $font-size-h3;
-      margin-bottom: $spacing-sm;
+      font-family: $font-display;
+      font-weight: $font-weight-semibold;
+      margin: 0 0 $spacing-xs 0;
+      line-height: 1.2;
     }
 
     &__category {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba($color-prestige-gold, 0.1);
       color: $color-prestige-gold;
-      font-size: 0.875rem;
+      font-size: 0.75rem;
+      font-weight: $font-weight-semibold;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.05em;
+      border-radius: $border-radius-sm;
     }
 
-    &__slider {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-grow: 1;
-    }
-
-    &__nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba($color-white, 0.1);
-      border: none;
-      color: $color-white;
-      width: 48px;
-      height: 48px;
-      border-radius: $border-radius-full;
+    &__close {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+      background: rgba($color-heritage-green, 0.05);
+      border: 2px solid rgba($color-heritage-green, 0.1);
+      border-radius: 50%;
+      color: $color-heritage-green;
+      font-size: 1.25rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all $transition-fast;
-      z-index: 5;
+      transition: all $transition-base;
+      padding: 0;
+
+      i {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
       &:hover {
-        background: rgba($color-white, 0.2);
+        background: $color-heritage-green;
+        border-color: $color-heritage-green;
+        color: $color-white;
+        transform: rotate(90deg);
       }
 
-      &--prev {
-        left: $spacing-xl;
-      }
-
-      &--next {
-        right: $spacing-xl;
+      &:focus-visible {
+        outline: 2px solid $color-prestige-gold;
+        outline-offset: 2px;
       }
     }
 
-    &__image-container {
-      max-width: 100%;
-      max-height: 70vh;
+    &__body {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: $spacing-2xl;
+      padding: $spacing-2xl;
+      overflow-y: auto;
+      flex: 1;
+
+      @include media-lg {
+        grid-template-columns: 400px 1fr;
+        padding: $spacing-3xl;
+      }
+
+      @include media-xl {
+        grid-template-columns: 450px 1fr;
+      }
+    }
+
+    &__info {
       display: flex;
-      align-items: center;
-      justify-content: center;
+      flex-direction: column;
+      gap: $spacing-2xl;
     }
 
-    &__image {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
+    &__stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: $spacing-lg;
     }
 
-    &__thumbnails {
+    &__stat {
       display: flex;
+      align-items: flex-start;
+      gap: $spacing-md;
+      padding: $spacing-lg;
+      background: rgba($color-heritage-green, 0.03);
+      border-radius: $border-radius-md;
+      border: 1px solid rgba($color-heritage-green, 0.1);
+
+      i {
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba($color-prestige-gold, 0.1);
+        color: $color-prestige-gold;
+        border-radius: $border-radius-sm;
+        font-size: 1.125rem;
+      }
+
+      &-content {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        flex: 1;
+      }
+
+      &-label {
+        font-size: 0.75rem;
+        color: $color-text-light;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: $font-weight-semibold;
+      }
+
+      &-value {
+        font-size: 1rem;
+        color: $color-heritage-green;
+        font-weight: $font-weight-semibold;
+        font-family: $font-display;
+      }
+    }
+
+    &__section-title {
+      font-size: $font-size-h5;
+      font-family: $font-display;
+      font-weight: $font-weight-semibold;
+      color: $color-heritage-green;
+      margin: 0 0 $spacing-md 0;
+    }
+
+    &__description {
+      font-size: 0.9375rem;
+      line-height: $line-height-relaxed;
+      color: $color-text;
+      margin: 0;
+    }
+
+    &__gallery {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-lg;
+      min-height: 0;
+    }
+
+    &__grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
       gap: $spacing-sm;
-      justify-content: center;
-      margin-top: $spacing-xl;
-      overflow-x: auto;
-      padding: $spacing-sm;
+      max-height: 500px;
+      overflow-y: auto;
 
       img {
-        width: 80px;
-        height: 60px;
+        width: 100%;
+        height: 140px;
         object-fit: cover;
         border-radius: $border-radius-sm;
-        cursor: pointer;
-        opacity: 0.6;
-        transition: opacity $transition-fast;
+        transition: all $transition-base;
+        border: 2px solid transparent;
 
-        &:hover,
-        &.active {
-          opacity: 1;
+        &:hover {
+          border-color: $color-prestige-gold;
+          box-shadow: $shadow-md;
         }
       }
     }
@@ -476,48 +600,58 @@ import Button from '../components/Button.astro';
 </style>
 
 <script>
-  import { projects } from '../data/projects';
+  import { projects } from "../data/projects";
 
   // Gallery Modal Functionality - Guard against missing elements
-  const modal = document.getElementById('galleryModal');
+  const modal = document.getElementById("galleryModal");
 
   // Early exit if modal doesn't exist
   if (!modal) {
-    console.warn('Gallery modal element not found. Gallery functionality will be disabled.');
+    console.warn(
+      "Gallery modal element not found. Gallery functionality will be disabled."
+    );
   } else {
     // Query child elements without type assertions
-    const modalTitle = modal.querySelector('.gallery-modal__title');
-    const modalCategory = modal.querySelector('.gallery-modal__category');
-    const modalImage = modal.querySelector('.gallery-modal__image');
-    const thumbnailsContainer = modal.querySelector('.gallery-modal__thumbnails');
-    const closeBtn = modal.querySelector('.gallery-modal__close');
-    const prevBtn = modal.querySelector('.gallery-modal__nav--prev');
-    const nextBtn = modal.querySelector('.gallery-modal__nav--next');
+    const modalTitle = modal.querySelector(".gallery-modal__title");
+    const modalCategory = modal.querySelector(".gallery-modal__category");
+    const modalDescription = modal.querySelector(".gallery-modal__description");
+    const gridContainer = modal.querySelector(".gallery-modal__grid");
+    const closeBtn = modal.querySelector(".gallery-modal__close");
+    const statYear = modal.querySelector('[data-stat="year"]');
+    const statDuration = modal.querySelector('[data-stat="duration"]');
+    const statSize = modal.querySelector('[data-stat="size"]');
+    const statValue = modal.querySelector('[data-stat="value"]');
+    const statValueContainer = modal.querySelector(
+      '[data-stat-container="value"]'
+    );
 
     // Validate required elements
-    if (!modalTitle || !modalCategory || !modalImage) {
-      console.error('Required modal elements are missing. Gallery will not function properly.');
+    if (!modalTitle || !modalCategory || !modalDescription || !gridContainer) {
+      console.error(
+        "Required modal elements are missing. Gallery will not function properly."
+      );
     }
 
-    let currentProject: typeof projects[0] | null = null;
-    let currentImageIndex = 0;
+    let currentProject: (typeof projects)[0] | null = null;
     let triggerButton: HTMLElement | null = null;
     let focusTrapHandler: ((e: KeyboardEvent) => void) | null = null;
 
     // Focus trap utilities
     function getFocusableElements(container: HTMLElement): HTMLElement[] {
       const focusableSelectors = [
-        'a[href]',
-        'button:not([disabled])',
-        'textarea:not([disabled])',
-        'input:not([disabled])',
-        'select:not([disabled])',
-        '[tabindex]:not([tabindex="-1"])'
+        "a[href]",
+        "button:not([disabled])",
+        "textarea:not([disabled])",
+        "input:not([disabled])",
+        "select:not([disabled])",
+        '[tabindex]:not([tabindex="-1"])',
       ];
 
-      const elements = container.querySelectorAll<HTMLElement>(focusableSelectors.join(','));
-      return Array.from(elements).filter(el => {
-        return el.offsetParent !== null && !el.hasAttribute('disabled');
+      const elements = container.querySelectorAll<HTMLElement>(
+        focusableSelectors.join(",")
+      );
+      return Array.from(elements).filter((el) => {
+        return el.offsetParent !== null && !el.hasAttribute("disabled");
       });
     }
 
@@ -527,7 +661,7 @@ import Button from '../components/Button.astro';
       const lastElement = focusableElements[focusableElements.length - 1];
 
       focusTrapHandler = (e: KeyboardEvent) => {
-        if (e.key !== 'Tab') return;
+        if (e.key !== "Tab") return;
 
         if (e.shiftKey) {
           // Shift + Tab
@@ -544,7 +678,7 @@ import Button from '../components/Button.astro';
         }
       };
 
-      container.addEventListener('keydown', focusTrapHandler);
+      container.addEventListener("keydown", focusTrapHandler);
 
       // Focus first element
       firstElement?.focus();
@@ -552,77 +686,65 @@ import Button from '../components/Button.astro';
 
     function removeFocusTrap(container: HTMLElement) {
       if (focusTrapHandler) {
-        container.removeEventListener('keydown', focusTrapHandler);
+        container.removeEventListener("keydown", focusTrapHandler);
         focusTrapHandler = null;
       }
     }
 
     // Open gallery
-    document.querySelectorAll('.project-card__view-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const projectId = btn.getAttribute('data-project-id');
-        currentProject = projects.find(p => p.id === projectId) || null;
+    document.querySelectorAll(".project-card__view-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const projectId = btn.getAttribute("data-project-id");
+        currentProject = projects.find((p) => p.id === projectId) || null;
 
-        if (currentProject && modal && modalTitle && modalCategory && modalImage) {
+        if (
+          currentProject &&
+          modal &&
+          modalTitle &&
+          modalCategory &&
+          modalDescription &&
+          gridContainer
+        ) {
           // Store the trigger button for focus restoration
           triggerButton = btn as HTMLElement;
 
-          currentImageIndex = 0;
+          // Populate modal content
           modalTitle.textContent = currentProject.title;
           modalCategory.textContent = currentProject.category;
+          modalDescription.textContent = currentProject.description;
 
-        // Load thumbnails
-        if (thumbnailsContainer) {
-          thumbnailsContainer.innerHTML = '';
+          // Populate stats
+          if (statYear) statYear.textContent = currentProject.completionYear;
+          if (statDuration) statDuration.textContent = currentProject.duration;
+          if (statSize) statSize.textContent = currentProject.size;
+
+          // Show/hide value stat if it exists
+          if (statValueContainer) {
+            if (currentProject.value) {
+              statValueContainer.style.display = "flex";
+              if (statValue) statValue.textContent = currentProject.value;
+            } else {
+              statValueContainer.style.display = "none";
+            }
+          }
+
+          // Load image grid
+          gridContainer.innerHTML = "";
           currentProject.images.forEach((img, index) => {
-            const thumb = document.createElement('img');
-            thumb.src = img;
-            thumb.alt = `${currentProject?.title} - Image ${index + 1}`;
-            thumb.addEventListener('click', () => {
-              currentImageIndex = index;
-              updateGalleryImage();
-            });
-            if (index === 0) thumb.classList.add('active');
-            thumbnailsContainer.appendChild(thumb);
+            const imgElement = document.createElement("img");
+            imgElement.src = img;
+            imgElement.alt = `${currentProject?.title} - Image ${index + 1}`;
+            imgElement.loading = "lazy";
+            gridContainer.appendChild(imgElement);
           });
-        }
 
-        updateGalleryImage();
-        modal.classList.add('gallery-modal--open');
-        document.body.style.overflow = 'hidden';
+          modal.classList.add("gallery-modal--open");
+          document.body.style.overflow = "hidden";
 
-        // Create focus trap for keyboard accessibility
-        createFocusTrap(modal);
+          // Create focus trap for keyboard accessibility
+          createFocusTrap(modal);
         }
       });
-    });
-
-    function updateGalleryImage() {
-      if (currentProject && modalImage) {
-        modalImage.src = currentProject.images[currentImageIndex];
-        modalImage.alt = `${currentProject.title} - Image ${currentImageIndex + 1}`;
-
-        // Update thumbnail active state
-        const thumbnails = thumbnailsContainer?.querySelectorAll('img');
-        thumbnails?.forEach((thumb, index) => {
-          thumb.classList.toggle('active', index === currentImageIndex);
-        });
-      }
-    }
-
-    // Navigation
-    prevBtn?.addEventListener('click', () => {
-      if (currentProject) {
-        currentImageIndex = (currentImageIndex - 1 + currentProject.images.length) % currentProject.images.length;
-        updateGalleryImage();
-      }
-    });
-
-    nextBtn?.addEventListener('click', () => {
-      if (currentProject) {
-        currentImageIndex = (currentImageIndex + 1) % currentProject.images.length;
-        updateGalleryImage();
-      }
     });
 
     // Helper function to close modal and restore focus
@@ -630,8 +752,8 @@ import Button from '../components/Button.astro';
       // Remove focus trap
       removeFocusTrap(modal);
 
-      modal.classList.remove('gallery-modal--open');
-      document.body.style.overflow = '';
+      modal.classList.remove("gallery-modal--open");
+      document.body.style.overflow = "";
 
       // Restore focus to trigger button if it exists and is still in the document
       if (triggerButton && document.contains(triggerButton)) {
@@ -641,19 +763,22 @@ import Button from '../components/Button.astro';
     }
 
     // Close modal
-    closeBtn?.addEventListener('click', () => {
+    closeBtn?.addEventListener("click", () => {
       closeModal();
     });
 
     // Close on escape key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.classList.contains('gallery-modal--open')) {
+    document.addEventListener("keydown", (e) => {
+      if (
+        e.key === "Escape" &&
+        modal.classList.contains("gallery-modal--open")
+      ) {
         closeModal();
       }
     });
 
     // Close on background click
-    modal.addEventListener('click', (e) => {
+    modal.addEventListener("click", (e) => {
       if (e.target === modal) {
         closeModal();
       }
