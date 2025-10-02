@@ -3,22 +3,22 @@
 const USE_MODERN_DESIGN = true;
 
 // Hero variant selection: 'classic', 'modern', 'minimal', or 'masonry'
-const HERO_VARIANT = 'masonry'; // Change this to test different hero variants
+const HERO_VARIANT = "masonry"; // Change this to test different hero variants
 
 // Import layouts
-import MainLayout from '../layouts/MainLayout.astro';
-import ModernLayout from '../layouts/ModernLayout.astro';
+import MainLayout from "../layouts/MainLayout.astro";
+import ModernLayout from "../layouts/ModernLayout.astro";
 
 // Import hero sections
-import Hero from '../sections/Hero.astro';
-import HeroModern from '../sections/HeroModern.astro';
-import HeroMinimal from '../sections/HeroMinimal.astro';
-import HeroMasonry from '../sections/HeroMasonry.astro';
+import Hero from "../sections/Hero.astro";
+import HeroModern from "../sections/HeroModern.astro";
+import HeroMinimal from "../sections/HeroMinimal.astro";
+import HeroMasonry from "../sections/HeroMasonry.astro";
 
 // Import other sections
-import Services from '../sections/Services.astro';
-import Portfolio from '../sections/Portfolio.astro';
-import Contact from '../sections/Contact.astro';
+import Services from "../sections/Services.astro";
+import Portfolio from "../sections/Portfolio.astro";
+import Contact from "../sections/Contact.astro";
 
 // Choose layout based on configuration
 const Layout = USE_MODERN_DESIGN ? ModernLayout : MainLayout;
@@ -26,16 +26,16 @@ const Layout = USE_MODERN_DESIGN ? ModernLayout : MainLayout;
 // Choose hero section based on variant
 let HeroSection;
 switch (HERO_VARIANT) {
-  case 'modern':
+  case "modern":
     HeroSection = HeroModern;
     break;
-  case 'minimal':
+  case "minimal":
     HeroSection = HeroMinimal;
     break;
-  case 'masonry':
+  case "masonry":
     HeroSection = HeroMasonry;
     break;
-  case 'classic':
+  case "classic":
   default:
     HeroSection = Hero;
     break;
@@ -50,17 +50,22 @@ switch (HERO_VARIANT) {
     <div class="about__container">
       <!-- Asymmetric Layout -->
       <div class="about__layout">
-
         <!-- Left Side: Image Composition -->
         <div class="about__visual">
           <!-- Main image -->
           <div class="about__img-main">
-            <img src="/assets/projects/warren/1746792005699.jpg" alt="Luxury construction project" />
+            <img
+              src="/assets/projects/warren/1746792005699.jpg"
+              alt="Luxury construction project"
+            />
           </div>
 
           <!-- Overlapping accent image -->
           <div class="about__img-accent">
-            <img src="/assets/projects/bryant/1755615602011.jpg" alt="Modern architecture" />
+            <img
+              src="/assets/projects/bryant/1755615602011.jpg"
+              alt="Modern architecture"
+            />
           </div>
 
           <!-- Stat Box -->
@@ -73,16 +78,12 @@ switch (HERO_VARIANT) {
         <!-- Right Side: Content Flow -->
         <div class="about__content">
           <span class="about__label">Who We Are</span>
-          <h2 class="about__title">A Foundation of Excellence</h2>
+          <h2 class="about__title">Building A Foundation of Excellence</h2>
 
           <p class="about__intro">
-            As a proud subsidiary of <strong>Reap Capital</strong>, we bring decades of experience,
-            innovative techniques, and unwavering commitment to quality.
-          </p>
-
-          <p class="about__statement">
-            We don't just construct buildings—we create lasting partnerships and
-            deliver spaces that inspire.
+            As a proud subsidiary of <strong>Reap Capital</strong>, we bring
+            decades of experience, innovative techniques, and unwavering
+            commitment to quality.
           </p>
 
           <!-- Values - Clean List Style -->
@@ -91,7 +92,10 @@ switch (HERO_VARIANT) {
               <span class="about__value-number">01</span>
               <div>
                 <h3>Integrity</h3>
-                <p>Honest communication and transparent processes in every project</p>
+                <p>
+                  Honest communication and transparent processes in every
+                  project
+                </p>
               </div>
             </div>
             <div class="about__value">
@@ -105,12 +109,14 @@ switch (HERO_VARIANT) {
               <span class="about__value-number">03</span>
               <div>
                 <h3>Partnership</h3>
-                <p>Collaborative relationships that extend beyond project completion</p>
+                <p>
+                  Collaborative relationships that extend beyond project
+                  completion
+                </p>
               </div>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </section>
@@ -125,7 +131,8 @@ switch (HERO_VARIANT) {
         <span class="process__label">How We Work</span>
         <h2 class="process__title">The Blueprint for Success</h2>
         <p class="process__subtitle">
-          Our proven process ensures every project is delivered on time, on budget, and beyond expectations
+          Our proven process ensures every project is delivered on time, on
+          budget, and beyond expectations
         </p>
       </div>
 
@@ -134,14 +141,16 @@ switch (HERO_VARIANT) {
           <div class="process__step-number">01</div>
           <h3 class="process__step-title">Consultation & Vision</h3>
           <p class="process__step-description">
-            We begin by understanding your unique needs, goals, and vision for the project
+            We begin by understanding your unique needs, goals, and vision for
+            the project
           </p>
         </div>
         <div class="process__step">
           <div class="process__step-number">02</div>
           <h3 class="process__step-title">Design & Planning</h3>
           <p class="process__step-description">
-            Our team develops comprehensive plans that balance aesthetics, functionality, and budget
+            Our team develops comprehensive plans that balance aesthetics,
+            functionality, and budget
           </p>
         </div>
         <div class="process__step">
@@ -155,7 +164,8 @@ switch (HERO_VARIANT) {
           <div class="process__step-number">04</div>
           <h3 class="process__step-title">Delivery & Beyond</h3>
           <p class="process__step-description">
-            We ensure smooth project handoff and remain your partner for future needs
+            We ensure smooth project handoff and remain your partner for future
+            needs
           </p>
         </div>
       </div>
@@ -166,8 +176,8 @@ switch (HERO_VARIANT) {
 </Layout>
 
 <style lang="scss">
-  @import '../styles/variables';
-  @import '../styles/mixins';
+  @import "../styles/variables";
+  @import "../styles/mixins";
 
   // About Section - Creative Asymmetric Design
   .about {
@@ -253,7 +263,11 @@ switch (HERO_VARIANT) {
       position: absolute;
       bottom: 10%;
       left: -20px;
-      background: linear-gradient(135deg, $color-heritage-green, darken($color-heritage-green, 8%));
+      background: linear-gradient(
+        135deg,
+        $color-heritage-green,
+        darken($color-heritage-green, 8%)
+      );
       padding: $spacing-xl $spacing-2xl;
       border-radius: $border-radius-lg;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
@@ -323,7 +337,7 @@ switch (HERO_VARIANT) {
       font-size: 1.375rem;
       line-height: 1.6;
       color: $color-text;
-      margin-bottom: $spacing-lg;
+      margin-bottom: $spacing-3xl;
 
       strong {
         color: $color-heritage-green;
@@ -459,7 +473,7 @@ switch (HERO_VARIANT) {
 
       @include media-lg {
         &::before {
-          content: '';
+          content: "";
           position: absolute;
           top: 40px;
           left: 10%;
